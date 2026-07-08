@@ -133,9 +133,6 @@ export default function Upsell() {
                   <h3 className="text-lg font-bold text-foreground">{resource.title}</h3>
                 </div>
                 <p className="text-muted-foreground text-sm leading-relaxed mb-4">{resource.description}</p>
-                <div className="h-32 bg-muted rounded-lg flex items-center justify-center text-muted-foreground text-sm font-semibold">
-                  [Mockup del recurso]
-                </div>
               </Card>
             ))}
           </div>
@@ -185,7 +182,7 @@ export default function Upsell() {
                 className="btn-secondary w-full text-lg mb-4"
                 onClick={() => setLocation("/thank-you")}
               >
-                Acceder al Programa Completo
+                Sí, Quiero las 6 Herramientas Premium
               </Button>
 
               <p className="text-center text-sm text-secondary font-semibold mb-6">
@@ -241,7 +238,7 @@ export default function Upsell() {
             </div>
           </div>
           <div className="border-t border-background/20 pt-8 text-center text-sm opacity-80">
-            <p>&copy; 2024 INCONTINENCIA. Todos los derechos reservados.</p>
+            <p>&copy; 2026 INCONTINENCIA. Todos los derechos reservados.</p>
           </div>
         </div>
       </footer>
