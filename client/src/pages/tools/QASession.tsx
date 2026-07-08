@@ -248,7 +248,7 @@ export default function QASession() {
               </li>
               <li className="flex gap-3">
                 <span className="text-primary font-bold">•</span>
-                <span>Los expertos responden en 24-48 horas</span>
+                <span>Revisá esta sección más tarde: el especialista va agregando las respuestas acá</span>
               </li>
             </ul>
           </Card>
