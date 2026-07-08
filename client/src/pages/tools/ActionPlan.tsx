@@ -52,7 +52,7 @@ export default function ActionPlan() {
     if (!savedPlan) return;
     
     const content = `
-PLAN DE ACCIÓN PERSONALIZADO - INCONTINENCIA
+PLAN DE ACCIÓN PERSONALIZADO - Suelo Firme
 =============================================
 
 Título: ${savedPlan.title}
@@ -72,7 +72,7 @@ Creado: ${new Date().toLocaleDateString('es-ES')}
 
     const element = document.createElement("a");
     element.setAttribute("href", "data:text/plain;charset=utf-8," + encodeURIComponent(content));
-    element.setAttribute("download", "plan-accion-incontinencia.txt");
+    element.setAttribute("download", "plan-accion-suelo-firme.txt");
     element.style.display = "none";
     document.body.appendChild(element);
     element.click();
@@ -92,7 +92,7 @@ Creado: ${new Date().toLocaleDateString('es-ES')}
             <ArrowLeft className="w-5 h-5" />
             Volver
           </button>
-          <div className="text-2xl font-bold text-primary">INCONTINENCIA</div>
+          <div className="text-2xl font-bold text-primary">Suelo Firme</div>
           <div className="w-20" />
         </div>
       </nav>

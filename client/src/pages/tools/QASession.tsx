@@ -109,7 +109,7 @@ export default function QASession() {
             <ArrowLeft className="w-5 h-5" />
             Volver
           </button>
-          <div className="text-2xl font-bold text-primary">INCONTINENCIA</div>
+          <div className="text-2xl font-bold text-primary">Suelo Firme</div>
           <div className="w-20" />
         </div>
       </nav>
@@ -248,7 +248,7 @@ export default function QASession() {
               </li>
               <li className="flex gap-3">
                 <span className="text-primary font-bold">•</span>
-                <span>Los expertos responden en 24-48 horas</span>
+                <span>Revisá esta sección más tarde: el especialista va agregando las respuestas acá</span>
               </li>
             </ul>
           </Card>

@@ -138,7 +138,7 @@ export default function Home() {
       {/* Navigation */}
       <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-sm border-b border-border">
         <div className="container py-4 flex justify-between items-center">
-          <div className="text-2xl font-bold text-primary">INCONTINENCIA</div>
+          <div className="text-2xl font-bold text-primary">Suelo Firme</div>
           <div className="text-sm text-muted-foreground">Recupera tu confianza</div>
         </div>
       </nav>
@@ -160,14 +160,15 @@ export default function Home() {
                 className="btn-primary text-lg"
                 onClick={() => setLocation("/upsell")}
               >
-                Acceder al Programa Completo
+                Quiero Empezar Hoy
               </Button>
               <Button
                 size="lg"
                 variant="outline"
                 className="text-lg border-secondary text-secondary hover:bg-secondary/10"
+                onClick={() => document.getElementById("testimonios")?.scrollIntoView({ behavior: "smooth" })}
               >
-                Ver Demostración
+                Ver Testimonios
               </Button>
             </div>
             <p className="text-micro-cta">Porque quiero volver al gimnasio sin miedo a los escapes</p>
@@ -259,9 +260,6 @@ export default function Home() {
                 </div>
                 <p className="text-sm text-secondary font-semibold mb-2">{tool.format}</p>
                 <p className="text-muted-foreground text-sm leading-relaxed">{tool.description}</p>
-                <div className="mt-4 h-24 bg-muted rounded-lg flex items-center justify-center text-muted-foreground text-sm">
-                  [Mockup del recurso]
-                </div>
               </Card>
             ))}
           </div>
@@ -269,7 +267,7 @@ export default function Home() {
       </section>
 
       {/* Testimonials Section */}
-      <section className="py-16 md:py-24 bg-accent/5">
+      <section id="testimonios" className="py-16 md:py-24 bg-accent/5">
         <div className="container">
           <h2 className="section-title text-center mb-12">Lo Que Dicen Nuestras Usuarias</h2>
           <div className="grid md:grid-cols-2 gap-8">
@@ -359,7 +357,7 @@ export default function Home() {
         <div className="container">
           <div className="grid md:grid-cols-3 gap-8 mb-8">
             <div>
-              <h3 className="font-bold mb-4">INCONTINENCIA</h3>
+              <h3 className="font-bold mb-4">Suelo Firme</h3>
               <p className="text-sm opacity-80">Recupera tu confianza después del parto.</p>
             </div>
             <div>
@@ -376,7 +374,7 @@ export default function Home() {
             </div>
           </div>
           <div className="border-t border-background/20 pt-8 text-center text-sm opacity-80">
-            <p>&copy; 2024 INCONTINENCIA. Todos los derechos reservados.</p>
+            <p>&copy; 2026 Suelo Firme. Todos los derechos reservados.</p>
           </div>
         </div>
       </footer>

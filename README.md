@@ -1,10 +1,10 @@
-# INCONTINENCIA - Gestión de Incontinencia Urinaria
+# Suelo Firme - Gestión de Incontinencia Urinaria
 
 **Recupera tu confianza. Vuelve al gimnasio sin miedo a los escapes.**
 
 ## 📌 Descripción del Proyecto
 
-INCONTINENCIA es una plataforma digital integral diseñada para mujeres de 30 a 50 años que buscan gestionar la incontinencia urinaria durante actividades físicas o momentos de estrés. Combina ejercicios especializados de suelo pélvico, recomendaciones de productos, apoyo comunitario y un plan de acción personalizado.
+Suelo Firme es una plataforma digital integral diseñada para mujeres de 30 a 50 años que buscan gestionar la incontinencia urinaria durante actividades físicas o momentos de estrés. Combina ejercicios especializados de suelo pélvico, recomendaciones de productos, apoyo comunitario y un plan de acción personalizado.
 
 ## 🎯 Público Objetivo
 
@@ -41,11 +41,12 @@ Mujeres madres activas (30-50 años) que desean:
 
 ## 🎨 Diseño y Branding
 
-**Paleta de Colores:**
-- Verde Azulado: `#4A7A76` (primario)
-- Terracota: `#B36A5E` (secundario)
-- Dorado Cálido: `#D4A373` (acento)
-- Fondo Crema: `#F9F8F6` (fondo)
+**Paleta de Colores (profesional, calibrada para producto premium ~$90):**
+- Verde Azulado Profundo: `#3D6B66` (primario — transmite confianza clínica)
+- Terracota Apagada: `#9C5D52` (secundario — cálido, sobrio)
+- Bronce Dorado: `#C08A4E` (acento — elegante, no mostaza)
+- Fondo Crema Cálido: `#FAF8F5`
+- Texto Principal: `#2B2420` (marrón carbón, no negro puro)
 
 **Tipografía:** Cálida y femenina, orientada a mujeres 30-50 años
 
@@ -140,7 +141,7 @@ Este es un proyecto privado. Para cambios o sugerencias, contacta al equipo de d
 
 ## 📄 Licencia
 
-Todos los derechos reservados © 2026 INCONTINENCIA
+Todos los derechos reservados © 2026 Suelo Firme
 
 ## 📞 Soporte
 

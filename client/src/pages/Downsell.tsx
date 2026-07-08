@@ -34,7 +34,7 @@ export default function Downsell() {
             <ArrowLeft className="w-5 h-5" />
             Volver
           </button>
-          <div className="text-2xl font-bold text-primary">INCONTINENCIA</div>
+          <div className="text-2xl font-bold text-primary">Suelo Firme</div>
           <div className="w-20" />
         </div>
       </nav>
@@ -205,7 +205,7 @@ export default function Downsell() {
         <div className="container">
           <div className="grid md:grid-cols-3 gap-8 mb-8">
             <div>
-              <h3 className="font-bold mb-4">INCONTINENCIA</h3>
+              <h3 className="font-bold mb-4">Suelo Firme</h3>
               <p className="text-sm opacity-80">Recupera tu confianza después del parto.</p>
             </div>
             <div>
@@ -222,7 +222,7 @@ export default function Downsell() {
             </div>
           </div>
           <div className="border-t border-background/20 pt-8 text-center text-sm opacity-80">
-            <p>&copy; 2024 INCONTINENCIA. Todos los derechos reservados.</p>
+            <p>&copy; 2026 Suelo Firme. Todos los derechos reservados.</p>
           </div>
         </div>
       </footer>

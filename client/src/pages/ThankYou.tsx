@@ -10,7 +10,7 @@ export default function ThankYou() {
     {
       number: "1",
       title: "Revisa tu Email",
-      description: "Busca un email de confirmación con el asunto 'Bienvenida a INCONTINENCIA'. Si no lo ves en tu bandeja principal, revisa la carpeta de Spam o Promociones.",
+      description: "Busca un email de confirmación con el asunto 'Bienvenida a Suelo Firme'. Si no lo ves en tu bandeja principal, revisa la carpeta de Spam o Promociones.",
       icon: Mail,
     },
     {
@@ -39,7 +39,7 @@ export default function ThankYou() {
             <Home className="w-5 h-5" />
             Volver al Home
           </button>
-          <div className="text-2xl font-bold text-primary">INCONTINENCIA</div>
+          <div className="text-2xl font-bold text-primary">Suelo Firme</div>
           <div className="w-20" />
         </div>
       </nav>
@@ -128,6 +128,7 @@ export default function ThankYou() {
                 size="lg"
                 variant="outline"
                 className="border-primary text-primary hover:bg-primary/10"
+                onClick={() => window.location.href = "mailto:support@incontinencia.com?subject=No recibí el email de acceso"}
               >
                 Contactar Soporte
               </Button>
@@ -190,7 +191,7 @@ export default function ThankYou() {
         <div className="container">
           <div className="grid md:grid-cols-3 gap-8 mb-8">
             <div>
-              <h3 className="font-bold mb-4">INCONTINENCIA</h3>
+              <h3 className="font-bold mb-4">Suelo Firme</h3>
               <p className="text-sm opacity-80">Recupera tu confianza después del parto.</p>
             </div>
             <div>
@@ -207,7 +208,7 @@ export default function ThankYou() {
             </div>
           </div>
           <div className="border-t border-background/20 pt-8 text-center text-sm opacity-80">
-            <p>&copy; 2024 INCONTINENCIA. Todos los derechos reservados.</p>
+            <p>&copy; 2026 Suelo Firme. Todos los derechos reservados.</p>
           </div>
         </div>
       </footer>
