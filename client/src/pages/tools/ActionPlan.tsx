@@ -14,13 +14,21 @@ interface ActionPlanData {
   goals: string;
 }
 
+const DEFAULT_EXERCISES = `Semanas 1-2 (Activación): Contracción lenta con respiración — 3 series de 8, acostada.
+Semanas 3-5 (Resistencia progresiva): Contracción lenta progresiva (3x12) + contracciones rápidas (3x10), sentada.
+Semana 6 en adelante (Integración): Contracción de pie (2x10) + técnica de anticipación antes de toser, reír o levantar peso.`;
+
+const DEFAULT_PRODUCTS = `Protector diario para uso general.
+Protector específico para ejercicio si volvés a entrenar.
+Compresa nocturna de larga duración si notás pérdidas mientras dormís.`;
+
 export default function ActionPlan() {
   const [, setLocation] = useLocation();
   const [planData, setPlanData] = useState<ActionPlanData>({
     title: "",
-    duration: "3 meses",
-    exercises: "",
-    products: "",
+    duration: "8 semanas",
+    exercises: DEFAULT_EXERCISES,
+    products: DEFAULT_PRODUCTS,
     goals: "",
   });
   const [savedPlan, setSavedPlan] = useState<ActionPlanData | null>(null);
@@ -103,10 +111,10 @@ Creado: ${new Date().toLocaleDateString('es-ES')}
           {/* Header */}
           <div className="mb-12">
             <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-              Plan de Acción Personalizado
+              Tu plan de acción, ya armado
             </h1>
             <p className="text-lg text-muted-foreground leading-relaxed">
-              Crea tu hoja de ruta personalizada para gestionar la incontinencia. Define tus ejercicios, productos y metas específicas en un plan estructurado.
+              Te dejamos un plan de base según el método de 3 fases — ajustalo a tu ritmo, tus productos y tus metas. No hace falta que arranques de cero.
             </p>
           </div>
 
@@ -139,20 +147,19 @@ Creado: ${new Date().toLocaleDateString('es-ES')}
                   onChange={(e) => handleInputChange("duration", e.target.value)}
                   className="w-full px-4 py-3 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                 >
-                  <option value="1 mes">1 mes</option>
+                  <option value="6 semanas">6 semanas</option>
+                  <option value="8 semanas">8 semanas</option>
                   <option value="3 meses">3 meses</option>
                   <option value="6 meses">6 meses</option>
-                  <option value="1 año">1 año</option>
                 </select>
               </div>
 
               {/* Exercises */}
               <div>
                 <label className="block text-sm font-semibold text-foreground mb-2">
-                  Ejercicios a Realizar *
+                  Ejercicios a Realizar * <span className="font-normal text-muted-foreground">(ya sugeridos, editalos si querés)</span>
                 </label>
                 <Textarea
-                  placeholder="Describe los ejercicios que harás diariamente. Ej: Kegel rápido 3 series de 10, Kegel lento 3 series de 5, etc."
                   value={planData.exercises}
                   onChange={(e) => handleInputChange("exercises", e.target.value)}
                   className="min-h-32"
@@ -162,10 +169,9 @@ Creado: ${new Date().toLocaleDateString('es-ES')}
               {/* Products */}
               <div>
                 <label className="block text-sm font-semibold text-foreground mb-2">
-                  Productos a Usar
+                  Productos a Usar <span className="font-normal text-muted-foreground">(ya sugeridos, editalos si querés)</span>
                 </label>
                 <Textarea
-                  placeholder="Lista los productos que usarás. Ej: Protectores diarios para el día, pants absorbentes para ejercicio, etc."
                   value={planData.products}
                   onChange={(e) => handleInputChange("products", e.target.value)}
                   className="min-h-32"
