@@ -90,19 +90,19 @@ export default function Home() {
   const testimonials = [
     {
       name: "María, 38 años",
-      text: "Después de tener a mis dos hijos, pensé que nunca volvería a correr. Este programa me devolvió la confianza. Ahora hago ejercicio sin miedo.",
+      text: "Volví a correr mis 5km sin frenar cada dos cuadras a buscar un baño. Me tomó 7 semanas haciendo los ejercicios todas las mañanas mientras tomaba mate.",
     },
     {
       name: "Laura, 45 años",
-      text: "Los ejercicios son simples pero efectivos. En tres meses noté una diferencia real. Me siento como yo de nuevo.",
+      text: "Pensé que después de dos partos esto ya era mi nueva normalidad. A las 4 semanas me di cuenta de que ya no llevaba protector al gimnasio.",
     },
     {
       name: "Sofía, 32 años",
-      text: "No sabía que había tantas soluciones. La comunidad me hizo sentir menos sola. Recomiendo esto a todas mis amigas.",
+      text: "Lo que más me ayudó no fueron solo los ejercicios — fue entender que no estaba rota. Le pasa a un montón de mujeres y nadie habla de esto.",
     },
     {
       name: "Catalina, 50 años",
-      text: "Finalmente puedo disfrutar de mis actividades favoritas sin preocupaciones. Este programa cambió mi vida.",
+      text: "Volví a jugar con mis nietos en el patio, saltar la soga con ellos, sin el miedo de siempre. Eso no tiene precio.",
     },
   ];
 
@@ -120,7 +120,7 @@ export default function Home() {
       answer: "Sí, pero es importante esperar la aprobación de tu médico (generalmente 6-8 semanas después de la cesárea). Luego puedes comenzar con ejercicios suaves y progresar gradualmente.",
     },
     {
-      question: "¿Qué pasa si tengo una recaída y tengo un escape?",
+      question: "¿Qué pasa si tengo una recaída y una pérdida?",
       answer: "Las recaídas son parte normal del proceso de aprendizaje. No significa que hayas fallado. Simplemente vuelve a los ejercicios y ajusta tu plan. Muchas mujeres experimentan esto y luego progresan aún más.",
     },
     {
@@ -139,7 +139,7 @@ export default function Home() {
       <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-sm border-b border-border">
         <div className="container py-4 flex justify-between items-center">
           <div className="text-2xl font-bold text-primary">Suelo Firme</div>
-          <div className="text-sm text-muted-foreground">Recupera tu confianza</div>
+          <div className="text-sm text-muted-foreground">Tu piso pélvico, a tu ritmo</div>
         </div>
       </nav>
 
@@ -149,10 +149,10 @@ export default function Home() {
           <div className="max-w-3xl mx-auto text-center">
             <p className="text-secondary font-semibold mb-4 text-lg">Para mujeres después del parto</p>
             <h1 className="text-4xl md:text-6xl font-bold text-foreground mb-6 leading-tight">
-              Cómo gestionar la incontinencia urinaria durante actividades físicas o momentos de estrés
+              Volvé a correr, saltar y reír con el control que creías perdido
             </h1>
             <p className="text-xl text-muted-foreground mb-8 leading-relaxed">
-              Estrategias prácticas y soluciones reales para que vuelvas al gimnasio, disfrutes de actividades al aire libre y recuperes tu confianza sin preocuparte por fugas.
+              Un método en 3 fases —no una lista de consejos sueltos— para que recuperes el control de tu piso pélvico y vuelvas a moverte sin calcular dónde está el baño más cercano.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
               <Button
@@ -171,7 +171,7 @@ export default function Home() {
                 Ver Testimonios
               </Button>
             </div>
-            <p className="text-micro-cta">Porque quiero volver al gimnasio sin miedo a los escapes</p>
+            <p className="text-micro-cta">Porque quiero volver al gimnasio sin miedo a las pérdidas</p>
           </div>
         </div>
       </section>
@@ -213,19 +213,30 @@ export default function Home() {
       {/* Why It Works Section */}
       <section className="py-16 md:py-24 bg-white">
         <div className="container">
-          <h2 className="section-title text-center mb-12">Por Qué Este Programa Funciona Tan Bien</h2>
-          <div className="max-w-3xl mx-auto">
-            <Card className="p-8 bg-gradient-to-br from-primary/5 to-accent/5 border-primary/20">
-              <p className="text-lg text-foreground leading-relaxed mb-6">
-                Este enfoque práctico combina <strong>ejercicios de suelo pélvico específicos</strong>, <strong>uso de productos especializados</strong>, y <strong>testimonios de éxito</strong>, ayudando a las usuarias a adquirir confianza y a mantener su actividad física sin preocuparse por fugas.
-              </p>
-              <p className="text-lg text-foreground leading-relaxed">
-                En lugar de soluciones temporales o consejos generales, este programa ofrece un <strong>plan estructurado y accesible</strong> que se adapta a las necesidades de cada mujer.
-              </p>
+          <h2 className="section-title text-center mb-4">Un método, no una lista de consejos</h2>
+          <p className="section-subtitle text-center max-w-2xl mx-auto">
+            La mayoría de los consejos sobre incontinencia se quedan en "hacé Kegel". El problema es que nadie te explica un orden — y sin orden es fácil abandonar a la semana 2.
+          </p>
+          <div className="max-w-4xl mx-auto grid md:grid-cols-3 gap-6 mt-4">
+            <Card className="p-6 border-t-4 border-t-primary">
+              <p className="text-sm font-semibold text-primary mb-2">Fase 1</p>
+              <h3 className="text-lg font-bold text-foreground mb-2">Activación</h3>
+              <p className="text-muted-foreground text-sm leading-relaxed">Reconectar con músculos que dejaste de sentir hace años. Sin esto, cualquier ejercicio se hace a ciegas.</p>
+            </Card>
+            <Card className="p-6 border-t-4 border-t-secondary">
+              <p className="text-sm font-semibold text-secondary mb-2">Fase 2</p>
+              <h3 className="text-lg font-bold text-foreground mb-2">Resistencia progresiva</h3>
+              <p className="text-muted-foreground text-sm leading-relaxed">Fuerza real, no solo repetición. Cada semana un poco más de exigencia, sin forzar.</p>
+            </Card>
+            <Card className="p-6 border-t-4 border-t-accent">
+              <p className="text-sm font-semibold text-accent-foreground mb-2">Fase 3</p>
+              <h3 className="text-lg font-bold text-foreground mb-2">Integración al movimiento</h3>
+              <p className="text-muted-foreground text-sm leading-relaxed">Llevar ese control a correr, saltar o levantar a tu hijo — no solo a estar acostada haciendo ejercicios.</p>
             </Card>
           </div>
         </div>
       </section>
+
 
       {/* How It Works Section */}
       <section className="py-16 md:py-24 bg-accent/5">
@@ -335,10 +346,10 @@ export default function Home() {
         <div className="container">
           <div className="max-w-3xl mx-auto text-center">
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">
-              Recupera Tu Confianza Hoy
+              Tu primer día sin miedo empieza ahora
             </h2>
             <p className="text-lg text-muted-foreground mb-8">
-              Únete a cientos de mujeres que ya están viviendo sin miedo a los escapes. Tu transformación comienza aquí.
+              No hace falta esperar al lunes que viene. La fase de activación empieza con 10 minutos.
             </p>
             <Button
               size="lg"
@@ -358,7 +369,7 @@ export default function Home() {
           <div className="grid md:grid-cols-3 gap-8 mb-8">
             <div>
               <h3 className="font-bold mb-4">Suelo Firme</h3>
-              <p className="text-sm opacity-80">Recupera tu confianza después del parto.</p>
+              <p className="text-sm opacity-80">Ejercicios reales para tu piso pélvico, sin vergüenza.</p>
             </div>
             <div>
               <h3 className="font-bold mb-4">Enlaces</h3>
