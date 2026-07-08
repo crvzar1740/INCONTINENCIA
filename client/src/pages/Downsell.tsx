@@ -222,7 +222,7 @@ export default function Downsell() {
             </div>
           </div>
           <div className="border-t border-background/20 pt-8 text-center text-sm opacity-80">
-            <p>&copy; 2024 INCONTINENCIA. Todos los derechos reservados.</p>
+            <p>&copy; 2026 INCONTINENCIA. Todos los derechos reservados.</p>
           </div>
         </div>
       </footer>
