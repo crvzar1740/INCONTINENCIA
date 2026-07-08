@@ -1,19 +1,6 @@
-import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Checkbox } from "@/components/ui/checkbox";
-import { ArrowLeft, Users, CheckCircle2, Calendar } from "lucide-react";
-import { useState } from "react";
+import { ArrowLeft, Users, CheckCircle2, Calendar, MessageSquare, Video } from "lucide-react";
 import { useLocation } from "wouter";
-import { toast } from "sonner";
-
-interface Session {
-  id: string;
-  expertName: string;
-  topic: string;
-  date: string;
-  completed: boolean;
-  notes: string;
-}
 
 interface FAQ {
   id: string;
@@ -24,34 +11,6 @@ interface FAQ {
 
 export default function ExpertSessions() {
   const [, setLocation] = useLocation();
-  const [saving, setSaving] = useState(false);
-
-  const [sessions, setSessions] = useState<Session[]>([
-    {
-      id: "1",
-      expertName: "Dra. María López",
-      topic: "Técnica correcta de ejercicios Kegel",
-      date: "2026-07-15",
-      completed: false,
-      notes: "",
-    },
-    {
-      id: "2",
-      expertName: "Fisioterapeuta Carlos Ruiz",
-      topic: "Adaptación de ejercicios para actividad física",
-      date: "2026-07-22",
-      completed: false,
-      notes: "",
-    },
-    {
-      id: "3",
-      expertName: "Psicóloga Sofía García",
-      topic: "Manejo emocional de la incontinencia",
-      date: "2026-07-29",
-      completed: false,
-      notes: "",
-    },
-  ]);
 
   const [faqs] = useState<FAQ[]>([
     {
@@ -86,23 +45,6 @@ export default function ExpertSessions() {
     },
   ]);
 
-  const toggleSession = (id: string) => {
-    setSessions(sessions.map(s => s.id === id ? { ...s, completed: !s.completed } : s));
-  };
-
-  const saveProgress = async () => {
-    setSaving(true);
-    try {
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      toast.success("✓ Tu progreso de sesiones ha sido guardado exitosamente");
-    } catch (error) {
-      toast.error("Error al guardar el progreso");
-    } finally {
-      setSaving(false);
-    }
-  };
-
-  const completedSessions = sessions.filter(s => s.completed).length;
   const categories = Array.from(new Set(faqs.map(f => f.category)));
 
   return (
@@ -134,49 +76,37 @@ export default function ExpertSessions() {
               </h1>
             </div>
             <p className="text-lg text-muted-foreground leading-relaxed">
-              Acceso a preguntas frecuentes respondidas por especialistas, historial de sesiones y recomendaciones personalizadas de expertos.
+              Consultá directamente con especialistas en piso pélvico sobre tu caso puntual: ejercicios, productos o el aspecto emocional. Podés preparar tus preguntas y revisar las respuestas de otras usuarias mientras definimos el mejor formato para las sesiones 1 a 1.
             </p>
           </div>
 
-          {/* Upcoming Sessions */}
+          {/* How Sessions Will Work */}
           <div className="mb-12">
             <h2 className="text-2xl font-bold text-foreground mb-6 flex items-center gap-2">
               <Calendar className="w-6 h-6 text-primary" />
-              Tus Sesiones Programadas ({completedSessions}/{sessions.length})
+              Así van a funcionar tus sesiones con especialistas
             </h2>
-            <div className="space-y-4">
-              {sessions.map((session) => (
-                <Card key={session.id} className={`p-6 border-l-4 ${session.completed ? "border-l-primary bg-primary/5" : "border-l-muted"}`}>
-                  <div className="flex gap-4 mb-4">
-                    <Checkbox
-                      checked={session.completed}
-                      onCheckedChange={() => toggleSession(session.id)}
-                      className="w-6 h-6 mt-1"
-                    />
-                    <div className="flex-1">
-                      <div className="flex items-start justify-between mb-2">
-                        <h3 className={`text-lg font-semibold ${session.completed ? "text-primary" : "text-foreground"}`}>
-                          {session.expertName}
-                        </h3>
-                        {session.completed && <CheckCircle2 className="w-5 h-5 text-primary" />}
-                      </div>
-                      <p className="text-muted-foreground mb-2">{session.topic}</p>
-                      <p className="text-sm text-muted-foreground">📅 {session.date}</p>
-                    </div>
-                  </div>
-                </Card>
-              ))}
+            <div className="grid md:grid-cols-3 gap-6">
+              <Card className="p-6 border-l-4 border-l-primary">
+                <MessageSquare className="w-8 h-8 text-primary mb-3" />
+                <h3 className="font-semibold text-foreground mb-2">Elegís el tema</h3>
+                <p className="text-sm text-muted-foreground">Ejercicios, productos o manejo emocional — según lo que necesites en ese momento.</p>
+              </Card>
+              <Card className="p-6 border-l-4 border-l-primary">
+                <Video className="w-8 h-8 text-primary mb-3" />
+                <h3 className="font-semibold text-foreground mb-2">Sesión 1 a 1</h3>
+                <p className="text-sm text-muted-foreground">Consulta directa con un especialista, previa reserva de tu turno.</p>
+              </Card>
+              <Card className="p-6 border-l-4 border-l-primary">
+                <CheckCircle2 className="w-8 h-8 text-primary mb-3" />
+                <h3 className="font-semibold text-foreground mb-2">Preparás tus preguntas</h3>
+                <p className="text-sm text-muted-foreground">Llegás a la sesión con tus dudas puntuales para aprovechar mejor el tiempo.</p>
+              </Card>
             </div>
+            <p className="text-sm text-muted-foreground mt-4 italic">
+              Estamos terminando de definir el formato exacto de agenda. Mientras tanto, revisá las preguntas frecuentes de abajo — es posible que tu duda ya esté resuelta ahí.
+            </p>
           </div>
-
-          {/* Save Button */}
-          <Button
-            onClick={saveProgress}
-            disabled={saving}
-            className="btn-primary w-full text-lg mb-12"
-          >
-            {saving ? "Guardando..." : "Guardar Mi Progreso"}
-          </Button>
 
           {/* FAQ Section */}
           <div>
@@ -223,7 +153,7 @@ export default function ExpertSessions() {
               </li>
               <li className="flex gap-3">
                 <span className="text-primary font-bold">•</span>
-                <span>Marca las sesiones como completadas cuando asistas</span>
+                <span>Anotá tus dudas a medida que te surjan, así no se te olvidan para la sesión</span>
               </li>
               <li className="flex gap-3">
                 <span className="text-primary font-bold">•</span>
