@@ -1,136 +1,25 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { ChevronDown, Heart, Shield, Zap, Users, BookOpen, CheckCircle2 } from "lucide-react";
-import { useState } from "react";
+import { AlertCircle, ArrowLeft, CheckCircle2, Shield, Zap } from "lucide-react";
 import { useLocation } from "wouter";
 
-export default function Home() {
+export default function Downsell() {
   const [, setLocation] = useLocation();
-  const [expandedFaq, setExpandedFaq] = useState<number | null>(null);
 
-  const pains = [
-    "La sensación constante de que se va a tener un accidente durante el ejercicio.",
-    "La falta de confianza al salir y participar en actividades sociales.",
-    "La angustia de tener que buscar baños con frecuencia.",
-    "La incomodidad y el dolor que se siente al intentar contener la orina.",
-    "La preocupación y ansiedad que genera la propensidad a mancharse.",
-    "La presión social y expectativas sobre cómo deben actuar como madres o mujeres fuertes.",
+  const resources = [
+    "Guía de Ejercicios Avanzados para el Suelo Pélvico",
+    "Checklist de Productos para Control de Incontinencia",
+    "Plan de Acción Personalizado",
+    "Sesión de Preguntas y Respuestas con Expertos",
+    "Grupo de Apoyo Exclusivo",
+    "Manejo Emocional de la Incontinencia",
   ];
 
-  const failedSolutions = [
-    "Usar productos desechables que no ofrecen la protección adecuada — han resultado insuficientes durante la actividad física.",
-    "Beber menos agua para controlar las ganas de orinar — lleva a la deshidratación y otros problemas de salud.",
-    "Intentar ejercicios sin una guía adecuada — resulta frustrante y causa incomodidad.",
-    "Ignorar el problema por miedo a ser juzgada — ha llevado a una disminución en la calidad de vida.",
-    "Habituales visitas al médico que no resultan en soluciones prácticas — dejan a la usuaria desanimada y sin respuestas.",
-  ];
-
-  const features = [
-    {
-      title: "Ejercicios de Suelo Pélvico",
-      description: "Proporciona una guía simple y efectiva para fortalecer los músculos del piso pélvico, con ejercicios que se pueden hacer en cualquier lugar.",
-      icon: Zap,
-    },
-    {
-      title: "Recomendaciones de Productos",
-      description: "Incluye una lista de los mejores productos de incontinencia y recomendaciones de uso.",
-      icon: Shield,
-    },
-    {
-      title: "Acceso a la Comunidad de Apoyo",
-      description: "Conecta a las usuarias para compartir experiencias y soluciones, fomentando un espacio seguro para intercambio de consejos.",
-      icon: Users,
-    },
-    {
-      title: "Plan de Acción",
-      description: "Un sistema estructurado que lleva a la usuaria desde el reconocimiento del problema hasta la implementación de soluciones efectivas.",
-      icon: BookOpen,
-    },
-  ];
-
-  const tools = [
-    {
-      title: "Guía de Ejercicios Avanzados para el Suelo Pélvico",
-      format: "Workbook",
-      description: "Un workbook práctico con ejercicios avanzados para fortalecer el piso pélvico y mejorar el control de la vejiga.",
-      isPremium: false,
-    },
-    {
-      title: "Checklist de Productos para Control de Incontinencia",
-      format: "Checklist rellenable",
-      description: "Un recurso para seleccionar y etiquetar los mejores productos de incontinencia, ayudando en la decisión de compra.",
-      isPremium: false,
-    },
-    {
-      title: "Plan de Acción Personalizado",
-      format: "Hoja de ruta",
-      description: "Una herramienta para crear un plan personalizado de ejercicios y uso de productos que se adapte a las necesidades individuales.",
-      isPremium: false,
-    },
-    {
-      title: "Sesión de Preguntas y Respuestas con Expertos",
-      format: "Sesión en vivo",
-      description: "Oportunidad para que las usuarias hagan preguntas a expertos en salud del piso pélvico.",
-      isPremium: true,
-    },
-    {
-      title: "Grupo de Apoyo Exclusivo",
-      format: "Comunidad en línea",
-      description: "Acceso a un grupo donde las usuarias pueden compartir experiencias y consejos de forma privada.",
-      isPremium: true,
-    },
-    {
-      title: "Manejo Emocional de la Incontinencia",
-      format: "Guía paso a paso",
-      description: "Un recurso que aborda el aspecto emocional y psicológico de vivir con incontinencia y cómo manejarlo.",
-      isPremium: true,
-    },
-  ];
-
-  const testimonials = [
-    {
-      name: "María, 38 años",
-      text: "Después de tener a mis dos hijos, pensé que nunca volvería a correr. Este programa me devolvió la confianza. Ahora hago ejercicio sin miedo.",
-    },
-    {
-      name: "Laura, 45 años",
-      text: "Los ejercicios son simples pero efectivos. En tres meses noté una diferencia real. Me siento como yo de nuevo.",
-    },
-    {
-      name: "Sofía, 32 años",
-      text: "No sabía que había tantas soluciones. La comunidad me hizo sentir menos sola. Recomiendo esto a todas mis amigas.",
-    },
-    {
-      name: "Catalina, 50 años",
-      text: "Finalmente puedo disfrutar de mis actividades favoritas sin preocupaciones. Este programa cambió mi vida.",
-    },
-  ];
-
-  const faqs = [
-    {
-      question: "¿Cuánto tiempo tardaré en ver resultados?",
-      answer: "Muchas mujeres comienzan a notar cambios en 2-3 semanas con la práctica consistente de los ejercicios. Los resultados más significativos generalmente se ven después de 6-8 semanas.",
-    },
-    {
-      question: "¿Necesito equipo especial para los ejercicios?",
-      answer: "No. Los ejercicios de suelo pélvico se pueden hacer en cualquier lugar, sin equipo especial. Algunos ejercicios opcionales pueden usar pelotas de estabilidad, pero no son necesarios.",
-    },
-    {
-      question: "¿Puedo hacer esto si tengo una cesárea?",
-      answer: "Sí, pero es importante esperar la aprobación de tu médico (generalmente 6-8 semanas después de la cesárea). Luego puedes comenzar con ejercicios suaves y progresar gradualmente.",
-    },
-    {
-      question: "¿Qué pasa si tengo una recaída y tengo un escape?",
-      answer: "Las recaídas son parte normal del proceso de aprendizaje. No significa que hayas fallado. Simplemente vuelve a los ejercicios y ajusta tu plan. Muchas mujeres experimentan esto y luego progresan aún más.",
-    },
-    {
-      question: "¿Hay garantía si no funciona para mí?",
-      answer: "Sí, ofrecemos una garantía de 7 días sin preguntas. Si no estás satisfecha, te devolvemos tu dinero completamente.",
-    },
-    {
-      question: "¿Cuánto acceso tengo después de comprar?",
-      answer: "Tienes acceso de por vida a todo el contenido. No hay suscripciones recurrentes. Compras una vez y accedes siempre.",
-    },
+  const comparisons = [
+    { item: "Una taza de café", price: "$5", times: "20 veces" },
+    { item: "Una pizza", price: "$15", times: "6 veces" },
+    { item: "Un par de zapatos", price: "$80", times: "1 vez" },
+    { item: "Acceso de por vida a tu transformación", price: "$48.50", times: "AHORA" },
   ];
 
   return (
@@ -138,182 +27,122 @@ export default function Home() {
       {/* Navigation */}
       <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-sm border-b border-border">
         <div className="container py-4 flex justify-between items-center">
+          <button
+            onClick={() => setLocation("/")}
+            className="flex items-center gap-2 text-primary hover:text-primary/80 font-semibold"
+          >
+            <ArrowLeft className="w-5 h-5" />
+            Volver
+          </button>
           <div className="text-2xl font-bold text-primary">INCONTINENCIA</div>
-          <div className="text-sm text-muted-foreground">Recupera tu confianza</div>
+          <div className="w-20" />
         </div>
       </nav>
 
-      {/* Hero Section */}
-      <section className="py-16 md:py-24 bg-gradient-to-br from-background via-background to-accent/10">
+      {/* Empathetic Headline */}
+      <section className="py-12 md:py-16 bg-gradient-to-r from-secondary/10 to-accent/10">
         <div className="container">
           <div className="max-w-3xl mx-auto text-center">
-            <p className="text-secondary font-semibold mb-4 text-lg">Para mujeres después del parto</p>
-            <h1 className="text-4xl md:text-6xl font-bold text-foreground mb-6 leading-tight">
-              Cómo gestionar la incontinencia urinaria durante actividades físicas o momentos de estrés
+            <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
+              ¿El dinero fue un problema? Te entiendo perfectamente.
             </h1>
-            <p className="text-xl text-muted-foreground mb-8 leading-relaxed">
-              Estrategias prácticas y soluciones reales para que vuelvas al gimnasio, disfrutes de actividades al aire libre y recuperes tu confianza sin preocuparte por fugas.
+            <p className="text-xl text-muted-foreground">
+              Por eso creé esta oferta especial solo para ti.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
-              <Button
-                size="lg"
-                className="btn-primary text-lg"
-                onClick={() => setLocation("/upsell")}
-              >
-                Acceder al Programa Completo
-              </Button>
-              <Button
-                size="lg"
-                variant="outline"
-                className="text-lg border-secondary text-secondary hover:bg-secondary/10"
-              >
-                Ver Demostración
-              </Button>
-            </div>
-            <p className="text-micro-cta">Porque quiero volver al gimnasio sin miedo a los escapes</p>
           </div>
         </div>
       </section>
 
-      {/* The Problem Section */}
+      {/* Special Offer */}
       <section className="py-16 md:py-24 bg-white">
         <div className="container">
-          <h2 className="section-title text-center mb-12">El Problema: 6 Dolores que Vives Cada Día</h2>
-          <div className="grid md:grid-cols-2 gap-6">
-            {pains.map((pain, idx) => (
-              <Card key={idx} className="p-6 border-l-4 border-l-secondary hover:shadow-lg transition-shadow">
-                <div className="flex gap-4">
-                  <Heart className="w-6 h-6 text-secondary flex-shrink-0 mt-1" />
-                  <p className="text-foreground leading-relaxed">{pain}</p>
+          <div className="max-w-2xl mx-auto">
+            <Card className="p-8 md:p-12 bg-gradient-to-br from-accent/20 to-primary/10 border-2 border-accent">
+              <div className="text-center mb-8">
+                <div className="inline-block bg-destructive text-white px-4 py-2 rounded-full font-bold mb-4">
+                  OFERTA ESPECIAL: 50% DESCUENTO
                 </div>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
+                <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+                  Mismo Pack Premium
+                </h2>
+                <p className="text-lg text-muted-foreground mb-8">
+                  Todos los 6 recursos incluidos, acceso de por vida, sin suscripciones
+                </p>
+              </div>
 
-      {/* Failed Solutions Section */}
-      <section className="py-16 md:py-24 bg-accent/5">
-        <div className="container">
-          <h2 className="section-title text-center mb-12">Soluciones que Ya Intentaste (y No Funcionaron)</h2>
-          <div className="max-w-3xl mx-auto space-y-4">
-            {failedSolutions.map((solution, idx) => (
-              <Card key={idx} className="p-6 border-l-4 border-l-destructive bg-white">
-                <div className="flex gap-4">
-                  <div className="text-2xl font-bold text-destructive flex-shrink-0">✕</div>
-                  <p className="text-foreground leading-relaxed">{solution}</p>
+              <div className="bg-white rounded-lg p-8 mb-8">
+                <div className="text-center">
+                  <p className="text-muted-foreground text-sm mb-2">Precio original</p>
+                  <p className="text-2xl text-muted-foreground line-through mb-4">$97</p>
+                  
+                  <div className="border-t-2 border-b-2 border-accent py-6">
+                    <p className="text-muted-foreground text-sm mb-2">Hoy solo paga</p>
+                    <div className="text-6xl font-bold text-primary mb-2">$48.50</div>
+                    <p className="text-secondary font-semibold">Pago único, sin suscripciones</p>
+                  </div>
+
+                  <p className="text-sm text-muted-foreground mt-6">
+                    Ahorras <span className="font-bold text-accent">$48.50</span> (50% de descuento)
+                  </p>
                 </div>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
+              </div>
 
-      {/* Why It Works Section */}
-      <section className="py-16 md:py-24 bg-white">
-        <div className="container">
-          <h2 className="section-title text-center mb-12">Por Qué Este Programa Funciona Tan Bien</h2>
-          <div className="max-w-3xl mx-auto">
-            <Card className="p-8 bg-gradient-to-br from-primary/5 to-accent/5 border-primary/20">
-              <p className="text-lg text-foreground leading-relaxed mb-6">
-                Este enfoque práctico combina <strong>ejercicios de suelo pélvico específicos</strong>, <strong>uso de productos especializados</strong>, y <strong>testimonios de éxito</strong>, ayudando a las usuarias a adquirir confianza y a mantener su actividad física sin preocuparse por fugas.
-              </p>
-              <p className="text-lg text-foreground leading-relaxed">
-                En lugar de soluciones temporales o consejos generales, este programa ofrece un <strong>plan estructurado y accesible</strong> que se adapta a las necesidades de cada mujer.
+              <Button
+                size="lg"
+                className="btn-secondary w-full text-lg mb-4"
+                onClick={() => setLocation("/thank-you")}
+              >
+                Acceder Ahora a Mitad de Precio
+              </Button>
+
+              <p className="text-center text-xs text-muted-foreground">
+                Esta oferta solo está disponible en esta página
               </p>
             </Card>
           </div>
         </div>
       </section>
 
-      {/* How It Works Section */}
+      {/* Investment Comparison */}
       <section className="py-16 md:py-24 bg-accent/5">
         <div className="container">
-          <h2 className="section-title text-center mb-12">Cómo Funciona</h2>
-          <div className="grid md:grid-cols-2 gap-8">
-            {features.map((feature, idx) => {
-              const Icon = feature.icon;
-              return (
-                <Card key={idx} className="p-8 hover:shadow-lg transition-shadow">
-                  <Icon className="w-12 h-12 text-primary mb-4" />
-                  <h3 className="text-xl font-bold text-foreground mb-3">{feature.title}</h3>
-                  <p className="text-muted-foreground leading-relaxed">{feature.description}</p>
-                </Card>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* Stack of Tools Section */}
-      <section className="py-16 md:py-24 bg-white">
-        <div className="container">
-          <h2 className="section-title text-center mb-4">Stack de Herramientas Incluidas</h2>
-          <p className="section-subtitle text-center">10 recursos diseñados para tu transformación</p>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {tools.map((tool, idx) => (
-              <Card key={idx} className={`p-6 ${tool.isPremium ? "border-2 border-accent bg-accent/5" : "border border-border"}`}>
-                <div className="flex justify-between items-start mb-3">
-                  <h3 className="font-bold text-foreground text-lg flex-1">{tool.title}</h3>
-                  {tool.isPremium && <span className="text-xs bg-accent text-accent-foreground px-3 py-1 rounded-full font-semibold">Premium</span>}
-                </div>
-                <p className="text-sm text-secondary font-semibold mb-2">{tool.format}</p>
-                <p className="text-muted-foreground text-sm leading-relaxed">{tool.description}</p>
-                <div className="mt-4 h-24 bg-muted rounded-lg flex items-center justify-center text-muted-foreground text-sm">
-                  [Mockup del recurso]
-                </div>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Testimonials Section */}
-      <section className="py-16 md:py-24 bg-accent/5">
-        <div className="container">
-          <h2 className="section-title text-center mb-12">Lo Que Dicen Nuestras Usuarias</h2>
-          <div className="grid md:grid-cols-2 gap-8">
-            {testimonials.map((testimonial, idx) => (
-              <Card key={idx} className="p-8 bg-white">
-                <div className="flex gap-1 mb-4">
-                  {[...Array(5)].map((_, i) => (
-                    <span key={i} className="text-accent text-lg">★</span>
-                  ))}
-                </div>
-                <p className="text-foreground leading-relaxed mb-4 italic">"{testimonial.text}"</p>
-                <p className="font-bold text-secondary">{testimonial.name}</p>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* FAQ Section */}
-      <section className="py-16 md:py-24 bg-white">
-        <div className="container">
-          <h2 className="section-title text-center mb-12">Preguntas Frecuentes</h2>
-          <div className="max-w-3xl mx-auto space-y-4">
-            {faqs.map((faq, idx) => (
-              <Card
-                key={idx}
-                className="border border-border cursor-pointer hover:border-primary transition-colors"
-                onClick={() => setExpandedFaq(expandedFaq === idx ? null : idx)}
-              >
-                <div className="p-6 flex justify-between items-center">
-                  <h3 className="font-bold text-foreground text-lg">{faq.question}</h3>
-                  <ChevronDown
-                    className={`w-5 h-5 text-primary transition-transform ${
-                      expandedFaq === idx ? "rotate-180" : ""
-                    }`}
-                  />
-                </div>
-                {expandedFaq === idx && (
-                  <div className="px-6 pb-6 text-muted-foreground leading-relaxed border-t border-border pt-4">
-                    {faq.answer}
+          <h2 className="section-title text-center mb-12">Comparación de Inversión</h2>
+          <div className="max-w-3xl mx-auto">
+            <div className="space-y-4">
+              {comparisons.map((comp, idx) => (
+                <Card key={idx} className={`p-6 flex justify-between items-center ${idx === comparisons.length - 1 ? "border-2 border-primary bg-primary/5" : "border border-border"}`}>
+                  <div>
+                    <p className="font-semibold text-foreground">{comp.item}</p>
                   </div>
-                )}
-              </Card>
-            ))}
+                  <div className="text-right">
+                    <p className="text-2xl font-bold text-primary">{comp.price}</p>
+                    <p className="text-xs text-muted-foreground">{comp.times}</p>
+                  </div>
+                </Card>
+              ))}
+            </div>
+            <Card className="mt-8 p-6 bg-gradient-to-r from-accent/20 to-primary/10 border-accent">
+              <p className="text-center text-foreground leading-relaxed">
+                <strong>Piénsalo así:</strong> Inviertes menos de lo que gastas en café en un mes, pero obtienes acceso de por vida a tu transformación completa.
+              </p>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* What's Included */}
+      <section className="py-16 md:py-24 bg-white">
+        <div className="container">
+          <h2 className="section-title text-center mb-12">Los 6 Recursos Incluidos</h2>
+          <div className="max-w-3xl mx-auto">
+            <div className="space-y-3">
+              {resources.map((resource, idx) => (
+                <Card key={idx} className="p-4 bg-accent/5 border-l-4 border-l-primary flex gap-3">
+                  <CheckCircle2 className="w-6 h-6 text-primary flex-shrink-0 mt-0.5" />
+                  <p className="text-foreground font-medium">{resource}</p>
+                </Card>
+              ))}
+            </div>
           </div>
         </div>
       </section>
@@ -332,24 +161,41 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Final CTA Section */}
+      {/* Urgency Section */}
       <section className="py-16 md:py-24 bg-white">
+        <div className="container">
+          <Card className="p-8 md:p-12 bg-gradient-to-r from-secondary/10 to-accent/10 border-2 border-secondary">
+            <div className="flex gap-4 mb-6">
+              <Zap className="w-8 h-8 text-secondary flex-shrink-0" />
+              <div>
+                <h3 className="text-2xl font-bold text-foreground mb-3">Oferta Limitada</h3>
+                <p className="text-lg text-muted-foreground leading-relaxed">
+                  Esta oferta especial al 50% de descuento <strong>solo está disponible en esta página</strong>. Si vuelves al home o a la página de upsell, volverá al precio regular de $97.
+                </p>
+              </div>
+            </div>
+          </Card>
+        </div>
+      </section>
+
+      {/* Final CTA */}
+      <section className="py-16 md:py-24 bg-accent/5">
         <div className="container">
           <div className="max-w-3xl mx-auto text-center">
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">
-              Recupera Tu Confianza Hoy
+              No Dejes Pasar Esta Oportunidad
             </h2>
             <p className="text-lg text-muted-foreground mb-8">
-              Únete a cientos de mujeres que ya están viviendo sin miedo a los escapes. Tu transformación comienza aquí.
+              Por menos de lo que gastas en café, accede a tu transformación completa.
             </p>
             <Button
               size="lg"
               className="btn-secondary text-lg mb-4"
-              onClick={() => setLocation("/upsell")}
+              onClick={() => setLocation("/thank-you")}
             >
-              Acceder Ahora
+              Acceder Ahora a $48.50
             </Button>
-            <p className="text-micro-cta">Porque merezco disfrutar de mi vida sin limitaciones</p>
+            <p className="text-micro-cta">Porque merezco cuidarme sin gastar una fortuna</p>
           </div>
         </div>
       </section>
@@ -376,7 +222,7 @@ export default function Home() {
             </div>
           </div>
           <div className="border-t border-background/20 pt-8 text-center text-sm opacity-80">
-            <p>&copy; 2024 INCONTINENCIA. Todos los derechos reservados.</p>
+            <p>&copy; 2026 INCONTINENCIA. Todos los derechos reservados.</p>
           </div>
         </div>
       </footer>
