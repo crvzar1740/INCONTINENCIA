@@ -128,6 +128,7 @@ export default function ThankYou() {
                 size="lg"
                 variant="outline"
                 className="border-primary text-primary hover:bg-primary/10"
+                onClick={() => window.location.href = "mailto:support@incontinencia.com?subject=No recibí el email de acceso"}
               >
                 Contactar Soporte
               </Button>
@@ -207,7 +208,7 @@ export default function ThankYou() {
             </div>
           </div>
           <div className="border-t border-background/20 pt-8 text-center text-sm opacity-80">
-            <p>&copy; 2024 INCONTINENCIA. Todos los derechos reservados.</p>
+            <p>&copy; 2026 INCONTINENCIA. Todos los derechos reservados.</p>
           </div>
         </div>
       </footer>
