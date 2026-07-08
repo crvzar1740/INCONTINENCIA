@@ -178,7 +178,7 @@ Creado: ${new Date().toLocaleDateString('es-ES')}
                   Metas Personales *
                 </label>
                 <Textarea
-                  placeholder="¿Qué quieres lograr? Ej: Volver al gimnasio sin miedo, poder correr sin escapes, mejorar mi confianza, etc."
+                  placeholder="¿Qué quieres lograr? Ej: Volver al gimnasio sin miedo, poder correr sin pérdidas, mejorar mi confianza, etc."
                   value={planData.goals}
                   onChange={(e) => handleInputChange("goals", e.target.value)}
                   className="min-h-32"
