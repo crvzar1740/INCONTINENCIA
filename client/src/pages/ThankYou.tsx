@@ -128,7 +128,7 @@ export default function ThankYou() {
                 size="lg"
                 variant="outline"
                 className="border-primary text-primary hover:bg-primary/10"
-                onClick={() => window.location.href = "mailto:support@incontinencia.com?subject=No recibí el email de acceso"}
+                onClick={() => window.location.href = "mailto:info@infosuelofirme.com?subject=No recibí el email de acceso"}
               >
                 Contactar Soporte
               </Button>
