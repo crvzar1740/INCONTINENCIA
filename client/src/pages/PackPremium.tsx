@@ -48,7 +48,7 @@ export default function PackPremium() {
       id: "expert-sessions",
       icon: <Users className="w-8 h-8" />,
       name: "Programa de Acompañamiento con Especialista",
-      description: "Contenido asincrónico + 1-2 videoconsultas en vivo con una kinesióloga real (matrícula verificable) para ajustar tu progreso y tus cargas — el mismo modelo que usan los centros de piso pélvico de referencia.",
+      description: "Contenido asincrónico + 1 videoconsulta en vivo incluida con una kinesióloga real (matrícula verificable) para ajustar tu progreso. Sesiones de seguimiento adicionales disponibles por USD 30 c/u.",
       path: "/premium/expert-sessions",
       color: "from-primary/10 to-accent/5",
       borderColor: "border-primary/20",
@@ -173,7 +173,7 @@ export default function PackPremium() {
                 </div>
                 <div>
                   <h3 className="font-semibold text-foreground mb-1">Programa de Acompañamiento</h3>
-                  <p className="text-sm text-muted-foreground">Contenido asincrónico + 1-2 videoconsultas en vivo con especialista real para ajustar tu progreso</p>
+                  <p className="text-sm text-muted-foreground">1 videoconsulta en vivo incluida con especialista real + seguimiento opcional aparte</p>
                 </div>
               </div>
 
