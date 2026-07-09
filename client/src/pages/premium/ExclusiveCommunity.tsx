@@ -1,116 +1,84 @@
-import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Textarea } from "@/components/ui/textarea";
-import { ArrowLeft, Sparkles, MessageCircle, Users, TrendingUp } from "lucide-react";
-import { useState } from "react";
+import {
+  ArrowLeft,
+  Users,
+  MessageCircle,
+  Stethoscope,
+  Heart,
+  ShieldAlert,
+  Plus,
+  Trash2,
+  Info,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { useEffect, useState } from "react";
 import { useLocation } from "wouter";
 import { toast } from "sonner";
 
-interface Post {
+const STORAGE_KEY = "suelo-firme-premium-support-guide";
+
+interface JournalEntry {
   id: string;
-  author: string;
-  content: string;
   date: string;
-  likes: number;
-  group: string;
+  prompt: string;
+  text: string;
 }
 
-interface SuccessStory {
-  id: string;
-  author: string;
-  story: string;
-  result: string;
-  timeframe: string;
+const JOURNAL_PROMPTS = [
+  "¿Qué logré esta semana que hace un mes me daba miedo intentar?",
+  "¿Qué pensamiento sobre mi cuerpo quiero dejar de repetirme?",
+  "¿A quién podría contarle cómo me siento con esto, aunque sea a una persona?",
+  "¿Qué le diría a otra mujer que está empezando este mismo camino?",
+];
+
+function genId() {
+  return Math.random().toString(36).slice(2, 9);
 }
 
 export default function ExclusiveCommunity() {
   const [, setLocation] = useLocation();
-  const [newPost, setNewPost] = useState("");
-  const [posting, setPosting] = useState(false);
+  const [entries, setEntries] = useState<JournalEntry[]>([]);
+  const [prompt, setPrompt] = useState(JOURNAL_PROMPTS[0]);
+  const [text, setText] = useState("");
 
-  const [posts, setPosts] = useState<Post[]>([
-    {
-      id: "1",
-      author: "María C.",
-      content: "¡Hoy pude hacer ejercicio sin preocuparme! Después de 3 semanas de práctica consistente, finalmente lo logré. ¡Gracias a todas!",
-      date: "Hace 2 horas",
-      likes: 24,
-      group: "Historias de Éxito",
-    },
-    {
-      id: "2",
-      author: "Laura M.",
-      content: "¿Alguien más tiene dificultad con los ejercicios de Kegel lento? Necesito consejos.",
-      date: "Hace 5 horas",
-      likes: 12,
-      group: "Preguntas",
-    },
-    {
-      id: "3",
-      author: "Sofía R.",
-      content: "Encontré estos protectores en Amazon y son increíbles. Muy cómodos y discretos. Los recomiendo 100%.",
-      date: "Hace 1 día",
-      likes: 18,
-      group: "Recomendaciones",
-    },
-  ]);
+  useEffect(() => {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) {
+      try {
+        setEntries(JSON.parse(saved));
+      } catch {
+        // ignore corrupted data
+      }
+    }
+  }, []);
 
-  const [successStories] = useState<SuccessStory[]>([
-    {
-      id: "1",
-      author: "Daniela P.",
-      story: "Hace un año no podía ni caminar sin miedo. Ahora corro 5km cada semana sin problemas.",
-      result: "Control total de la incontinencia",
-      timeframe: "6 meses",
-    },
-    {
-      id: "2",
-      author: "Catalina L.",
-      story: "Pensaba que nunca volvería a ir al gimnasio. Hoy completé mi clase de yoga sin preocupaciones.",
-      result: "Recuperé mi confianza",
-      timeframe: "3 meses",
-    },
-    {
-      id: "3",
-      author: "Valentina G.",
-      story: "Mi vida social mejó tremendamente. Ahora salgo con amigas sin ansiedad.",
-      result: "Vida social plena",
-      timeframe: "4 meses",
-    },
-  ]);
+  const persist = (next: JournalEntry[]) => {
+    setEntries(next);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
+  };
 
-  const submitPost = async () => {
-    if (!newPost.trim()) {
-      toast.error("Por favor escribe tu mensaje");
+  const addEntry = () => {
+    if (!text.trim()) {
+      toast.error("Escribí algo antes de guardar");
       return;
     }
+    const entry: JournalEntry = {
+      id: genId(),
+      date: new Date().toLocaleDateString("es-ES"),
+      prompt,
+      text,
+    };
+    persist([entry, ...entries]);
+    setText("");
+    toast.success("✓ Guardado en tu espacio privado");
+  };
 
-    setPosting(true);
-    try {
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      const newPostObj: Post = {
-        id: Date.now().toString(),
-        author: "Tú",
-        content: newPost,
-        date: "Ahora",
-        likes: 0,
-        group: "General",
-      };
-
-      setPosts([newPostObj, ...posts]);
-      setNewPost("");
-      toast.success("✓ Tu mensaje ha sido publicado en la comunidad");
-    } catch (error) {
-      toast.error("Error al publicar el mensaje");
-    } finally {
-      setPosting(false);
-    }
+  const removeEntry = (id: string) => {
+    persist(entries.filter((e) => e.id !== id));
   };
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Navigation */}
       <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-sm border-b border-border">
         <div className="container py-4 flex justify-between items-center">
           <button
@@ -125,142 +93,188 @@ export default function ExclusiveCommunity() {
         </div>
       </nav>
 
-      {/* Main Content */}
       <div className="py-12 md:py-16">
-        <div className="container max-w-4xl">
-          {/* Header */}
-          <div className="mb-12">
+        <div className="container max-w-3xl">
+          <div className="mb-8">
             <div className="flex items-center gap-3 mb-4">
-              <Sparkles className="w-8 h-8 text-primary" />
+              <Users className="w-8 h-8 text-primary" />
               <h1 className="text-4xl md:text-5xl font-bold text-foreground">
-                Comunidad Exclusiva de Apoyo
+                Guía de Comunicación y Red de Apoyo
               </h1>
             </div>
             <p className="text-lg text-muted-foreground leading-relaxed">
-              Foro privado con otras mujeres, historias de éxito inspiradoras, grupos de apoyo temáticos y sesiones de grupo mensuales.
+              Todavía estamos armando el foro comunitario de Suelo Firme, así que preferimos no
+              simular una comunidad que no existe todavía. Mientras tanto, esto es lo que sí podemos
+              darte hoy: por qué el apoyo social importa, cómo hablarlo con las personas de tu
+              entorno, dónde encontrar comunidades reales y confiables, y un espacio privado propio
+              para poner en palabras cómo estás llevando este proceso.
             </p>
           </div>
 
-          {/* Stats */}
-          <div className="grid md:grid-cols-3 gap-4 mb-8">
-            <Card className="p-6 bg-gradient-to-br from-primary/5 to-primary/10 border-primary/20">
-              <div className="flex items-center gap-3 mb-2">
-                <Users className="w-5 h-5 text-primary" />
-                <span className="text-sm text-muted-foreground">Miembros Activos</span>
-              </div>
-              <div className="text-3xl font-bold text-primary">1,247</div>
-            </Card>
-            <Card className="p-6 bg-gradient-to-br from-accent/5 to-accent/10 border-accent/20">
-              <div className="flex items-center gap-3 mb-2">
-                <MessageCircle className="w-5 h-5 text-accent" />
-                <span className="text-sm text-muted-foreground">Mensajes Hoy</span>
-              </div>
-              <div className="text-3xl font-bold text-accent">342</div>
-            </Card>
-            <Card className="p-6 bg-gradient-to-br from-secondary/5 to-secondary/10 border-secondary/20">
-              <div className="flex items-center gap-3 mb-2">
-                <TrendingUp className="w-5 h-5 text-secondary" />
-                <span className="text-sm text-muted-foreground">Historias de Éxito</span>
-              </div>
-              <div className="text-3xl font-bold text-secondary">89</div>
-            </Card>
-          </div>
-
-          {/* Post Creation */}
-          <Card className="p-8 border-2 border-primary/20 mb-8 bg-gradient-to-br from-primary/5 to-accent/5">
-            <h2 className="text-2xl font-bold text-foreground mb-4">Comparte Tu Experiencia</h2>
-            <Textarea
-              placeholder="¿Qué quieres compartir con la comunidad? Tus preguntas, consejos, historias de progreso o apoyo para otras mujeres..."
-              value={newPost}
-              onChange={(e) => setNewPost(e.target.value)}
-              className="min-h-32 mb-4"
-            />
-            <Button
-              onClick={submitPost}
-              disabled={posting}
-              className="btn-primary w-full"
-            >
-              {posting ? "Publicando..." : "Publicar en la Comunidad"}
-            </Button>
+          {/* Why it matters */}
+          <Card className="p-6 md:p-8 mb-8 border-2 border-primary/20">
+            <div className="flex items-center gap-2 mb-3">
+              <Heart className="w-6 h-6 text-primary" />
+              <h2 className="text-xl font-bold text-foreground">Por qué el apoyo social importa tanto como el físico</h2>
+            </div>
+            <p className="text-sm text-muted-foreground leading-relaxed">
+              La investigación sobre calidad de vida en incontinencia encontró algo llamativo: la
+              forma en que una persona logra sobrellevar el impacto de los síntomas en su día a día
+              pesa tanto o más que la severidad misma de las pérdidas. El aislamiento y el silencio
+              empeoran esa carga; hablarlo con la pareja, la familia o amigas cercanas la alivia de
+              forma medible. No es un detalle emocional aparte del tratamiento — es parte del
+              tratamiento.
+            </p>
           </Card>
 
-          {/* Recent Posts */}
-          <div className="mb-12">
-            <h2 className="text-2xl font-bold text-foreground mb-6 flex items-center gap-2">
-              <MessageCircle className="w-6 h-6 text-primary" />
-              Conversaciones Recientes
-            </h2>
-            <div className="space-y-4">
-              {posts.map((post) => (
-                <Card key={post.id} className="p-6 hover:shadow-lg transition-shadow">
-                  <div className="flex justify-between items-start mb-3">
-                    <div>
-                      <h3 className="font-semibold text-foreground">{post.author}</h3>
-                      <p className="text-xs text-muted-foreground">{post.date}</p>
-                    </div>
-                    <span className="inline-block px-3 py-1 bg-primary/20 text-primary text-xs font-semibold rounded-full">
-                      {post.group}
-                    </span>
-                  </div>
-                  <p className="text-muted-foreground mb-3">{post.content}</p>
-                  <div className="flex gap-4 text-sm text-muted-foreground">
-                    <button className="hover:text-primary transition-colors">❤️ {post.likes}</button>
-                    <button className="hover:text-primary transition-colors">💬 Responder</button>
-                  </div>
-                </Card>
-              ))}
+          {/* Talking to partner/friends */}
+          <Card className="p-6 md:p-8 mb-8">
+            <h2 className="text-xl font-bold text-foreground mb-4">Cómo hablarlo con tu entorno cercano</h2>
+            <div className="space-y-5">
+              <div>
+                <p className="font-semibold text-foreground text-sm mb-2">Con tu pareja</p>
+                <div className="bg-background rounded-lg border border-border p-4">
+                  <p className="text-sm text-muted-foreground italic leading-relaxed">
+                    "Quiero contarte algo que me está pasando desde el parto — a veces pierdo orina
+                    sin querer. Estoy trabajando en mejorarlo, pero necesito que lo sepas para no
+                    sentir que tengo que ocultarlo todo el tiempo."
+                  </p>
+                </div>
+              </div>
+              <div>
+                <p className="font-semibold text-foreground text-sm mb-2">Con una amiga cercana</p>
+                <div className="bg-background rounded-lg border border-border p-4">
+                  <p className="text-sm text-muted-foreground italic leading-relaxed">
+                    "¿Te puedo contar algo? Desde que fui mamá tengo pérdidas de orina en ciertas
+                    situaciones. Es más común de lo que pensás, pero a veces me hace evitar planes.
+                    Quería que lo supieras por si alguna vez necesito ir al baño antes de lo normal."
+                  </p>
+                </div>
+              </div>
+              <div>
+                <p className="font-semibold text-foreground text-sm mb-2">Con tu médico o kinesiólogo</p>
+                <div className="bg-background rounded-lg border border-border p-4">
+                  <p className="text-sm text-muted-foreground italic leading-relaxed">
+                    "Tengo pérdidas de orina desde [momento]. Pasa sobre todo cuando [toso / me río /
+                    siento urgencia repentina], con una frecuencia de [x veces por semana]. Ya probé
+                    [ejercicios / productos] con [resultado]. ¿Qué evaluación me recomendás para
+                    entender mejor qué tipo de incontinencia es?"
+                  </p>
+                </div>
+              </div>
             </div>
-          </div>
+          </Card>
 
-          {/* Success Stories */}
-          <div>
-            <h2 className="text-2xl font-bold text-foreground mb-6 flex items-center gap-2">
-              <TrendingUp className="w-6 h-6 text-primary" />
-              Historias de Éxito Inspiradoras
-            </h2>
-            <div className="space-y-4">
-              {successStories.map((story) => (
-                <Card key={story.id} className="p-6 bg-gradient-to-br from-accent/5 to-secondary/5 border-2 border-accent/20">
-                  <div className="flex justify-between items-start mb-3">
-                    <h3 className="font-semibold text-foreground text-lg">{story.author}</h3>
-                    <span className="inline-block px-3 py-1 bg-accent/20 text-accent text-xs font-semibold rounded-full">
-                      {story.timeframe}
-                    </span>
-                  </div>
-                  <p className="text-muted-foreground mb-4 leading-relaxed">{story.story}</p>
-                  <div className="p-4 bg-background rounded-lg border border-border">
-                    <p className="text-sm font-semibold text-primary">✓ Resultado: {story.result}</p>
-                  </div>
-                </Card>
-              ))}
+          {/* Finding real communities */}
+          <Card className="p-6 md:p-8 mb-8">
+            <div className="flex items-center gap-2 mb-4">
+              <Stethoscope className="w-6 h-6 text-secondary" />
+              <h2 className="text-xl font-bold text-foreground">Cómo encontrar comunidades reales y confiables</h2>
             </div>
-          </div>
+            <p className="text-sm text-muted-foreground leading-relaxed mb-5">
+              Existen espacios genuinos de apoyo mientras el foro de Suelo Firme está en desarrollo.
+              Para evaluar si un grupo o comunidad online es confiable, fijate en esto:
+            </p>
+            <div className="space-y-3">
+              <div className="flex gap-3">
+                <div className="w-2 h-2 rounded-full bg-primary flex-shrink-0 mt-2" />
+                <p className="text-sm text-muted-foreground"><strong className="text-foreground">Buscá espacios moderados por profesionales</strong> (kinesiólogos de piso pélvico, asociaciones de continencia) antes que grupos genéricos sin moderación.</p>
+              </div>
+              <div className="flex gap-3">
+                <div className="w-2 h-2 rounded-full bg-primary flex-shrink-0 mt-2" />
+                <p className="text-sm text-muted-foreground"><strong className="text-foreground">Desconfiá de "curas milagrosas"</strong> o testimonios que prometen resolución total en pocos días — la evidencia real habla de semanas de trabajo constante, no de atajos.</p>
+              </div>
+              <div className="flex gap-3">
+                <div className="w-2 h-2 rounded-full bg-primary flex-shrink-0 mt-2" />
+                <p className="text-sm text-muted-foreground"><strong className="text-foreground">Priorizá grupos que remiten a profesionales</strong> cuando alguien describe señales de alarma, en vez de solo dar consejos entre pares para todo.</p>
+              </div>
+              <div className="flex gap-3">
+                <div className="w-2 h-2 rounded-full bg-primary flex-shrink-0 mt-2" />
+                <p className="text-sm text-muted-foreground"><strong className="text-foreground">Buscá asociaciones de continencia o colegios de kinesiología de tu país</strong> — suelen tener directorios de profesionales especializados en piso pélvico y a veces grupos de apoyo presenciales.</p>
+              </div>
+            </div>
+            <div className="mt-5 flex gap-3 bg-secondary/5 border border-secondary/20 rounded-lg p-4">
+              <MessageCircle className="w-5 h-5 text-secondary flex-shrink-0 mt-0.5" />
+              <p className="text-xs text-muted-foreground leading-relaxed">
+                Cuando el foro privado de Suelo Firme esté disponible, vas a recibir un aviso directo
+                por acá — preferimos avisarte cuando exista de verdad antes que simular actividad
+                que todavía no tenemos.
+              </p>
+            </div>
+          </Card>
 
-          {/* Community Guidelines */}
-          <Card className="mt-12 p-8 bg-accent/5 border-accent">
-            <h3 className="text-xl font-bold text-foreground mb-4">📋 Normas de la Comunidad</h3>
-            <ul className="space-y-3 text-muted-foreground">
-              <li className="flex gap-3">
-                <span className="text-primary font-bold">•</span>
-                <span>Sé respetuosa y empática con todas las miembros</span>
-              </li>
-              <li className="flex gap-3">
-                <span className="text-primary font-bold">•</span>
-                <span>Comparte tus experiencias genuinas y honestas</span>
-              </li>
-              <li className="flex gap-3">
-                <span className="text-primary font-bold">•</span>
-                <span>No hagas spam ni promociones comerciales</span>
-              </li>
-              <li className="flex gap-3">
-                <span className="text-primary font-bold">•</span>
-                <span>Respeta la privacidad de todas las miembros</span>
-              </li>
-              <li className="flex gap-3">
-                <span className="text-primary font-bold">•</span>
-                <span>Celebra los éxitos de otras mujeres</span>
-              </li>
-            </ul>
+          {/* Private journal */}
+          <Card className="p-6 md:p-8 mb-8 border-2 border-accent/20">
+            <h2 className="text-xl font-bold text-foreground mb-2">Tu espacio privado de reflexión</h2>
+            <p className="text-sm text-muted-foreground leading-relaxed mb-6">
+              Esto no se publica ni se comparte con nadie — queda guardado únicamente en este
+              dispositivo. A veces poner en palabras cómo vas llevando el proceso ayuda tanto como
+              hablarlo con alguien más.
+            </p>
+            <div className="mb-4">
+              <label className="block text-xs font-semibold text-foreground mb-2">Elegí una guía para escribir (opcional)</label>
+              <div className="flex flex-wrap gap-2">
+                {JOURNAL_PROMPTS.map((p) => (
+                  <button
+                    key={p}
+                    onClick={() => setPrompt(p)}
+                    className={`px-3 py-2 rounded-lg border text-xs font-medium text-left transition-colors ${
+                      prompt === p ? "border-primary bg-primary text-primary-foreground" : "border-border bg-white text-foreground hover:border-primary/40"
+                    }`}
+                  >
+                    {p}
+                  </button>
+                ))}
+              </div>
+            </div>
+            <textarea
+              value={text}
+              onChange={(e) => setText(e.target.value)}
+              placeholder="Escribí lo que quieras acá..."
+              className="w-full min-h-32 px-4 py-3 border border-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary mb-4"
+            />
+            <Button onClick={addEntry} className="btn-primary flex items-center gap-2">
+              <Plus className="w-4 h-4" /> Guardar en mi espacio
+            </Button>
+
+            {entries.length > 0 && (
+              <div className="mt-8 space-y-3">
+                <p className="text-sm font-semibold text-foreground">Tus entradas anteriores</p>
+                {entries.map((e) => (
+                  <div key={e.id} className="bg-background rounded-lg border border-border p-4 relative">
+                    <button onClick={() => removeEntry(e.id)} className="absolute top-3 right-3 text-muted-foreground hover:text-destructive">
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+                    <p className="text-xs text-muted-foreground mb-1">{e.date}</p>
+                    <p className="text-xs text-secondary font-medium mb-2 italic">{e.prompt}</p>
+                    <p className="text-sm text-foreground whitespace-pre-wrap">{e.text}</p>
+                  </div>
+                ))}
+              </div>
+            )}
+          </Card>
+
+          <Card className="p-6 bg-muted/40 border-dashed border-2 border-border">
+            <div className="flex gap-3">
+              <Info className="w-5 h-5 text-muted-foreground flex-shrink-0 mt-0.5" />
+              <p className="text-xs text-muted-foreground leading-relaxed">
+                Este espacio de reflexión se guarda solo en tu dispositivo — si cambiás de celular o
+                borrás los datos del navegador, se pierde. No es un reemplazo de terapia ni de
+                seguimiento profesional; es un complemento simple para procesar el proceso día a día.
+              </p>
+            </div>
+          </Card>
+
+          <Card className="mt-6 p-6 bg-destructive/5 border-destructive/30">
+            <div className="flex gap-3">
+              <ShieldAlert className="w-5 h-5 text-destructive flex-shrink-0 mt-0.5" />
+              <p className="text-sm text-foreground leading-relaxed">
+                Si notás que la angustia por esto es constante, interfiere con tu sueño o tu ánimo en
+                general, o te aísla de tu vida social de forma marcada, esa es una señal para hablarlo
+                con un profesional de salud mental, además del trabajo físico. No es "hacer un
+                problema de algo chico" — es cuidar una parte real de tu bienestar.
+              </p>
+            </div>
           </Card>
         </div>
       </div>
