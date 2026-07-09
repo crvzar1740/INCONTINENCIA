@@ -1,0 +1,11 @@
+[build]
+  command = "npx vite build"
+  publish = "dist/public"
+
+# Necesario para una SPA de React: cualquier ruta que no sea un archivo real
+# (como /premium/expert-sessions) tiene que servir index.html y dejar que
+# el router del lado del cliente (wouter) resuelva la página.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
