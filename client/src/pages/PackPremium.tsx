@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { ArrowLeft, BookOpen, ShoppingBag, Target, Users, Heart, Sparkles } from "lucide-react";
+import { ArrowLeft, Activity, ShoppingBag, Target, Users, Heart, MessageCircle } from "lucide-react";
 import { useLocation } from "wouter";
 
 interface PremiumTool {
@@ -19,9 +19,9 @@ export default function PackPremium() {
   const premiumTools: PremiumTool[] = [
     {
       id: "advanced-exercises",
-      icon: <BookOpen className="w-8 h-8" />,
-      name: "Workbook de Ejercicios Avanzados",
-      description: "Guía progresiva de 12 semanas con ejercicios especializados para fortalecer el suelo pélvico. Incluye variaciones, progresión y seguimiento semanal.",
+      icon: <Activity className="w-8 h-8" />,
+      name: "Protocolo de Retorno al Impacto",
+      description: "El puente entre tu programa base y correr, saltar o volver a entrenar en serio: chequeo de diástasis, respiración con carga y un test de disposición basado en criterios clínicos reales.",
       path: "/premium/advanced-exercises-workbook",
       color: "from-primary/10 to-primary/5",
       borderColor: "border-primary/30",
@@ -29,8 +29,8 @@ export default function PackPremium() {
     {
       id: "smart-shopping",
       icon: <ShoppingBag className="w-8 h-8" />,
-      name: "Checklist de Compra Inteligente",
-      description: "Comparativa de productos recomendados con precios, tiendas y análisis de costo-beneficio. Historial de compras y recomendaciones personalizadas.",
+      name: "Guía de Decisión: Productos y Cuidado de la Piel",
+      description: "Criterio real para evaluar cualquier producto (no un catálogo de precios), rutina de cuidado de la piel, calculadora de costo por uso y opciones conservadoras más allá del protector.",
       path: "/premium/smart-shopping-checklist",
       color: "from-accent/10 to-accent/5",
       borderColor: "border-accent/30",
@@ -38,8 +38,8 @@ export default function PackPremium() {
     {
       id: "action-protocol",
       icon: <Target className="w-8 h-8" />,
-      name: "Plan de Acción con Protocolo",
-      description: "Diagnóstico personalizado + protocolo paso a paso. Tracking de adherencia semanal y ajustes automáticos según tu progreso.",
+      name: "Protocolo de Reentrenamiento Vesical",
+      description: "Diario vesical de 3 días, plan de vaciado programado y técnicas de supresión de urgencia — la herramienta clínica específica para la urgencia y la frecuencia, distinta al trabajo de fuerza.",
       path: "/premium/personalized-action-protocol",
       color: "from-secondary/10 to-secondary/5",
       borderColor: "border-secondary/30",
@@ -47,8 +47,8 @@ export default function PackPremium() {
     {
       id: "expert-sessions",
       icon: <Users className="w-8 h-8" />,
-      name: "Sesiones Privadas con Expertos",
-      description: "Acceso a preguntas frecuentes respondidas por especialistas, historial de sesiones y recomendaciones personalizadas de expertos.",
+      name: "Consultas y Guía Clínica con Especialistas",
+      description: "Guía a fondo de preguntas frecuentes con criterio clínico real: señales de alarma, postparto, vida íntima y cuándo derivar a un profesional — mientras se define el formato de sesiones 1 a 1.",
       path: "/premium/expert-sessions",
       color: "from-primary/10 to-accent/5",
       borderColor: "border-primary/20",
@@ -56,17 +56,17 @@ export default function PackPremium() {
     {
       id: "emotional-guide",
       icon: <Heart className="w-8 h-8" />,
-      name: "Guía Emocional y Psicológica",
-      description: "Módulos de manejo emocional, ejercicios de mindfulness, técnicas de respiración y tracking de bienestar mental diario.",
+      name: "Guía de Reconstrucción Emocional y Conductual",
+      description: "Mapa de actividades evitadas con exposición gradual, registro de pensamientos y respiración para la ansiedad anticipatoria — basado en terapia cognitivo-conductual, no en mindfulness genérico.",
       path: "/premium/emotional-guide",
       color: "from-accent/10 to-secondary/5",
       borderColor: "border-accent/20",
     },
     {
       id: "community",
-      icon: <Sparkles className="w-8 h-8" />,
-      name: "Comunidad Exclusiva de Apoyo",
-      description: "Foro privado con otras mujeres, historias de éxito inspiradoras, grupos de apoyo temáticos y sesiones de grupo mensuales.",
+      icon: <MessageCircle className="w-8 h-8" />,
+      name: "Guía de Comunicación y Red de Apoyo",
+      description: "Cómo hablarlo con tu pareja, tu entorno y tu médico, cómo encontrar comunidades reales mientras armamos la nuestra, y un espacio privado de reflexión guardado solo en tu dispositivo.",
       path: "/premium/exclusive-community",
       color: "from-secondary/10 to-primary/5",
       borderColor: "border-secondary/20",
@@ -142,8 +142,8 @@ export default function PackPremium() {
                   ✓
                 </div>
                 <div>
-                  <h3 className="font-semibold text-foreground mb-1">Guía Progresiva de 12 Semanas</h3>
-                  <p className="text-sm text-muted-foreground">Ejercicios avanzados con seguimiento semanal y ajustes automáticos</p>
+                  <h3 className="font-semibold text-foreground mb-1">Protocolo de Retorno al Impacto</h3>
+                  <p className="text-sm text-muted-foreground">Carga progresiva de 8 semanas y test de disposición para volver a correr y saltar</p>
                 </div>
               </div>
 
@@ -152,8 +152,8 @@ export default function PackPremium() {
                   ✓
                 </div>
                 <div>
-                  <h3 className="font-semibold text-foreground mb-1">Comparativa de Productos</h3>
-                  <p className="text-sm text-muted-foreground">Análisis de precios, tiendas y recomendaciones personalizadas</p>
+                  <h3 className="font-semibold text-foreground mb-1">Guía de Productos Basada en Evidencia</h3>
+                  <p className="text-sm text-muted-foreground">Criterio de decisión, cuidado de la piel y calculadora de costo real</p>
                 </div>
               </div>
 
@@ -162,8 +162,8 @@ export default function PackPremium() {
                   ✓
                 </div>
                 <div>
-                  <h3 className="font-semibold text-foreground mb-1">Protocolo Personalizado</h3>
-                  <p className="text-sm text-muted-foreground">Diagnóstico + plan paso a paso con tracking de adherencia</p>
+                  <h3 className="font-semibold text-foreground mb-1">Reentrenamiento Vesical</h3>
+                  <p className="text-sm text-muted-foreground">Diario vesical, plan de vaciado programado y técnicas de supresión de urgencia</p>
                 </div>
               </div>
 
@@ -172,8 +172,8 @@ export default function PackPremium() {
                   ✓
                 </div>
                 <div>
-                  <h3 className="font-semibold text-foreground mb-1">Acceso a Expertos</h3>
-                  <p className="text-sm text-muted-foreground">Preguntas frecuentes respondidas + sesiones privadas</p>
+                  <h3 className="font-semibold text-foreground mb-1">Guía Clínica con Especialistas</h3>
+                  <p className="text-sm text-muted-foreground">Preguntas frecuentes con criterio clínico real + sesiones 1 a 1 en definición</p>
                 </div>
               </div>
 
@@ -182,8 +182,8 @@ export default function PackPremium() {
                   ✓
                 </div>
                 <div>
-                  <h3 className="font-semibold text-foreground mb-1">Guía Emocional</h3>
-                  <p className="text-sm text-muted-foreground">Mindfulness, técnicas de respiración y tracking de bienestar</p>
+                  <h3 className="font-semibold text-foreground mb-1">Reconstrucción Emocional</h3>
+                  <p className="text-sm text-muted-foreground">Exposición gradual, registro de pensamientos y técnicas de respiración</p>
                 </div>
               </div>
 
@@ -192,8 +192,8 @@ export default function PackPremium() {
                   ✓
                 </div>
                 <div>
-                  <h3 className="font-semibold text-foreground mb-1">Comunidad Exclusiva</h3>
-                  <p className="text-sm text-muted-foreground">Foro privado, historias de éxito y grupos de apoyo</p>
+                  <h3 className="font-semibold text-foreground mb-1">Comunicación y Red de Apoyo</h3>
+                  <p className="text-sm text-muted-foreground">Guías de conversación, comunidades confiables y espacio privado de reflexión</p>
                 </div>
               </div>
             </div>
