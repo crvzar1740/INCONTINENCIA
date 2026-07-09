@@ -7,6 +7,9 @@ import {
   MessageSquare,
   Video,
   AlertTriangle,
+  Stethoscope,
+  Info,
+  ExternalLink,
 } from "lucide-react";
 import { useState } from "react";
 import { useLocation } from "wouter";
@@ -141,44 +144,103 @@ export default function ExpertSessions() {
             <div className="flex items-center gap-3 mb-4">
               <Users className="w-8 h-8 text-primary" />
               <h1 className="text-4xl md:text-5xl font-bold text-foreground">
-                Consultas y Guía Clínica con Especialistas
+                Programa de Acompañamiento con Especialista
               </h1>
             </div>
             <p className="text-lg text-muted-foreground leading-relaxed">
-              Consultá directamente con especialistas en piso pélvico sobre tu caso puntual:
-              ejercicios, productos o el aspecto emocional. Mientras terminamos de definir el formato
-              exacto de las sesiones 1 a 1, esta guía reúne las respuestas más buscadas — con el
-              mismo criterio clínico que usaría un especialista en una consulta real.
+              No es una sesión suelta: es contenido asincrónico (todo lo que ya tenés en tu Pack
+              Premium) combinado con 1 consulta en vivo incluida para evaluar tu progreso, resolver
+              dudas puntuales de tu caso y ajustar cargas — el mismo formato que usan hoy los centros
+              de piso pélvico de referencia en la región. Si después querés seguir con controles de
+              seguimiento, tenés esa opción disponible con un costo aparte.
             </p>
           </div>
+
+          {/* Professional bio */}
+          <Card className="p-6 md:p-8 mb-8 border-2 border-primary/20">
+            <div className="flex items-start gap-4">
+              <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                <Stethoscope className="w-8 h-8 text-primary" />
+              </div>
+              <div>
+                {/* TODO Renato: completar nombre real, título y matrícula de tu esposa antes de publicar */}
+                <h2 className="text-lg font-bold text-foreground">[Nombre y apellido] — Lic. en Kinesiología, especializada en piso pélvico</h2>
+                <p className="text-sm text-muted-foreground mt-1">Matrícula profesional N.º [completar]</p>
+                <p className="text-sm text-muted-foreground mt-3 leading-relaxed">
+                  Las sesiones en vivo del programa las da una kinesióloga real, con matrícula
+                  verificable — no un chat automatizado ni un formulario de preguntas frecuentes.
+                </p>
+              </div>
+            </div>
+          </Card>
 
           <div className="mb-12">
             <h2 className="text-2xl font-bold text-foreground mb-6 flex items-center gap-2">
               <Calendar className="w-6 h-6 text-primary" />
-              Así van a funcionar tus sesiones con especialistas
+              Cómo funciona el acompañamiento
             </h2>
             <div className="grid md:grid-cols-3 gap-6">
               <Card className="p-6 border-l-4 border-l-primary">
                 <MessageSquare className="w-8 h-8 text-primary mb-3" />
-                <h3 className="font-semibold text-foreground mb-2">Elegís el tema</h3>
-                <p className="text-sm text-muted-foreground">Ejercicios, productos o manejo emocional — según lo que necesites en ese momento.</p>
+                <h3 className="font-semibold text-foreground mb-2">1. Trabajás el contenido asincrónico</h3>
+                <p className="text-sm text-muted-foreground">Tu programa base y las herramientas del Pack Premium, a tu ritmo, antes de la sesión.</p>
               </Card>
               <Card className="p-6 border-l-4 border-l-primary">
                 <Video className="w-8 h-8 text-primary mb-3" />
-                <h3 className="font-semibold text-foreground mb-2">Sesión 1 a 1</h3>
-                <p className="text-sm text-muted-foreground">Consulta directa con un especialista, previa reserva de tu turno.</p>
+                <h3 className="font-semibold text-foreground mb-2">2. Reservás tu sesión incluida</h3>
+                <p className="text-sm text-muted-foreground">Videoconsulta 1 a 1 para revisar tu caso puntual y ajustar series, repeticiones y progresión — ya incluida en tu Pack Premium.</p>
               </Card>
-              <Card className="p-6 border-l-4 border-l-primary">
-                <CheckCircle2 className="w-8 h-8 text-primary mb-3" />
-                <h3 className="font-semibold text-foreground mb-2">Preparás tus preguntas</h3>
-                <p className="text-sm text-muted-foreground">Llegás a la sesión con tus dudas puntuales para aprovechar mejor el tiempo.</p>
+              <Card className="p-6 border-l-4 border-l-accent">
+                <CheckCircle2 className="w-8 h-8 text-accent mb-3" />
+                <h3 className="font-semibold text-foreground mb-2">3. Seguimiento, si querés continuar</h3>
+                <p className="text-sm text-muted-foreground">Sesiones adicionales de control, opcionales, con un costo aparte de USD 30 cada una.</p>
               </Card>
             </div>
-            <p className="text-sm text-muted-foreground mt-4 italic">
-              Estamos terminando de definir el formato exacto de agenda. Mientras tanto, esta guía
-              cubre las consultas más frecuentes — es posible que tu duda ya esté resuelta acá.
-            </p>
+
+            <div className="mt-6 flex justify-center">
+              {/* TODO Renato: reemplazar href por el link real de la página de reservas de Koalendar (evento "sesión incluida") una vez que tu esposa la tenga creada */}
+              <a
+                href="#"
+                className="btn-primary inline-flex items-center gap-2 px-6 py-3"
+                onClick={(e) => e.preventDefault()}
+              >
+                <ExternalLink className="w-4 h-4" />
+                Reservar mi sesión incluida (muy pronto)
+              </a>
+            </div>
+
+            <div className="mt-5 flex gap-3 bg-secondary/5 border border-secondary/20 rounded-lg p-4">
+              <Info className="w-5 h-5 text-secondary flex-shrink-0 mt-0.5" />
+              <p className="text-xs text-muted-foreground leading-relaxed">
+                Los cupos de sesiones en vivo son limitados por semana para poder darle a cada
+                consulta el tiempo real que necesita — no es una cola infinita de video-llamadas.
+                Mientras se termina de habilitar la reserva online, esta guía cubre las consultas más
+                frecuentes con el mismo criterio clínico que usarías en la sesión.
+              </p>
+            </div>
           </div>
+
+          {/* Follow-up sessions pricing */}
+          <Card className="p-6 md:p-8 mb-12 bg-accent/5 border-accent/30">
+            <h2 className="text-xl font-bold text-foreground mb-2">¿Querés seguir con controles de seguimiento?</h2>
+            <p className="text-sm text-muted-foreground leading-relaxed mb-4">
+              Tu Pack Premium incluye 1 sesión en vivo. Muchas mujeres con eso alcanzan para ajustar
+              su plan y seguir solas con el contenido asincrónico. Si preferís continuar con controles
+              periódicos, cada sesión adicional tiene un valor de <strong className="text-foreground">USD 30</strong>.
+            </p>
+            <div className="flex items-center justify-between bg-background rounded-lg border border-border p-4">
+              <div>
+                <p className="font-semibold text-foreground text-sm">Sesión de seguimiento</p>
+                <p className="text-xs text-muted-foreground">Videoconsulta individual, 30-40 minutos</p>
+              </div>
+              <span className="text-2xl font-bold text-accent">USD 30</span>
+            </div>
+            <p className="text-xs text-muted-foreground mt-4">
+              {/* TODO Renato: reemplazar por el link de compra real una vez que exista el producto de "sesión de seguimiento" en Hotmart */}
+              La compra de sesiones de seguimiento se gestiona aparte del Pack Premium; una vez
+              confirmada, recibís el link para reservar el horario directamente en la agenda.
+            </p>
+          </Card>
 
           <div>
             <h2 className="text-2xl font-bold text-foreground mb-6 flex items-center gap-2">
@@ -237,23 +299,23 @@ export default function ExpertSessions() {
           </Card>
 
           <Card className="mt-8 p-8 bg-accent/5 border-accent">
-            <h3 className="text-xl font-bold text-foreground mb-4">💡 Cómo aprovechar al máximo las sesiones cuando abran</h3>
+            <h3 className="text-xl font-bold text-foreground mb-4">💡 Cómo aprovechar al máximo tu sesión en vivo</h3>
             <ul className="space-y-3 text-muted-foreground">
               <li className="flex gap-3">
                 <span className="text-primary font-bold">•</span>
-                <span>Anotá tus dudas puntuales a medida que te surjan, así llegás con todo listo</span>
+                <span>Recorré primero el contenido asincrónico de tu Pack Premium — la sesión rinde mucho más si ya probaste los ejercicios y tenés dudas concretas, no generales</span>
               </li>
               <li className="flex gap-3">
                 <span className="text-primary font-bold">•</span>
-                <span>Revisá primero esta guía — muchas preguntas frecuentes ya están resueltas acá</span>
+                <span>Llevá tu diario vesical o tu progreso de ejercicios para que la especialista pueda ajustar cargas con datos reales, no a ciegas</span>
               </li>
               <li className="flex gap-3">
                 <span className="text-primary font-bold">•</span>
-                <span>Llevá registro de tu diario vesical o tu progreso de ejercicios para compartir en la consulta</span>
+                <span>Priorizá 2 o 3 preguntas concretas antes que un relato general — se aprovecha mejor el tiempo de la consulta</span>
               </li>
               <li className="flex gap-3">
                 <span className="text-primary font-bold">•</span>
-                <span>Priorizá 2 o 3 preguntas concretas antes que un relato general — se aprovecha mejor el tiempo</span>
+                <span>Si tu pack incluye una segunda sesión, reservala para 3-4 semanas después de la primera — es el tiempo mínimo para ver si un ajuste funcionó</span>
               </li>
             </ul>
           </Card>
