@@ -50,40 +50,80 @@ export default function Home() {
 
   const tools = [
     {
-      title: "Guía de Ejercicios Avanzados para el Suelo Pélvico",
-      format: "Workbook",
-      description: "Un workbook práctico con ejercicios avanzados para fortalecer el piso pélvico y mejorar el control de la vejiga.",
+      title: "Programa de Ejercicios de Piso Pélvico",
+      format: "App interactiva con timer guiado",
+      description: "Programa de 3 fases (activación, resistencia, integración) con timer guiado y técnica de anticipación para toser, reír o levantar peso sin miedo.",
       isPremium: false,
+      path: "/tools/pelvic-exercises",
     },
     {
-      title: "Checklist de Productos para Control de Incontinencia",
-      format: "Checklist rellenable",
-      description: "Un recurso para seleccionar y etiquetar los mejores productos de incontinencia, ayudando en la decisión de compra.",
+      title: "Checklist de Productos",
+      format: "Checklist interactivo",
+      description: "Criterios reales para elegir protección según tu nivel de actividad y momento del día — no una lista genérica.",
       isPremium: false,
+      path: "/tools/products-checklist",
     },
     {
-      title: "Plan de Acción Personalizado",
-      format: "Hoja de ruta",
-      description: "Una herramienta para crear un plan personalizado de ejercicios y uso de productos que se adapte a las necesidades individuales.",
+      title: "Plan de Acción",
+      format: "Hoja de ruta descargable",
+      description: "Armá tu propio plan de 8 semanas combinando ejercicios y productos según tus objetivos, listo para descargar.",
       isPremium: false,
+      path: "/tools/action-plan",
     },
     {
-      title: "Sesión de Preguntas y Respuestas con Expertos",
-      format: "Sesión en vivo",
-      description: "Oportunidad para que las usuarias hagan preguntas a expertos en salud del piso pélvico.",
-      isPremium: true,
+      title: "Preguntas Frecuentes",
+      format: "Banco de respuestas curado",
+      description: "Respuestas claras a las dudas más comunes sobre ejercicios, productos y progreso.",
+      isPremium: false,
+      path: "/tools/qa-session",
     },
     {
-      title: "Grupo de Apoyo Exclusivo",
-      format: "Comunidad en línea",
-      description: "Acceso a un grupo donde las usuarias pueden compartir experiencias y consejos de forma privada.",
+      title: "Protocolo de Retorno al Impacto",
+      format: "Programa de 8 semanas",
+      description: "El puente entre tu programa base y correr, saltar o volver a entrenar en serio: chequeo de diástasis, respiración con carga y test de disposición basado en criterios clínicos reales.",
       isPremium: true,
+      path: "/premium/advanced-exercises-workbook",
+      image: "/images/premium/advanced-exercises.jpg",
     },
     {
-      title: "Manejo Emocional de la Incontinencia",
-      format: "Guía paso a paso",
-      description: "Un recurso que aborda el aspecto emocional y psicológico de vivir con incontinencia y cómo manejarlo.",
+      title: "Guía de Decisión: Productos y Cuidado de la Piel",
+      format: "Quiz + calculadora",
+      description: "Criterio real para evaluar cualquier producto, rutina de cuidado de la piel y calculadora de costo por uso.",
       isPremium: true,
+      path: "/premium/smart-shopping-checklist",
+      image: "/images/premium/smart-shopping.jpg",
+    },
+    {
+      title: "Protocolo de Reentrenamiento Vesical",
+      format: "Diario vesical de 3 días",
+      description: "Plan de vaciado programado y técnicas de supresión de urgencia — la herramienta clínica específica para la urgencia y la frecuencia.",
+      isPremium: true,
+      path: "/premium/personalized-action-protocol",
+      image: "/images/premium/action-protocol.jpg",
+    },
+    {
+      title: "Programa de Acompañamiento con Especialista",
+      format: "1 sesión en vivo incluida",
+      description: "Videoconsulta en vivo con una kinesióloga real (matrícula verificable) para ajustar tu progreso. Sesiones adicionales disponibles por separado.",
+      isPremium: true,
+      path: "/premium/expert-sessions",
+      image: "/images/premium/expert-sessions.jpg",
+    },
+    {
+      title: "Guía de Reconstrucción Emocional y Conductual",
+      format: "Terapia cognitivo-conductual",
+      description: "Registro de pensamientos, mapa de actividades evitadas con exposición gradual y respiración para la ansiedad anticipatoria.",
+      isPremium: true,
+      path: "/premium/emotional-guide",
+      image: "/images/premium/emotional-guide.jpg",
+    },
+    {
+      title: "Guía de Comunicación y Red de Apoyo",
+      format: "Espacio privado de reflexión",
+      description: "Cómo hablarlo con tu pareja, tu entorno y tu médico, más un espacio privado guardado solo en tu dispositivo.",
+      isPremium: true,
+      path: "/premium/exclusive-community",
+      image: "/images/premium/community.jpg",
     },
   ];
 
@@ -264,13 +304,24 @@ export default function Home() {
           <p className="section-subtitle text-center">10 recursos diseñados para tu transformación</p>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {tools.map((tool, idx) => (
-              <Card key={idx} className={`p-6 ${tool.isPremium ? "border-2 border-accent bg-accent/5" : "border border-border"}`}>
-                <div className="flex justify-between items-start mb-3">
-                  <h3 className="font-bold text-foreground text-lg flex-1">{tool.title}</h3>
-                  {tool.isPremium && <span className="text-xs bg-accent text-accent-foreground px-3 py-1 rounded-full font-semibold">Premium</span>}
+              <Card
+                key={idx}
+                onClick={() => setLocation(tool.path)}
+                className={`overflow-hidden cursor-pointer hover:shadow-lg transition-shadow ${tool.isPremium ? "border-2 border-accent bg-accent/5" : "border border-border"}`}
+              >
+                {tool.image && (
+                  <div className="w-full aspect-square overflow-hidden">
+                    <img src={tool.image} alt={tool.title} loading="lazy" className="w-full h-full object-cover" />
+                  </div>
+                )}
+                <div className="p-6">
+                  <div className="flex justify-between items-start mb-3">
+                    <h3 className="font-bold text-foreground text-lg flex-1">{tool.title}</h3>
+                    {tool.isPremium && <span className="text-xs bg-accent text-accent-foreground px-3 py-1 rounded-full font-semibold">Premium</span>}
+                  </div>
+                  <p className="text-sm text-secondary font-semibold mb-2">{tool.format}</p>
+                  <p className="text-muted-foreground text-sm leading-relaxed">{tool.description}</p>
                 </div>
-                <p className="text-sm text-secondary font-semibold mb-2">{tool.format}</p>
-                <p className="text-muted-foreground text-sm leading-relaxed">{tool.description}</p>
               </Card>
             ))}
           </div>
