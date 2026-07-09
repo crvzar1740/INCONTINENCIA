@@ -48,13 +48,14 @@ export default function Home() {
     },
   ];
 
-  const tools = [
+ const tools = [
     {
       title: "Programa de Ejercicios de Piso Pélvico",
       format: "App interactiva con timer guiado",
       description: "Programa de 3 fases (activación, resistencia, integración) con timer guiado y técnica de anticipación para toser, reír o levantar peso sin miedo.",
       isPremium: false,
       path: "/tools/pelvic-exercises",
+      image: "/images/base/pelvic-exercises.jpg",
     },
     {
       title: "Checklist de Productos",
@@ -62,6 +63,7 @@ export default function Home() {
       description: "Criterios reales para elegir protección según tu nivel de actividad y momento del día — no una lista genérica.",
       isPremium: false,
       path: "/tools/products-checklist",
+      image: "/images/base/products-checklist.jpg",
     },
     {
       title: "Plan de Acción",
@@ -69,6 +71,7 @@ export default function Home() {
       description: "Armá tu propio plan de 8 semanas combinando ejercicios y productos según tus objetivos, listo para descargar.",
       isPremium: false,
       path: "/tools/action-plan",
+      image: "/images/base/action-plan.jpg",
     },
     {
       title: "Preguntas Frecuentes",
@@ -76,6 +79,7 @@ export default function Home() {
       description: "Respuestas claras a las dudas más comunes sobre ejercicios, productos y progreso.",
       isPremium: false,
       path: "/tools/qa-session",
+      image: "/images/base/qa-session.jpg",
     },
     {
       title: "Protocolo de Retorno al Impacto",
