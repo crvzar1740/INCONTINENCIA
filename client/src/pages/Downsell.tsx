@@ -206,7 +206,7 @@ export default function Downsell() {
           <div className="grid md:grid-cols-3 gap-8 mb-8">
             <div>
               <h3 className="font-bold mb-4">Suelo Firme</h3>
-              <p className="text-sm opacity-80">Recupera tu confianza después del parto.</p>
+              <p className="text-sm opacity-80">Recupera tu confianza y el control de tu cuerpo.</p>
             </div>
             <div>
               <h3 className="font-bold mb-4">Enlaces</h3>
