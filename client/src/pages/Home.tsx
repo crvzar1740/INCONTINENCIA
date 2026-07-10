@@ -75,7 +75,7 @@ export default function Home() {
     },
     {
       title: "Preguntas Frecuentes",
-      format: "Banco de respuestas curado",
+     format: "Banco de respuestas chequeado",
       description: "Respuestas claras a las dudas más comunes sobre ejercicios, productos y progreso.",
       isPremium: false,
       path: "/tools/qa-session",
