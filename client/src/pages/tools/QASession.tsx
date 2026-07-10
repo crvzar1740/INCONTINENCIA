@@ -171,7 +171,7 @@ export default function QASession() {
                   reemplaza una consulta puntual. Si tenés una pregunta específica sobre tu caso,
                   escribinos directamente.
                 </p>
-                
+                <a
                   href="mailto:info@infosuelofirme.com?subject=Pregunta sobre Suelo Firme"
                   className="inline-flex items-center gap-2 text-sm font-semibold text-primary hover:underline"
                 >
