@@ -191,7 +191,7 @@ export default function Home() {
       <section className="py-16 md:py-24 bg-gradient-to-br from-background via-background to-accent/10">
         <div className="container">
           <div className="max-w-3xl mx-auto text-center">
-            <p className="text-secondary font-semibold mb-4 text-lg">Para mujeres después del parto</p>
+         <p className="text-secondary font-semibold mb-4 text-lg">Para mujeres que quieren recuperar el control</p>
             <h1 className="text-4xl md:text-6xl font-bold text-foreground mb-6 leading-tight">
               Volvé a correr, saltar y reír con el control que creías perdido
             </h1>
