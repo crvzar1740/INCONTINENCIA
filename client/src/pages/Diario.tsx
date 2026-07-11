@@ -1,12 +1,12 @@
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { ArrowLeft, Plus, Trash2, Download, Droplets } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
+import { ArrowLeft, Plus, Trash2, Download, Droplets, Bell, BellOff } from "lucide-react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useLocation } from "wouter";
 import { toast } from "sonner";
 
 const STORAGE_KEY = "suelo-firme-diario";
 const FIRST_ENTRY_KEY = "suelo-firme-diario-first";
+const ALARM_KEY = "suelo-firme-alarm-scheduled-at";
 
 interface Entry {
   id: string;
@@ -46,6 +46,58 @@ const URGENCIA_OPTIONS: { value: Entry["urgencia"]; label: string; emoji: string
 
 const CAUSA_OPTIONS = ["Tos", "Risa", "Ejercicio", "Sin razón clara", "Otro"];
 
+/* ─── Service Worker helpers ─── */
+async function getSW(): Promise<ServiceWorker | null> {
+  if (!("serviceWorker" in navigator)) return null;
+  try {
+    const reg = await navigator.serviceWorker.ready;
+    return reg.active;
+  } catch {
+    return null;
+  }
+}
+
+function registerSW() {
+  if (!("serviceWorker" in navigator)) return;
+  navigator.serviceWorker
+    .register("/sw.js")
+    .catch((err) => console.warn("SW registration failed:", err));
+}
+
+/** Cancel any pending notification and schedule a new one.
+ *  `avgMinutes` = user's average interval between bathroom visits.
+ *  We fire the notification at 85% of the interval so it arrives
+ *  slightly before the expected urge — giving time to practice suppression. */
+async function scheduleAlarm(avgMinutes: number, lastEntryTimestamp: string) {
+  const sw = await getSW();
+  if (!sw) return;
+
+  // Cancel any old pending notification first
+  sw.postMessage({ type: "CANCEL_NOTIF" });
+
+  const lastMs = new Date(lastEntryTimestamp).getTime();
+  const intervalMs = avgMinutes * 60 * 1000;
+  const fireAt = lastMs + intervalMs * 0.85;
+  const delayMs = fireAt - Date.now();
+
+  if (delayMs <= 0) return; // past — no alarm needed
+
+  const title = "Momento de practicar";
+  const body =
+    "Tu vejiga probablemente quiera ir pronto. Antes de levantarte: 3 contracciones rápidas, respirá lento. La urgencia es una ola — podés atravesarla. 🌊";
+
+  sw.postMessage({ type: "SCHEDULE_NOTIF", payload: { delayMs, title, body } });
+  localStorage.setItem(ALARM_KEY, String(fireAt));
+}
+
+async function cancelAlarm() {
+  const sw = await getSW();
+  if (!sw) return;
+  sw.postMessage({ type: "CANCEL_NOTIF" });
+  localStorage.removeItem(ALARM_KEY);
+}
+
+/* ─── Component ─── */
 export default function Diario() {
   const [, setLocation] = useLocation();
   const [entries, setEntries] = useState<Entry[]>([]);
@@ -53,8 +105,21 @@ export default function Diario() {
   const [draft, setDraft] = useState<Partial<Entry>>({});
   const [showFirstEntryMsg, setShowFirstEntryMsg] = useState(false);
   const [missedYesterday, setMissedYesterday] = useState(false);
+  const [notifPermission, setNotifPermission] = useState<NotificationPermission>("default");
+  const [alarmScheduledAt, setAlarmScheduledAt] = useState<number | null>(null);
+  const notifPromptShownRef = useRef(false);
 
+  /* ─── Init ─── */
   useEffect(() => {
+    registerSW();
+
+    if ("Notification" in window) {
+      setNotifPermission(Notification.permission);
+    }
+
+    const stored = localStorage.getItem(ALARM_KEY);
+    if (stored) setAlarmScheduledAt(Number(stored));
+
     const saved = localStorage.getItem(STORAGE_KEY);
     if (saved) {
       try {
@@ -65,26 +130,86 @@ export default function Diario() {
         const yesterday = new Date();
         yesterday.setDate(yesterday.getDate() - 1);
         const yd = yesterday.toDateString();
-        const hasYesterday = parsed.some(
-          (e) => new Date(e.timestamp).toDateString() === yd
-        );
-        const hasToday = parsed.some(
-          (e) => new Date(e.timestamp).toDateString() === today
-        );
+        const hasYesterday = parsed.some((e) => new Date(e.timestamp).toDateString() === yd);
+        const hasToday = parsed.some((e) => new Date(e.timestamp).toDateString() === today);
         if (!hasYesterday && parsed.length > 0 && !hasToday) {
           setMissedYesterday(true);
         }
       } catch {
-        // ignore
+        /* ignore */
       }
     }
   }, []);
 
+  /* ─── Stats ─── */
+  const stats = useMemo(() => {
+    if (entries.length < 2) return null;
+    const times = entries.map((e) => new Date(e.timestamp).getTime());
+    const intervals: number[] = [];
+    for (let i = 1; i < times.length; i++) {
+      intervals.push((times[i] - times[i - 1]) / 60000);
+    }
+    const avg = intervals.reduce((a, b) => a + b, 0) / intervals.length;
+    const escapes = entries.filter((e) => e.escape).length;
+    return { avgMin: Math.round(avg), total: entries.length, escapes };
+  }, [entries]);
+
+  /* ─── Reschedule alarm whenever entries change ─── */
+  useEffect(() => {
+    if (!stats || notifPermission !== "granted") return;
+    const lastEntry = entries[entries.length - 1];
+    if (!lastEntry) return;
+    scheduleAlarm(stats.avgMin, lastEntry.timestamp).then(() => {
+      const stored = localStorage.getItem(ALARM_KEY);
+      if (stored) setAlarmScheduledAt(Number(stored));
+    });
+  }, [entries, stats, notifPermission]);
+
+  /* ─── Prompt for notification permission after 2nd entry ─── */
+  useEffect(() => {
+    if (
+      !notifPromptShownRef.current &&
+      entries.length >= 2 &&
+      "Notification" in window &&
+      Notification.permission === "default"
+    ) {
+      notifPromptShownRef.current = true;
+    }
+  }, [entries.length]);
+
+  const requestNotifPermission = useCallback(async () => {
+    if (!("Notification" in window)) {
+      toast.error("Tu navegador no soporta notificaciones");
+      return;
+    }
+    const result = await Notification.requestPermission();
+    setNotifPermission(result);
+    if (result === "granted") {
+      toast.success("✓ Notificaciones activadas");
+      if (stats && entries.length > 0) {
+        const lastEntry = entries[entries.length - 1];
+        await scheduleAlarm(stats.avgMin, lastEntry.timestamp);
+        const stored = localStorage.getItem(ALARM_KEY);
+        if (stored) setAlarmScheduledAt(Number(stored));
+      }
+    } else {
+      toast.error("Permiso denegado — podés activarlo en la configuración del navegador");
+    }
+  }, [stats, entries]);
+
+  const disableAlarms = useCallback(async () => {
+    await cancelAlarm();
+    setAlarmScheduledAt(null);
+    toast.success("Alarmas desactivadas");
+  }, []);
+
+  /* ─── Persist entries ─── */
   const persist = (next: Entry[]) => {
     setEntries(next);
     localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
   };
 
+  /* ─── Step flow ─── */
   const startEntry = () => {
     setDraft({ id: genId(), timestamp: new Date().toISOString() });
     setStep("urgencia");
@@ -134,7 +259,18 @@ export default function Diario() {
       (e) =>
         `${formatDate(e.timestamp)} ${formatTime(e.timestamp)} | Urgencia: ${e.urgencia} | Escape: ${e.escape ? "sí" : "no"}${e.causaEscape ? ` (${e.causaEscape})` : ""} | Líquido: ${e.liquido || "-"}`
     );
-    const content = `DIARIO MICCIONAL — Suelo Firme\n${new Date().toLocaleDateString("es-ES")}\n\n${lines.join("\n")}`;
+    const content = [
+      "DIARIO MICCIONAL — Suelo Firme",
+      new Date().toLocaleDateString("es-ES"),
+      "",
+      ...lines,
+      "",
+      stats ? `Intervalo promedio: ${stats.avgMin} minutos` : "",
+      stats ? `Total de registros: ${stats.total}` : "",
+      stats ? `Episodios con escape: ${stats.escapes}` : "",
+    ]
+      .filter((l) => l !== undefined)
+      .join("\n");
     const el = document.createElement("a");
     el.setAttribute("href", "data:text/plain;charset=utf-8," + encodeURIComponent(content));
     el.setAttribute("download", "diario-miccional-suelo-firme.txt");
@@ -144,18 +280,6 @@ export default function Diario() {
     document.body.removeChild(el);
     toast.success("✓ Diario descargado");
   };
-
-  const stats = useMemo(() => {
-    if (entries.length < 2) return null;
-    const times = entries.map((e) => new Date(e.timestamp).getTime());
-    const intervals: number[] = [];
-    for (let i = 1; i < times.length; i++) {
-      intervals.push((times[i] - times[i - 1]) / 60000);
-    }
-    const avg = intervals.reduce((a, b) => a + b, 0) / intervals.length;
-    const escapes = entries.filter((e) => e.escape).length;
-    return { avgMin: Math.round(avg), total: entries.length, escapes };
-  }, [entries]);
 
   const groupedEntries = useMemo(() => {
     const map: Record<string, Entry[]> = {};
@@ -167,6 +291,24 @@ export default function Diario() {
     return Object.entries(map).reverse();
   }, [entries]);
 
+  /* ─── Alarm countdown display ─── */
+  const [now, setNow] = useState(Date.now());
+  useEffect(() => {
+    const t = setInterval(() => setNow(Date.now()), 30_000);
+    return () => clearInterval(t);
+  }, []);
+
+  const minutesUntilAlarm =
+    alarmScheduledAt && alarmScheduledAt > now
+      ? Math.round((alarmScheduledAt - now) / 60000)
+      : null;
+
+  const showNotifPrompt =
+    entries.length >= 2 &&
+    "Notification" in window &&
+    notifPermission === "default";
+
+  /* ─── Render ─── */
   return (
     <div className="min-h-screen" style={{ background: "#FAF7F2" }}>
       {/* Nav */}
@@ -191,7 +333,8 @@ export default function Diario() {
       </nav>
 
       <div className="container max-w-xl py-8 pb-24">
-        {/* Missed yesterday gentle nudge */}
+
+        {/* Missed yesterday nudge */}
         {missedYesterday && (
           <div
             className="rounded-xl p-4 mb-6 text-sm leading-relaxed"
@@ -224,30 +367,91 @@ export default function Diario() {
               <p className="text-2xl font-bold" style={{ color: "#3D6B66" }}>
                 {stats.total}
               </p>
-              <p className="text-xs mt-1" style={{ color: "#6B6259" }}>
-                registros
-              </p>
+              <p className="text-xs mt-1" style={{ color: "#6B6259" }}>registros</p>
             </div>
             <div>
               <p className="text-2xl font-bold" style={{ color: "#3D6B66" }}>
                 {stats.avgMin}m
               </p>
-              <p className="text-xs mt-1" style={{ color: "#6B6259" }}>
-                intervalo prom.
-              </p>
+              <p className="text-xs mt-1" style={{ color: "#6B6259" }}>intervalo prom.</p>
             </div>
             <div>
               <p className="text-2xl font-bold" style={{ color: "#C08A4E" }}>
                 {stats.escapes}
               </p>
-              <p className="text-xs mt-1" style={{ color: "#6B6259" }}>
-                con escape
-              </p>
+              <p className="text-xs mt-1" style={{ color: "#6B6259" }}>con escape</p>
             </div>
           </div>
         )}
 
-        {/* First entry success message */}
+        {/* ─── Alarm / notification panel ─── */}
+        {showNotifPrompt && (
+          <div
+            className="rounded-xl p-5 mb-6"
+            style={{ background: "#fff", border: "2px solid #A9C6B860" }}
+          >
+            <div className="flex items-start gap-3">
+              <Bell className="w-5 h-5 flex-shrink-0 mt-0.5" style={{ color: "#3D6B66" }} />
+              <div className="flex-1">
+                <p className="font-semibold text-sm mb-1" style={{ color: "#2B2420" }}>
+                  ¿Activar alarmas inteligentes?
+                </p>
+                <p className="text-xs leading-relaxed mb-4" style={{ color: "#6B6259" }}>
+                  La app calcula cuándo es probable que tu vejiga quiera ir y te avisa antes — para que practiques las técnicas de supresión antes de que la urgencia te gane.
+                </p>
+                <Button
+                  size="sm"
+                  onClick={requestNotifPermission}
+                  className="font-semibold rounded-lg text-xs"
+                  style={{ background: "#3D6B66", color: "#fff" }}
+                >
+                  Activar recordatorios
+                </Button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Active alarm status */}
+        {notifPermission === "granted" && stats && (
+          <div
+            className="rounded-xl px-5 py-4 mb-6 flex items-center gap-3"
+            style={{
+              background: minutesUntilAlarm ? "#A9C6B820" : "#FAF7F2",
+              border: "1px solid #A9C6B860",
+            }}
+          >
+            {minutesUntilAlarm ? (
+              <Bell className="w-4 h-4 flex-shrink-0" style={{ color: "#3D6B66" }} />
+            ) : (
+              <BellOff className="w-4 h-4 flex-shrink-0" style={{ color: "#6B6259" }} />
+            )}
+            <div className="flex-1">
+              {minutesUntilAlarm ? (
+                <p className="text-sm" style={{ color: "#2B2420" }}>
+                  Próximo recordatorio en{" "}
+                  <strong style={{ color: "#3D6B66" }}>{minutesUntilAlarm} min</strong>
+                  <span className="text-xs ml-1" style={{ color: "#6B6259" }}>
+                    (basado en tu intervalo de {stats.avgMin} min)
+                  </span>
+                </p>
+              ) : (
+                <p className="text-sm" style={{ color: "#6B6259" }}>
+                  Registrá una ida al baño para activar el próximo recordatorio.
+                </p>
+              )}
+            </div>
+            <button
+              onClick={disableAlarms}
+              className="text-xs underline flex-shrink-0 hover:opacity-70"
+              style={{ color: "#6B6259" }}
+            >
+              Desactivar
+            </button>
+          </div>
+        )}
+
+        {/* First entry success */}
         {showFirstEntryMsg && (
           <div
             className="rounded-xl p-5 mb-6 text-sm leading-relaxed"
@@ -264,24 +468,19 @@ export default function Diario() {
           </div>
         )}
 
-        {/* STEP: Record a new entry */}
+        {/* ─── Record button ─── */}
         {step === null && (
           <button
             onClick={startEntry}
             className="w-full rounded-2xl flex flex-col items-center justify-center gap-3 transition-all duration-200 hover:scale-[1.01] active:scale-[0.99] mb-8"
-            style={{
-              background: "#3D6B66",
-              color: "#fff",
-              minHeight: "88px",
-              border: "none",
-            }}
+            style={{ background: "#3D6B66", color: "#fff", minHeight: "88px", border: "none" }}
           >
             <Plus className="w-7 h-7" />
             <span className="text-lg font-semibold">Registrar ida al baño</span>
           </button>
         )}
 
-        {/* STEP: urgencia */}
+        {/* ─── Step: urgencia ─── */}
         {step === "urgencia" && (
           <div
             className="rounded-2xl p-6 mb-6"
@@ -299,7 +498,11 @@ export default function Diario() {
                   key={opt.value}
                   onClick={() => selectUrgencia(opt.value)}
                   className="w-full flex items-center gap-4 rounded-xl px-5 py-4 text-left transition-all hover:scale-[1.01] active:scale-[0.99]"
-                  style={{ background: opt.color + "30", border: `2px solid ${opt.color}60`, minHeight: "64px" }}
+                  style={{
+                    background: opt.color + "30",
+                    border: `2px solid ${opt.color}60`,
+                    minHeight: "64px",
+                  }}
                 >
                   <span className="text-2xl">{opt.emoji}</span>
                   <span className="font-medium text-base" style={{ color: "#2B2420" }}>
@@ -311,7 +514,7 @@ export default function Diario() {
           </div>
         )}
 
-        {/* STEP: escape */}
+        {/* ─── Step: escape ─── */}
         {step === "escape" && (
           <div
             className="rounded-2xl p-6 mb-6"
@@ -327,14 +530,24 @@ export default function Diario() {
               <button
                 onClick={() => selectEscape(false)}
                 className="rounded-xl py-5 font-semibold text-base transition-all hover:scale-[1.02]"
-                style={{ background: "#A9C6B830", border: "2px solid #A9C6B860", color: "#2B2420", minHeight: "64px" }}
+                style={{
+                  background: "#A9C6B830",
+                  border: "2px solid #A9C6B860",
+                  color: "#2B2420",
+                  minHeight: "64px",
+                }}
               >
                 No
               </button>
               <button
                 onClick={() => selectEscape(true)}
                 className="rounded-xl py-5 font-semibold text-base transition-all hover:scale-[1.02]"
-                style={{ background: "#E8C49A30", border: "2px solid #E8C49A60", color: "#2B2420", minHeight: "64px" }}
+                style={{
+                  background: "#E8C49A30",
+                  border: "2px solid #E8C49A60",
+                  color: "#2B2420",
+                  minHeight: "64px",
+                }}
               >
                 Sí
               </button>
@@ -350,7 +563,11 @@ export default function Diario() {
                       key={c}
                       onClick={() => selectCausa(c)}
                       className="px-4 py-2 rounded-lg text-sm font-medium transition-all hover:scale-[1.02]"
-                      style={{ background: "#FAF7F2", border: "1px solid #E5E0D8", color: "#2B2420" }}
+                      style={{
+                        background: "#FAF7F2",
+                        border: "1px solid #E5E0D8",
+                        color: "#2B2420",
+                      }}
                     >
                       {c}
                     </button>
@@ -368,7 +585,7 @@ export default function Diario() {
           </div>
         )}
 
-        {/* STEP: liquido */}
+        {/* ─── Step: liquido ─── */}
         {step === "liquido" && (
           <div
             className="rounded-2xl p-6 mb-6"
@@ -386,7 +603,11 @@ export default function Diario() {
                   key={l}
                   onClick={() => finishEntry(l)}
                   className="px-4 py-2 rounded-lg text-sm font-medium transition-all hover:scale-[1.02]"
-                  style={{ background: "#FAF7F2", border: "1px solid #E5E0D8", color: "#2B2420" }}
+                  style={{
+                    background: "#FAF7F2",
+                    border: "1px solid #E5E0D8",
+                    color: "#2B2420",
+                  }}
                 >
                   {l}
                 </button>
@@ -402,7 +623,7 @@ export default function Diario() {
           </div>
         )}
 
-        {/* STEP: done */}
+        {/* ─── Step: done ─── */}
         {step === "done" && (
           <div
             className="rounded-2xl p-6 mb-6 text-center"
@@ -412,6 +633,11 @@ export default function Diario() {
             <p className="font-semibold" style={{ color: "#2B2420" }}>
               Registro guardado
             </p>
+            {notifPermission === "granted" && minutesUntilAlarm && (
+              <p className="text-xs mt-2" style={{ color: "#6B6259" }}>
+                Próximo recordatorio en {minutesUntilAlarm} min
+              </p>
+            )}
             <button
               className="mt-4 text-sm font-medium underline"
               style={{ color: "#3D6B66" }}
@@ -422,7 +648,7 @@ export default function Diario() {
           </div>
         )}
 
-        {/* Entries list */}
+        {/* ─── Entry list ─── */}
         {groupedEntries.length > 0 && (
           <div className="space-y-6">
             {groupedEntries.map(([date, dayEntries]) => (
@@ -497,9 +723,34 @@ export default function Diario() {
           >
             <p className="mb-2 text-2xl">📋</p>
             <p>
-              Cada vez que vayas al baño, tocá el botón de arriba. La app
-              calcula el tiempo entre visitas por vos.
+              Cada vez que vayas al baño, tocá el botón de arriba. La app calcula el tiempo entre visitas por vos.
             </p>
+          </div>
+        )}
+
+        {/* Urgency suppression quick-reference */}
+        {entries.length >= 2 && (
+          <div
+            className="mt-8 rounded-xl p-5"
+            style={{ background: "#fff", border: "1px solid #E5E0D8" }}
+          >
+            <p className="font-semibold text-sm mb-3" style={{ color: "#2B2420" }}>
+              🌊 Cuando llegue la urgencia
+            </p>
+            <div className="space-y-3 text-xs leading-relaxed" style={{ color: "#6B6259" }}>
+              <p>
+                <strong style={{ color: "#2B2420" }}>1. Quedate quieta.</strong> Correr empeora la urgencia — aumenta la presión abdominal.
+              </p>
+              <p>
+                <strong style={{ color: "#2B2420" }}>2. Contraé 3-5 veces rápido.</strong> Las contracciones rápidas del piso pélvico inhiben la contracción de la vejiga (freeze & squeeze).
+              </p>
+              <p>
+                <strong style={{ color: "#2B2420" }}>3. Respirá lento.</strong> Inhalá 4 tiempos, exhalá 6. La vejiga responde al sistema nervioso — la calma la frena.
+              </p>
+              <p>
+                <strong style={{ color: "#2B2420" }}>4. La urgencia pasa sola.</strong> En 1-2 minutos baja sin que hagas nada más. Cada vez que la atravesás, entrenás la vejiga a esperar más.
+              </p>
+            </div>
           </div>
         )}
       </div>
