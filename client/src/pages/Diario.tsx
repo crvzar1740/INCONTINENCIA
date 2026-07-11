@@ -1,8 +1,11 @@
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Plus, Trash2, Download, Droplets, Bell, BellOff } from "lucide-react";
+import { ArrowLeft, Plus, Trash2, Download, Droplets, Bell, BellOff, Lock, FileText } from "lucide-react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useLocation } from "wouter";
 import { toast } from "sonner";
+import { generateMedicalReport } from "@/lib/generateMedicalReport";
+
+const PREMIUM_KEY = "suelo-firme-premium";
 
 const STORAGE_KEY = "suelo-firme-diario";
 const FIRST_ENTRY_KEY = "suelo-firme-diario-first";
@@ -107,11 +110,14 @@ export default function Diario() {
   const [missedYesterday, setMissedYesterday] = useState(false);
   const [notifPermission, setNotifPermission] = useState<NotificationPermission>("default");
   const [alarmScheduledAt, setAlarmScheduledAt] = useState<number | null>(null);
+  const [isPremium, setIsPremium] = useState(false);
   const notifPromptShownRef = useRef(false);
 
   /* ─── Init ─── */
   useEffect(() => {
     registerSW();
+
+    setIsPremium(localStorage.getItem(PREMIUM_KEY) === "true");
 
     if ("Notification" in window) {
       setNotifPermission(Notification.permission);
@@ -704,14 +710,74 @@ export default function Diario() {
             ))}
 
             {entries.length >= 4 && (
-              <button
-                onClick={downloadDiary}
-                className="w-full flex items-center justify-center gap-2 rounded-xl py-4 text-sm font-medium transition-all hover:scale-[1.01]"
-                style={{ background: "#fff", border: "1px solid #E5E0D8", color: "#3D6B66" }}
-              >
-                <Download className="w-4 h-4" />
-                Descargar diario para tu médico
-              </button>
+              isPremium ? (
+                /* ── Premium: full PDF export ── */
+                <button
+                  onClick={() => {
+                    try {
+                      generateMedicalReport(entries);
+                      toast.success("✓ PDF generado");
+                    } catch {
+                      toast.error("Error generando el PDF — intentá de nuevo");
+                    }
+                  }}
+                  className="w-full rounded-xl py-5 transition-all hover:scale-[1.01] active:scale-[0.99]"
+                  style={{ background: "#3D6B66", border: "none" }}
+                >
+                  <div className="flex items-center justify-center gap-3">
+                    <FileText className="w-5 h-5" style={{ color: "#fff" }} />
+                    <div className="text-left">
+                      <p className="font-semibold text-sm" style={{ color: "#fff" }}>
+                        Descargar informe PDF para tu médico
+                      </p>
+                      <p className="text-xs" style={{ color: "#A9C6B8" }}>
+                        Incluye estadísticas, gráfico de intervalos y tabla de escapes
+                      </p>
+                    </div>
+                  </div>
+                </button>
+              ) : (
+                /* ── Paywall gate ── */
+                <div
+                  className="rounded-xl overflow-hidden"
+                  style={{ border: "1px solid #E5E0D8" }}
+                >
+                  {/* Blurred preview */}
+                  <div
+                    className="px-5 py-4 flex items-center gap-3"
+                    style={{ background: "#fff", filter: "blur(1px)", pointerEvents: "none", opacity: 0.5 }}
+                  >
+                    <FileText className="w-5 h-5" style={{ color: "#3D6B66" }} />
+                    <div>
+                      <p className="font-semibold text-sm" style={{ color: "#2B2420" }}>
+                        Informe PDF para tu médico
+                      </p>
+                      <p className="text-xs" style={{ color: "#6B6259" }}>
+                        Estadísticas · gráfico de intervalos · tabla de escapes
+                      </p>
+                    </div>
+                  </div>
+                  {/* Lock overlay */}
+                  <div
+                    className="px-5 py-4 flex items-center justify-between gap-4"
+                    style={{ background: "#FAF7F2", borderTop: "1px solid #E5E0D8" }}
+                  >
+                    <div className="flex items-center gap-2">
+                      <Lock className="w-4 h-4 flex-shrink-0" style={{ color: "#9C5D52" }} />
+                      <p className="text-xs leading-snug" style={{ color: "#6B6259" }}>
+                        Disponible con Premium — llegá a tu próxima consulta con datos reales.
+                      </p>
+                    </div>
+                    <button
+                      onClick={() => setLocation("/upsell")}
+                      className="flex-shrink-0 px-4 py-2 rounded-lg text-xs font-semibold transition-all hover:scale-[1.02]"
+                      style={{ background: "#9C5D52", color: "#fff" }}
+                    >
+                      Ver plan
+                    </button>
+                  </div>
+                </div>
+              )
             )}
           </div>
         )}
