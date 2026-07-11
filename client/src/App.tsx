@@ -12,6 +12,7 @@ import Upsell from "./pages/Upsell";
 import Downsell from "./pages/Downsell";
 import ThankYou from "./pages/ThankYou";
 import PelvicExercises from "./pages/tools/PelvicExercises";
+import BladderRetraining from "./pages/tools/BladderRetraining";
 import ProductsChecklist from "./pages/tools/ProductsChecklist";
 import ActionPlan from "./pages/tools/ActionPlan";
 import QASession from "./pages/tools/QASession";
@@ -34,6 +35,7 @@ function Router() {
       <Route path={"/downsell"} component={Downsell} />
       <Route path={"/thank-you"} component={ThankYou} />
       <Route path={"/tools/pelvic-exercises"} component={PelvicExercises} />
+      <Route path={"/herramienta/reentrenamiento"} component={BladderRetraining} />
       <Route path={"/tools/products-checklist"} component={ProductsChecklist} />
       <Route path={"/tools/action-plan"} component={ActionPlan} />
       <Route path={"/tools/qa-session"} component={QASession} />
