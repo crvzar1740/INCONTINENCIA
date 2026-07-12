@@ -237,7 +237,7 @@ export default function Home() {
               },
               {
                 emoji: "💪",
-                title: "Timer de Kegel",
+                title: "Ejercicios de Piso Pélvico",
                 desc: "Sesiones guiadas con progresión automática semana a semana.",
                 path: "/tools/pelvic-exercises",
                 color: "#C9BEDD",
