@@ -18,75 +18,72 @@ export async function getDb() {
   return _db;
 }
 
-export async function upsertUser(user: InsertUser): Promise<void> {
-  if (!user.openId) {
-    throw new Error("User openId is required for upsert");
-  }
-
+export async function getUserByEmail(email: string) {
   const db = await getDb();
-  if (!db) {
-    console.warn("[Database] Cannot upsert user: database not available");
-    return;
-  }
-
-  try {
-    const values: InsertUser = {
-      openId: user.openId,
-    };
-    const updateSet: Record<string, unknown> = {};
-
-    const textFields = ["name", "email", "loginMethod"] as const;
-    type TextField = (typeof textFields)[number];
-
-    const assignNullable = (field: TextField) => {
-      const value = user[field];
-      if (value === undefined) return;
-      const normalized = value ?? null;
-      values[field] = normalized;
-      updateSet[field] = normalized;
-    };
-
-    textFields.forEach(assignNullable);
-
-    if (user.lastSignedIn !== undefined) {
-      values.lastSignedIn = user.lastSignedIn;
-      updateSet.lastSignedIn = user.lastSignedIn;
-    }
-    if (user.role !== undefined) {
-      values.role = user.role;
-      updateSet.role = user.role;
-    } else if (user.openId === ENV.ownerOpenId) {
-      values.role = 'admin';
-      updateSet.role = 'admin';
-    }
-
-    if (!values.lastSignedIn) {
-      values.lastSignedIn = new Date();
-    }
-
-    if (Object.keys(updateSet).length === 0) {
-      updateSet.lastSignedIn = new Date();
-    }
-
-    await db.insert(users).values(values).onDuplicateKeyUpdate({
-      set: updateSet,
-    });
-  } catch (error) {
-    console.error("[Database] Failed to upsert user:", error);
-    throw error;
-  }
+  if (!db) return undefined;
+  const normalized = email.trim().toLowerCase();
+  const result = await db.select().from(users).where(eq(users.email, normalized)).limit(1);
+  return result.length > 0 ? result[0] : undefined;
 }
 
-export async function getUserByOpenId(openId: string) {
+export async function getUserById(id: number) {
+  const db = await getDb();
+  if (!db) return undefined;
+  const result = await db.select().from(users).where(eq(users.id, id)).limit(1);
+  return result.length > 0 ? result[0] : undefined;
+}
+
+/** Creates a new user. Throws if the email is already registered — check getUserByEmail first. */
+export async function createUser(input: {
+  email: string;
+  name?: string | null;
+  passwordHash: string;
+}): Promise<number> {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+
+  const email = input.email.trim().toLowerCase();
+  const role = email === ENV.ownerOpenId ? "admin" : "user";
+
+  const [result] = await db.insert(users).values({
+    email,
+    name: input.name ?? null,
+    passwordHash: input.passwordHash,
+    role,
+    lastSignedIn: new Date(),
+  });
+
+  // mysql2 insert result carries insertId; drizzle-orm/mysql2 exposes it on the result object.
+  return (result as unknown as { insertId: number }).insertId;
+}
+
+export async function touchLastSignedIn(userId: number) {
+  const db = await getDb();
+  if (!db) return;
+  await db.update(users).set({ lastSignedIn: new Date() }).where(eq(users.id, userId));
+}
+
+/**
+ * Grants (or revokes) entitlement flags for a purchase, matched by the buyer email
+ * that Hotmart sends in the webhook payload. Called from the webhook handler —
+ * never trust a client-side call to this.
+ */
+export async function setEntitlement(
+  email: string,
+  entitlement: { hasBaseAccess?: boolean; hasPremium?: boolean; hotmartTransactionId?: string }
+) {
   const db = await getDb();
   if (!db) {
-    console.warn("[Database] Cannot get user: database not available");
-    return undefined;
+    console.warn("[Database] Cannot set entitlement: database not available");
+    return;
   }
+  const normalized = email.trim().toLowerCase();
+  const updateSet: Record<string, unknown> = {};
+  if (entitlement.hasBaseAccess !== undefined) updateSet.hasBaseAccess = entitlement.hasBaseAccess ? 1 : 0;
+  if (entitlement.hasPremium !== undefined) updateSet.hasPremium = entitlement.hasPremium ? 1 : 0;
+  if (entitlement.hotmartTransactionId !== undefined) updateSet.hotmartTransactionId = entitlement.hotmartTransactionId;
 
-  const result = await db.select().from(users).where(eq(users.openId, openId)).limit(1);
-
-  return result.length > 0 ? result[0] : undefined;
+  await db.update(users).set(updateSet).where(eq(users.email, normalized));
 }
 
 // TODO: add feature queries here as your schema grows.

@@ -11,12 +11,19 @@ export const users = mysqlTable("users", {
    * Use this for relations between tables.
    */
   id: int("id").autoincrement().primaryKey(),
-  /** Manus OAuth identifier (openId) returned from the OAuth callback. Unique per user. */
-  openId: varchar("openId", { length: 64 }).notNull().unique(),
   name: text("name"),
-  email: varchar("email", { length: 320 }),
-  loginMethod: varchar("loginMethod", { length: 64 }),
+  /** Primary identifier for login. Unique per user. */
+  email: varchar("email", { length: 320 }).notNull().unique(),
+  /** scrypt password hash, format "salt:hash". Null only for legacy/imported rows. */
+  passwordHash: text("passwordHash"),
+  loginMethod: varchar("loginMethod", { length: 64 }).default("password"),
   role: mysqlEnum("role", ["user", "admin"]).default("user").notNull(),
+  /** True once a Hotmart "compra aprobada" webhook is received for the Pack Base product. */
+  hasBaseAccess: int("hasBaseAccess").default(0).notNull(),
+  /** True once a Hotmart "compra aprobada" webhook is received for the Pack Premium product. */
+  hasPremium: int("hasPremium").default(0).notNull(),
+  /** Hotmart transaction id for the most recent premium purchase, for support/refund lookups. */
+  hotmartTransactionId: varchar("hotmartTransactionId", { length: 128 }),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
   lastSignedIn: timestamp("lastSignedIn").defaultNow().notNull(),

@@ -5,10 +5,15 @@ import { Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import Home from "./pages/Home";
+import Login from "./pages/Login";
+import Welcome from "./pages/Welcome";
+import Diario from "./pages/Diario";
+import Lecciones from "./pages/Lecciones";
 import Upsell from "./pages/Upsell";
 import Downsell from "./pages/Downsell";
 import ThankYou from "./pages/ThankYou";
 import PelvicExercises from "./pages/tools/PelvicExercises";
+import BladderRetraining from "./pages/tools/BladderRetraining";
 import ProductsChecklist from "./pages/tools/ProductsChecklist";
 import ActionPlan from "./pages/tools/ActionPlan";
 import QASession from "./pages/tools/QASession";
@@ -24,10 +29,15 @@ function Router() {
   return (
     <Switch>
       <Route path={"/"} component={Home} />
+      <Route path={"/login"} component={Login} />
+      <Route path={"/bienvenida"} component={Welcome} />
+      <Route path={"/diario"} component={Diario} />
+      <Route path={"/lecciones"} component={Lecciones} />
       <Route path={"/upsell"} component={Upsell} />
       <Route path={"/downsell"} component={Downsell} />
       <Route path={"/thank-you"} component={ThankYou} />
       <Route path={"/tools/pelvic-exercises"} component={PelvicExercises} />
+      <Route path={"/herramienta/reentrenamiento"} component={BladderRetraining} />
       <Route path={"/tools/products-checklist"} component={ProductsChecklist} />
       <Route path={"/tools/action-plan"} component={ActionPlan} />
       <Route path={"/tools/qa-session"} component={QASession} />
