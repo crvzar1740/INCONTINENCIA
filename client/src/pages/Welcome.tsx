@@ -46,7 +46,7 @@ export default function Welcome() {
           className="text-3xl md:text-4xl font-semibold mb-6 leading-snug"
           style={{ color: "#2B2420", letterSpacing: "-0.3px" }}
         >
-          Bienvenida. Aquí no hay nada que esconder.
+          Te damos la bienvenida. Aquí no hay nada que esconder.
         </h1>
 
         <div
@@ -74,7 +74,7 @@ export default function Welcome() {
             urólogos (EAU 2026) y en programas digitales que ya demostraron
             resultados reales:{" "}
             <strong style={{ color: "#3D6B66" }}>
-              más de 6 de cada 10 usuarias de programas similares reportan
+              más de 6 de cada 10 personas que usan programas similares reportan
               mejoras notables en pocas semanas.
             </strong>
           </p>
