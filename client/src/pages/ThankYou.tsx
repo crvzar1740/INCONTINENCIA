@@ -170,7 +170,7 @@ export default function ThankYou() {
                   <CheckCircle2 className="w-6 h-6 text-primary flex-shrink-0 mt-0.5" />
                   <div>
                     <p className="font-semibold text-foreground">Comunidad Exclusiva</p>
-                    <p className="text-sm text-muted-foreground">Apoyo de otras mujeres</p>
+                    <p className="text-sm text-muted-foreground">Apoyo de otras personas que están pasando por lo mismo</p>
                   </div>
                 </div>
                 <div className="flex gap-3">

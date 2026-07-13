@@ -130,7 +130,7 @@ const LESSONS: Lesson[] = [
       },
       {
         title: "MITO: 'La incontinencia solo le pasa a personas mayores'",
-        body: "FALSO. Afecta a mujeres de todas las edades — postparto, perimenopausia, jóvenes atletas. En algunos estudios, más del 30% de mujeres menores de 45 reportan algún grado de pérdida.",
+        body: "FALSO. Afecta a personas de todas las edades y de ambos sexos — mujeres en postparto o perimenopausia, jóvenes atletas, y también hombres, sobre todo después de una cirugía de próstata. En algunos estudios, más del 30% de mujeres menores de 45 reportan algún grado de pérdida.",
       },
       {
         title: "REALIDAD: Se puede mejorar significativamente",
@@ -212,6 +212,41 @@ const LESSONS: Lesson[] = [
       options: ["1 semana", "4-6 semanas", "6 meses", "Solo si hay dolor"],
       correctIndex: 1,
       funFact: "Las guías clínicas recomiendan una revisión profesional si no hay respuesta al PFMT supervisado en 3 meses, y antes si hay síntomas de alarma.",
+    },
+  },
+  {
+    id: 7,
+    title: "Incontinencia en hombres",
+    emoji: "🚹",
+    subtitle: "No es solo cosa de mujeres",
+    cards: [
+      {
+        title: "La causa más común: cirugía de próstata",
+        body: "La próstata rodea la uretra y ayuda a contener la orina. Al extirparla (por cáncer, generalmente), el esfínter queda debilitado. Es la causa principal de incontinencia en varones — y responde bien a la rehabilitación de piso pélvico, empezada antes de la cirugía cuando es posible y continuada después.",
+      },
+      {
+        title: "También existe la hipertonía",
+        body: "Algunos hombres acumulan tensión crónica en el piso pélvico (a veces ligada al estrés). Esto oprime la vejiga y la uretra, y puede causar urgencia, dolor pélvico o chorro débil. Acá el objetivo no es fortalecer con Kegel — es relajar, con terapia manual y biofeedback. Por eso el diagnóstico correcto importa antes de empezar cualquier programa.",
+      },
+      {
+        title: "El obstáculo real: el tabú",
+        body: "Culturalmente el piso pélvico se asocia casi solo al embarazo y al parto. Eso hace que muchos hombres convivan con pérdidas o dolor durante años antes de enterarse de que existe tratamiento específico para ellos.",
+      },
+      {
+        title: "El camino es el mismo: evaluación y constancia",
+        body: "Ya sea debilidad o tensión excesiva, el primer paso es identificar cuál de las dos está pasando — con evaluación profesional si es posible. A partir de ahí, la mejora sigue el mismo patrón que en cualquier otro caso: constancia, no intensidad.",
+      },
+    ],
+    question: {
+      text: "¿Cuál es la causa más común de incontinencia en hombres?",
+      options: [
+        "Beber demasiada agua",
+        "Cirugía de próstata",
+        "Hacer demasiado ejercicio",
+        "No tiene causa identificable",
+      ],
+      correctIndex: 1,
+      funFact: "La incontinencia post-prostatectomía ocurre porque la próstata contribuye a la contención urinaria; al removerla, el esfínter necesita rehabilitación para compensar esa función.",
     },
   },
 ];

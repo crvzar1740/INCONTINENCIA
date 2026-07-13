@@ -14,7 +14,7 @@ export default function Home() {
     "La angustia de tener que buscar baños con frecuencia.",
     "La incomodidad y el dolor que se siente al intentar contener la orina.",
     "La preocupación y ansiedad que genera la propensidad a mancharse.",
-    "La presión social y expectativas sobre cómo deben actuar como madres o mujeres fuertes.",
+    "La presión social sobre cómo se supone que hay que 'aguantar' este tipo de cosas en silencio.",
   ];
 
   const failedSolutions = [
@@ -153,7 +153,7 @@ export default function Home() {
   const faqs = [
     {
       question: "¿Cuánto tiempo tardaré en ver resultados?",
-      answer: "Muchas mujeres comienzan a notar cambios en 2-3 semanas con la práctica consistente de los ejercicios. Los resultados más significativos generalmente se ven después de 6-8 semanas.",
+      answer: "Muchas personas comienzan a notar cambios en 2-3 semanas con la práctica consistente de los ejercicios. Los resultados más significativos generalmente se ven después de 6-8 semanas.",
     },
     {
       question: "¿Necesito equipo especial para los ejercicios?",
@@ -165,7 +165,7 @@ export default function Home() {
     },
     {
       question: "¿Qué pasa si tengo una recaída y una pérdida?",
-      answer: "Las recaídas son parte normal del proceso de aprendizaje. No significa que hayas fallado. Simplemente vuelve a los ejercicios y ajusta tu plan. Muchas mujeres experimentan esto y luego progresan aún más.",
+      answer: "Las recaídas son parte normal del proceso de aprendizaje. No significa que hayas fallado. Simplemente vuelve a los ejercicios y ajusta tu plan. A muchas personas les pasa esto y luego progresan aún más.",
     },
     {
       question: "¿Hay garantía si no funciona para mí?",
@@ -191,7 +191,7 @@ export default function Home() {
       <section className="py-16 md:py-24 bg-gradient-to-br from-background via-background to-accent/10">
         <div className="container">
           <div className="max-w-3xl mx-auto text-center">
-            <p className="text-secondary font-semibold mb-4 text-lg">Para mujeres que quieren recuperar el control</p>
+            <p className="text-secondary font-semibold mb-4 text-lg">Para quienes quieren recuperar el control</p>
             <h1 className="text-4xl md:text-6xl font-bold text-foreground mb-6 leading-tight">
               Volvé a correr, saltar y reír con el control que creías perdido
             </h1>
@@ -384,7 +384,7 @@ export default function Home() {
       {/* Testimonials Section */}
       <section id="testimonios" className="py-16 md:py-24 bg-accent/5">
         <div className="container">
-          <h2 className="section-title text-center mb-12">Lo Que Dicen Nuestras Usuarias</h2>
+          <h2 className="section-title text-center mb-12">Lo Que Dicen Quienes Ya Recuperaron el Control</h2>
           <div className="grid md:grid-cols-2 gap-8">
             {testimonials.map((testimonial, idx) => (
               <Card key={idx} className="p-8 bg-white">
