@@ -1,6 +1,8 @@
 import type { Express, Request, Response } from "express";
-import { setEntitlement } from "../db";
+import { createUser, getUserByEmail, setEntitlement } from "../db";
 import { ENV } from "./env";
+import { generateTempPassword, hashPassword } from "./auth";
+import { sendCredentialsEmail } from "./email";
 
 // Hotmart product IDs — set these once both products are approved.
 // Read from env so you never have to touch code to update them.
@@ -45,12 +47,22 @@ export function registerWebhookRoutes(app: Express) {
     // (cancelled, refunded, chargeback, expired) is acknowledged but ignored
     // here — handle revocation as a separate, explicit path once you need it.
     if (status === "APPROVED") {
-      if (productId === PREMIUM_PRODUCT_ID) {
-        await setEntitlement(email, { hasPremium: true, hotmartTransactionId: transaction });
-      } else if (productId === BASE_PRODUCT_ID) {
-        await setEntitlement(email, { hasBaseAccess: true, hotmartTransactionId: transaction });
-      } else {
+      if (productId !== PREMIUM_PRODUCT_ID && productId !== BASE_PRODUCT_ID) {
         console.warn(`[Hotmart webhook] Unknown product id: ${productId}`);
+      } else {
+        const existing = await getUserByEmail(email);
+        if (!existing) {
+          const tempPassword = generateTempPassword();
+          const passwordHash = await hashPassword(tempPassword);
+          await createUser({ email, passwordHash });
+          await sendCredentialsEmail(email, tempPassword);
+        }
+
+        if (productId === PREMIUM_PRODUCT_ID) {
+          await setEntitlement(email, { hasPremium: true, hotmartTransactionId: transaction });
+        } else {
+          await setEntitlement(email, { hasBaseAccess: true, hotmartTransactionId: transaction });
+        }
       }
     }
 

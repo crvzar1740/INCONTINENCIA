@@ -23,6 +23,16 @@ export async function verifyPassword(password: string, stored: string): Promise<
   return timingSafeEqual(derived, storedBuf);
 }
 
+const READABLE_CHARS = "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnpqrstuvwxyz23456789";
+export function generateTempPassword(length = 12): string {
+  const bytes = randomBytes(length);
+  let out = "";
+  for (let i = 0; i < length; i++) {
+    out += READABLE_CHARS[bytes[i] % READABLE_CHARS.length];
+  }
+  return out;
+}
+
 function getSecretKey() {
   if (!ENV.cookieSecret) {
     throw new Error("JWT_SECRET is not configured — set it in your environment before starting the server.");
