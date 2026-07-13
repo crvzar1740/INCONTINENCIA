@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
+import { AccessGate } from "@/components/AccessGate";
 import { ArrowLeft, CheckCircle2, Download } from "lucide-react";
 import { useState } from "react";
 import { useLocation } from "wouter";
@@ -22,7 +23,7 @@ const DEFAULT_PRODUCTS = `Protector diario para uso general.
 Protector específico para ejercicio si volvés a entrenar.
 Compresa nocturna de larga duración si notás pérdidas mientras dormís.`;
 
-export default function ActionPlan() {
+function ActionPlanContent() {
   const [, setLocation] = useLocation();
   const [planData, setPlanData] = useState<ActionPlanData>({
     title: "",
@@ -274,5 +275,13 @@ Creado: ${new Date().toLocaleDateString('es-ES')}
         </div>
       </div>
     </div>
+  );
+}
+
+export default function ActionPlan() {
+  return (
+    <AccessGate tier="base">
+      <ActionPlanContent />
+    </AccessGate>
   );
 }

@@ -1,4 +1,5 @@
 import { Card } from "@/components/ui/card";
+import { AccessGate } from "@/components/AccessGate";
 import {
   ArrowLeft,
   Users,
@@ -35,7 +36,7 @@ function genId() {
   return Math.random().toString(36).slice(2, 9);
 }
 
-export default function ExclusiveCommunity() {
+function ExclusiveCommunityContent() {
   const [, setLocation] = useLocation();
   const [entries, setEntries] = useState<JournalEntry[]>([]);
   const [prompt, setPrompt] = useState(JOURNAL_PROMPTS[0]);
@@ -279,5 +280,13 @@ export default function ExclusiveCommunity() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function ExclusiveCommunity() {
+  return (
+    <AccessGate tier="premium">
+      <ExclusiveCommunityContent />
+    </AccessGate>
   );
 }

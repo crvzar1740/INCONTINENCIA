@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { AccessGate } from "@/components/AccessGate";
 import { ArrowLeft, CheckCircle2, Info, Pause, Play, RotateCcw } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { useLocation } from "wouter";
@@ -262,7 +263,7 @@ function GuidedTimer({ exercise, onComplete }: { exercise: ExerciseSpec; onCompl
   );
 }
 
-export default function PelvicExercises() {
+function PelvicExercisesContent() {
   const [, setLocation] = useLocation();
   const [activePhase, setActivePhase] = useState(1);
   const [completedExercises, setCompletedExercises] = useState<Record<string, boolean>>({});
@@ -432,5 +433,13 @@ export default function PelvicExercises() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function PelvicExercises() {
+  return (
+    <AccessGate tier="base">
+      <PelvicExercisesContent />
+    </AccessGate>
   );
 }

@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Textarea } from "@/components/ui/textarea";
+import { AccessGate } from "@/components/AccessGate";
 import { ArrowLeft, CheckCircle2, Sparkles } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useLocation } from "wouter";
@@ -98,7 +99,7 @@ type QuizAnswers = {
   preferencia: "descartable" | "reutilizable" | null;
 };
 
-export default function ProductsChecklist() {
+function ProductsChecklistContent() {
   const [, setLocation] = useLocation();
   const [products, setProducts] = useState<Product[]>(INITIAL_PRODUCTS);
   const [saving, setSaving] = useState(false);
@@ -376,5 +377,13 @@ export default function ProductsChecklist() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function ProductsChecklist() {
+  return (
+    <AccessGate tier="base">
+      <ProductsChecklistContent />
+    </AccessGate>
   );
 }

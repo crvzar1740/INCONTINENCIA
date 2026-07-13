@@ -1,4 +1,5 @@
 import { Card } from "@/components/ui/card";
+import { AccessGate } from "@/components/AccessGate";
 import {
   ArrowLeft,
   ShoppingBag,
@@ -72,7 +73,7 @@ function recommend(answers: QuizAnswers): { categoria: string; motivo: string }[
   return out;
 }
 
-export default function SmartShoppingChecklist() {
+function SmartShoppingChecklistContent() {
   const [, setLocation] = useLocation();
   const [state, setState] = useState<StoredState>(DEFAULT_STATE);
 
@@ -421,5 +422,13 @@ export default function SmartShoppingChecklist() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function SmartShoppingChecklist() {
+  return (
+    <AccessGate tier="premium">
+      <SmartShoppingChecklistContent />
+    </AccessGate>
   );
 }

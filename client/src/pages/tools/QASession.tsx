@@ -1,4 +1,5 @@
 import { Card } from "@/components/ui/card";
+import { AccessGate } from "@/components/AccessGate";
 import { ArrowLeft, ChevronDown, HelpCircle, Mail } from "lucide-react";
 import { useState } from "react";
 import { useLocation } from "wouter";
@@ -71,7 +72,7 @@ const FAQS: FAQItem[] = [
 
 const CATEGORIES = ["Todas", "Ejercicios", "Productos", "Progreso", "Salud"];
 
-export default function QASession() {
+function QASessionContent() {
   const [, setLocation] = useLocation();
   const [activeCategory, setActiveCategory] = useState("Todas");
   const [expandedId, setExpandedId] = useState<string | null>(null);
@@ -184,5 +185,13 @@ export default function QASession() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function QASession() {
+  return (
+    <AccessGate tier="base">
+      <QASessionContent />
+    </AccessGate>
   );
 }

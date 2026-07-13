@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { AccessGate } from "@/components/AccessGate";
 import {
   ArrowLeft,
   AlertTriangle,
@@ -184,7 +185,7 @@ const DEFAULT_STATE: StoredState = {
   diastasis: { above: "", at: "", below: "", doming: false, checked: false },
 };
 
-export default function AdvancedExercisesWorkbook() {
+function AdvancedExercisesWorkbookContent() {
   const [, setLocation] = useLocation();
   const [state, setState] = useState<StoredState>(DEFAULT_STATE);
   const [activeBlock, setActiveBlock] = useState(1);
@@ -528,5 +529,13 @@ export default function AdvancedExercisesWorkbook() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function AdvancedExercisesWorkbook() {
+  return (
+    <AccessGate tier="premium">
+      <AdvancedExercisesWorkbookContent />
+    </AccessGate>
   );
 }
