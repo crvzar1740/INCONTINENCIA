@@ -4,10 +4,18 @@ import { Progress } from "@/components/ui/progress";
 import { AlertCircle, ArrowLeft, CheckCircle2, Shield } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useLocation } from "wouter";
+import { useAuth } from "@/_core/hooks/useAuth";
 
 export default function Upsell() {
   const [, setLocation] = useLocation();
   const [progress, setProgress] = useState(0);
+  const { user } = useAuth();
+
+  useEffect(() => {
+    if (user?.hasPremium === 1) {
+      setLocation("/");
+    }
+  }, [user]);
 
   useEffect(() => {
     const interval = setInterval(() => {

@@ -1,10 +1,19 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { AlertCircle, ArrowLeft, CheckCircle2, Shield, Zap } from "lucide-react";
+import { useEffect } from "react";
 import { useLocation } from "wouter";
+import { useAuth } from "@/_core/hooks/useAuth";
 
 export default function Downsell() {
   const [, setLocation] = useLocation();
+  const { user } = useAuth();
+
+  useEffect(() => {
+    if (user?.hasPremium === 1) {
+      setLocation("/");
+    }
+  }, [user]);
 
   const resources = [
     "Guía de Ejercicios Avanzados para el Suelo Pélvico",

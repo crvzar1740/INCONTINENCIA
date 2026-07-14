@@ -218,7 +218,11 @@ export default function Home() {
                 size="lg"
                 className="btn-primary text-lg"
                 onClick={() => {
-                  window.location.href = "https://pay.hotmart.com/F106710907A";
+                  if (user?.hasBaseAccess === 1 || user?.hasPremium === 1) {
+                    setLocation("/tools/pelvic-exercises");
+                  } else {
+                    window.location.href = "https://pay.hotmart.com/F106710907A";
+                  }
                 }}
               >
                 Quiero Empezar Hoy
@@ -438,7 +442,11 @@ export default function Home() {
               size="lg"
               className="btn-secondary text-lg mb-4"
               onClick={() => {
-                window.location.href = "https://pay.hotmart.com/F106710907A";
+                if (user?.hasBaseAccess === 1 || user?.hasPremium === 1) {
+                  setLocation("/tools/pelvic-exercises");
+                } else {
+                  window.location.href = "https://pay.hotmart.com/F106710907A";
+                }
               }}
             >
               Acceder Ahora
