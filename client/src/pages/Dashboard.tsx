@@ -5,7 +5,7 @@ import { trpc } from "@/lib/trpc";
 import { tools, type Tool } from "@/lib/tools";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { ChevronRight, Lock, LogOut, Sparkles, Star } from "lucide-react";
+import { Lock, LogOut, Sparkles, Star } from "lucide-react";
 
 const BASE_LINK = "https://pay.hotmart.com/F106710907A";
 const PREMIUM_LINK = "https://pay.hotmart.com/I106724680Y";
@@ -97,20 +97,7 @@ export default function Dashboard() {
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {baseTools.map((tool) => (
-              <Card
-                key={tool.path}
-                onClick={() => goToTool(tool)}
-                className="p-5 border border-border hover:border-primary hover:shadow-md transition-all cursor-pointer group"
-              >
-                <div className="flex items-start justify-between gap-4">
-                  <div className="flex-1 min-w-0">
-                    <h3 className="font-semibold text-foreground text-sm mb-1">{tool.title}</h3>
-                    <p className="text-secondary text-xs font-semibold mb-1">{tool.format}</p>
-                    <p className="text-muted-foreground text-xs leading-relaxed">{tool.description}</p>
-                  </div>
-                  <ChevronRight className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors flex-shrink-0 mt-0.5" />
-                </div>
-              </Card>
+              <ToolCard key={tool.path} tool={tool} onSelect={goToTool} />
             ))}
           </div>
         </div>
@@ -122,18 +109,9 @@ export default function Dashboard() {
               <Sparkles className="w-5 h-5 text-accent-foreground" />
               Pack Premium — 6 herramientas avanzadas
             </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {premiumTools.map((tool) => (
-                <Card
-                  key={tool.path}
-                  onClick={() => goToTool(tool)}
-                  className="p-4 border-2 border-accent bg-accent/5 hover:shadow-md transition-all cursor-pointer group"
-                >
-                  <div className="flex items-center justify-between gap-3">
-                    <p className="font-semibold text-foreground text-xs leading-tight">{tool.title}</p>
-                    <ChevronRight className="w-3.5 h-3.5 text-muted-foreground group-hover:text-accent-foreground transition-colors flex-shrink-0" />
-                  </div>
-                </Card>
+                <ToolCard key={tool.path} tool={tool} onSelect={goToTool} />
               ))}
             </div>
           </div>
@@ -163,5 +141,34 @@ export default function Dashboard() {
         )}
       </main>
     </div>
+  );
+}
+
+function ToolCard({ tool, onSelect }: { tool: Tool; onSelect: (tool: Tool) => void }) {
+  return (
+    <Card
+      onClick={() => onSelect(tool)}
+      className={`overflow-hidden cursor-pointer hover:shadow-lg transition-shadow ${
+        tool.isPremium ? "border-2 border-accent bg-accent/5" : "border border-border"
+      }`}
+    >
+      {tool.image && (
+        <div className="w-full aspect-square overflow-hidden">
+          <img src={tool.image} alt={tool.title} loading="lazy" className="w-full h-full object-cover" />
+        </div>
+      )}
+      <div className="p-4">
+        <div className="flex items-start justify-between gap-2 mb-1">
+          <h3 className="font-semibold text-foreground text-sm flex-1">{tool.title}</h3>
+          {tool.isPremium && (
+            <span className="text-xs bg-accent text-accent-foreground px-2 py-0.5 rounded-full font-semibold flex-shrink-0">
+              Premium
+            </span>
+          )}
+        </div>
+        <p className="text-secondary text-xs font-semibold mb-1">{tool.format}</p>
+        <p className="text-muted-foreground text-xs leading-relaxed">{tool.description}</p>
+      </div>
+    </Card>
   );
 }
