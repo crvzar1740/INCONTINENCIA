@@ -2,6 +2,7 @@ export interface Tool {
   title: string;
   format: string;
   description: string;
+  longDescription?: string;
   isPremium: boolean;
   path: string;
   image: string;
@@ -44,6 +45,7 @@ export const tools: Tool[] = [
     title: "Protocolo de Retorno al Impacto",
     format: "Programa de 8 semanas",
     description: "El puente entre tu programa base y correr, saltar o volver a entrenar en serio: chequeo de diástasis, respiración con carga y test de disposición basado en criterios clínicos reales.",
+    longDescription: "El puente entre tu programa base y correr, saltar o volver a entrenar en serio: chequeo de diástasis, respiración con carga y un test de disposición basado en criterios clínicos reales.",
     isPremium: true,
     path: "/premium/advanced-exercises-workbook",
     image: "/images/premium/advanced-exercises.jpg",
@@ -52,6 +54,7 @@ export const tools: Tool[] = [
     title: "Guía de Decisión: Productos y Cuidado de la Piel",
     format: "Quiz + calculadora",
     description: "Criterio real para evaluar cualquier producto, rutina de cuidado de la piel y calculadora de costo por uso.",
+    longDescription: "Criterio real para evaluar cualquier producto (no un catálogo de precios), rutina de cuidado de la piel, calculadora de costo por uso y opciones conservadoras más allá del protector.",
     isPremium: true,
     path: "/premium/smart-shopping-checklist",
     image: "/images/premium/smart-shopping.jpg",
@@ -60,6 +63,7 @@ export const tools: Tool[] = [
     title: "Protocolo de Reentrenamiento Vesical",
     format: "Diario vesical de 3 días",
     description: "Plan de vaciado programado y técnicas de supresión de urgencia — la herramienta clínica específica para la urgencia y la frecuencia.",
+    longDescription: "Diario vesical de 3 días, plan de vaciado programado y técnicas de supresión de urgencia — la herramienta clínica específica para la urgencia y la frecuencia, distinta al trabajo de fuerza.",
     isPremium: true,
     path: "/premium/personalized-action-protocol",
     image: "/images/premium/action-protocol.jpg",
@@ -68,6 +72,7 @@ export const tools: Tool[] = [
     title: "Programa de Acompañamiento con Especialista",
     format: "1 sesión en vivo incluida",
     description: "Videoconsulta en vivo con una kinesióloga real (matrícula verificable) para ajustar tu progreso. Sesiones adicionales disponibles por separado.",
+    longDescription: "Contenido asincrónico + 1 videoconsulta en vivo incluida con una kinesióloga real (matrícula verificable) para ajustar tu progreso. Sesiones de seguimiento adicionales disponibles por USD 30 c/u.",
     isPremium: true,
     path: "/premium/expert-sessions",
     image: "/images/premium/expert-sessions.jpg",
@@ -76,6 +81,7 @@ export const tools: Tool[] = [
     title: "Guía de Reconstrucción Emocional y Conductual",
     format: "Terapia cognitivo-conductual",
     description: "Registro de pensamientos, mapa de actividades evitadas con exposición gradual y respiración para la ansiedad anticipatoria.",
+    longDescription: "Mapa de actividades evitadas con exposición gradual, registro de pensamientos y respiración para la ansiedad anticipatoria — basado en terapia cognitivo-conductual, no en mindfulness genérico.",
     isPremium: true,
     path: "/premium/emotional-guide",
     image: "/images/premium/emotional-guide.jpg",
@@ -84,6 +90,7 @@ export const tools: Tool[] = [
     title: "Guía de Comunicación y Red de Apoyo",
     format: "Espacio privado de reflexión",
     description: "Cómo hablarlo con tu pareja, tu entorno y tu médico, más un espacio privado guardado solo en tu dispositivo.",
+    longDescription: "Cómo hablarlo con tu pareja, tu entorno y tu médico, cómo encontrar comunidades reales mientras armamos la nuestra, y un espacio privado de reflexión guardado solo en tu dispositivo.",
     isPremium: true,
     path: "/premium/exclusive-community",
     image: "/images/premium/community.jpg",
