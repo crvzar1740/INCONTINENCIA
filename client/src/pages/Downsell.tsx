@@ -11,7 +11,7 @@ export default function Downsell() {
 
   useEffect(() => {
     if (user?.hasPremium === 1) {
-      setLocation("/");
+      setLocation("/dashboard");
     }
   }, [user]);
 
@@ -37,7 +37,7 @@ export default function Downsell() {
       <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-sm border-b border-border">
         <div className="container py-4 flex justify-between items-center">
           <button
-            onClick={() => setLocation("/")}
+            onClick={() => setLocation(user ? "/dashboard" : "/")}
             className="flex items-center gap-2 text-primary hover:text-primary/80 font-semibold"
           >
             <ArrowLeft className="w-5 h-5" />
