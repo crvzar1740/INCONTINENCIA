@@ -328,9 +328,16 @@ export default function Home() {
               <Card
                 key={idx}
                 onClick={() => {
-                  window.location.href = tool.isPremium
-                    ? "https://pay.hotmart.com/I106724680Y"
-                    : "https://pay.hotmart.com/F106710907A";
+                  const hasAccess = tool.isPremium
+                    ? user?.hasPremium === 1
+                    : user?.hasBaseAccess === 1 || user?.hasPremium === 1;
+                  if (hasAccess) {
+                    setLocation(tool.path);
+                  } else {
+                    window.location.href = tool.isPremium
+                      ? "https://pay.hotmart.com/I106724680Y"
+                      : "https://pay.hotmart.com/F106710907A";
+                  }
                 }}
                 className={`overflow-hidden cursor-pointer hover:shadow-lg transition-shadow ${tool.isPremium ? "border-2 border-accent bg-accent/5" : "border border-border"}`}
               >
