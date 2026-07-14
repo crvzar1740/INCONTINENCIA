@@ -324,7 +324,7 @@ export default function Diario() {
       >
         <div className="container py-4 flex items-center gap-4">
           <button
-            onClick={() => setLocation("/")}
+            onClick={() => setLocation(user ? "/dashboard" : "/")}
             className="flex items-center gap-1 font-medium hover:opacity-70 transition-opacity"
             style={{ color: "#3D6B66" }}
           >
@@ -370,13 +370,15 @@ export default function Diario() {
           <p style={{ color: "#6B6259" }}>
             💡 Guardá todos tus registros — si más adelante consultás a un profesional, esta información le va a servir muchísimo para entender tu caso.
           </p>
-          <button
-            onClick={() => setLocation("/")}
-            className="self-start text-sm font-semibold underline"
-            style={{ color: "#3D6B66" }}
-          >
-            ¿Querés ir más a fondo? Conocé el programa completo →
-          </button>
+          {user?.hasPremium !== 1 && (
+            <button
+              onClick={() => setLocation("/")}
+              className="self-start text-sm font-semibold underline"
+              style={{ color: "#3D6B66" }}
+            >
+              ¿Querés ir más a fondo? Conocé el programa completo →
+            </button>
+          )}
         </div>
 
         {/* Stats card */}

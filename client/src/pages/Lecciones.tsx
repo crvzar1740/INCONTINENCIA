@@ -1,6 +1,7 @@
 import { ArrowLeft, ChevronRight, Lock, CheckCircle2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useLocation } from "wouter";
+import { useAuth } from "@/_core/hooks/useAuth";
 
 const STORAGE_KEY = "suelo-firme-lecciones";
 
@@ -259,6 +260,7 @@ interface LessonState {
 
 export default function Lecciones() {
   const [, setLocation] = useLocation();
+  const { user } = useAuth();
   const [lessonState, setLessonState] = useState<LessonState>({
     completed: [],
     unlockedUntil: 1,
@@ -474,7 +476,7 @@ export default function Lecciones() {
       >
         <div className="container py-4 flex items-center gap-4">
           <button
-            onClick={() => setLocation("/")}
+            onClick={() => setLocation(user ? "/dashboard" : "/")}
             className="flex items-center gap-1 font-medium hover:opacity-70 transition-opacity"
             style={{ color: "#3D6B66" }}
           >

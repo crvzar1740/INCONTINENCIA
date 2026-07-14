@@ -3,9 +3,11 @@ import { Card } from "@/components/ui/card";
 import { ArrowLeft } from "lucide-react";
 import { useLocation } from "wouter";
 import { tools } from "@/lib/tools";
+import { useAuth } from "@/_core/hooks/useAuth";
 
 export default function PackPremium() {
   const [, setLocation] = useLocation();
+  const { user } = useAuth();
 
   const premiumTools = tools.filter((tool) => tool.isPremium);
 
@@ -15,7 +17,7 @@ export default function PackPremium() {
       <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-sm border-b border-border">
         <div className="container py-4 flex justify-between items-center">
           <button
-            onClick={() => setLocation("/")}
+            onClick={() => setLocation(user ? "/dashboard" : "/")}
             className="flex items-center gap-2 text-primary hover:text-primary/80 font-semibold"
           >
             <ArrowLeft className="w-5 h-5" />
@@ -141,7 +143,7 @@ export default function PackPremium() {
               Todas las herramientas están disponibles para que explores y comiences ahora mismo.
             </p>
             <Button
-              onClick={() => setLocation("/")}
+              onClick={() => setLocation(user ? "/dashboard" : "/")}
               className="btn-accent"
             >
               Volver a Inicio

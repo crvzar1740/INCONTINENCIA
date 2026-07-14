@@ -2,9 +2,11 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { CheckCircle2, Mail, AlertCircle, Home } from "lucide-react";
 import { useLocation } from "wouter";
+import { useAuth } from "@/_core/hooks/useAuth";
 
 export default function ThankYou() {
   const [, setLocation] = useLocation();
+  const { user } = useAuth();
 
   const nextSteps = [
     {
@@ -33,7 +35,7 @@ export default function ThankYou() {
       <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-sm border-b border-border">
         <div className="container py-4 flex justify-between items-center">
           <button
-            onClick={() => setLocation("/")}
+            onClick={() => setLocation(user ? "/dashboard" : "/")}
             className="flex items-center gap-2 text-primary hover:text-primary/80 font-semibold"
           >
             <Home className="w-5 h-5" />

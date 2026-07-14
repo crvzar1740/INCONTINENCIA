@@ -7,6 +7,7 @@ import { ArrowLeft, CheckCircle2, Sparkles } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useLocation } from "wouter";
 import { toast } from "sonner";
+import { useAuth } from "@/_core/hooks/useAuth";
 
 interface Product {
   id: number;
@@ -101,6 +102,7 @@ type QuizAnswers = {
 
 function ProductsChecklistContent() {
   const [, setLocation] = useLocation();
+  const { user } = useAuth();
   const [products, setProducts] = useState<Product[]>(INITIAL_PRODUCTS);
   const [saving, setSaving] = useState(false);
   const [showQuiz, setShowQuiz] = useState(true);
@@ -166,7 +168,7 @@ function ProductsChecklistContent() {
       <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-sm border-b border-border">
         <div className="container py-4 flex justify-between items-center">
           <button
-            onClick={() => setLocation("/")}
+            onClick={() => setLocation(user ? "/dashboard" : "/")}
             className="flex items-center gap-2 text-primary hover:text-primary/80 font-semibold"
           >
             <ArrowLeft className="w-5 h-5" />
