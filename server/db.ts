@@ -63,6 +63,12 @@ export async function touchLastSignedIn(userId: number) {
   await db.update(users).set({ lastSignedIn: new Date() }).where(eq(users.id, userId));
 }
 
+export async function markUpsellSeen(userId: number) {
+  const db = await getDb();
+  if (!db) return;
+  await db.update(users).set({ hasSeenUpsell: 1 }).where(eq(users.id, userId));
+}
+
 /**
  * Grants (or revokes) entitlement flags for a purchase, matched by the buyer email
  * that Hotmart sends in the webhook payload. Called from the webhook handler —

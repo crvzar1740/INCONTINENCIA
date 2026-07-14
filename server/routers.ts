@@ -4,7 +4,7 @@ import { getSessionCookieOptions } from "./_core/cookies";
 import { systemRouter } from "./_core/systemRouter";
 import { publicProcedure, protectedProcedure, router } from "./_core/trpc";
 import { createSessionToken, hashPassword, verifyPassword } from "./_core/auth";
-import { createUser, getUserByEmail, touchLastSignedIn } from "./db";
+import { createUser, getUserByEmail, touchLastSignedIn, markUpsellSeen } from "./db";
 import { TRPCError } from "@trpc/server";
 
 const emailSchema = z.string().trim().toLowerCase().email();
@@ -60,6 +60,11 @@ export const appRouter = router({
       return {
         success: true,
       } as const;
+    }),
+
+    markUpsellSeen: protectedProcedure.mutation(async ({ ctx }) => {
+      await markUpsellSeen(ctx.user.id);
+      return { success: true } as const;
     }),
   }),
 

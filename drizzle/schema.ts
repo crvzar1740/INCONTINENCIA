@@ -24,6 +24,8 @@ export const users = mysqlTable("users", {
   hasPremium: int("hasPremium").default(0).notNull(),
   /** Hotmart transaction id for the most recent premium purchase, for support/refund lookups. */
   hotmartTransactionId: varchar("hotmartTransactionId", { length: 128 }),
+  /** True once the user has been shown the post-login upsell offer (so we don't nag on every login). */
+  hasSeenUpsell: int("hasSeenUpsell").default(0).notNull(),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
   lastSignedIn: timestamp("lastSignedIn").defaultNow().notNull(),
