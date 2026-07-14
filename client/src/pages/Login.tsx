@@ -22,7 +22,7 @@ export default function Login() {
       } else {
         await register(email, password, name || undefined);
       }
-      setLocation("/");
+      setLocation("/dashboard");
     } catch (err: any) {
       toast.error(err?.message || "Ocurrió un error. Intentá de nuevo.");
     }
