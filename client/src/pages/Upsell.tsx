@@ -180,23 +180,20 @@ export default function Upsell() {
               <Button
                 size="lg"
                 className="btn-secondary w-full text-lg mb-4"
-                onClick={() => setLocation("/thank-you")}
+                onClick={() => {
+                  window.location.href = "https://pay.hotmart.com/I106724680Y";
+                }}
               >
                 Sí, Quiero las 6 Herramientas Premium
               </Button>
 
-              <p className="text-center text-sm text-secondary font-semibold mb-6">
-                O si prefieres una opción más accesible →
-              </p>
-
-              <Button
-                size="lg"
-                variant="outline"
-                className="w-full text-lg border-accent text-accent hover:bg-accent/10"
+              <button
                 onClick={() => setLocation("/downsell")}
+                className="block w-full text-center text-sm underline"
+                style={{ color: "#6B6259" }}
               >
-                Ver Oferta Especial (50% Descuento)
-              </Button>
+                No, gracias — prefiero seguir intentando resolver esto por mi cuenta
+              </button>
             </Card>
           </div>
         </div>

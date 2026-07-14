@@ -90,10 +90,20 @@ export default function Downsell() {
               <Button
                 size="lg"
                 className="btn-secondary w-full text-lg mb-4"
-                onClick={() => setLocation("/thank-you")}
+                onClick={() => {
+                  window.location.href = "https://pay.hotmart.com/I106724680Y?offDiscount=DOWNSELL50";
+                }}
               >
                 Acceder Ahora a Mitad de Precio
               </Button>
+
+              <button
+                onClick={() => setLocation("/thank-you")}
+                className="block w-full text-center text-sm underline mb-2"
+                style={{ color: "#6B6259" }}
+              >
+                No, gracias — prefiero seguir sin el programa completo
+              </button>
 
               <p className="text-center text-xs text-muted-foreground">
                 Esta oferta solo está disponible en esta página
@@ -191,7 +201,9 @@ export default function Downsell() {
             <Button
               size="lg"
               className="btn-secondary text-lg mb-4"
-              onClick={() => setLocation("/thank-you")}
+              onClick={() => {
+                window.location.href = "https://pay.hotmart.com/I106724680Y?offDiscount=DOWNSELL50";
+              }}
             >
               Acceder Ahora a $48.50
             </Button>

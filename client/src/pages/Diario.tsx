@@ -363,6 +363,22 @@ export default function Diario() {
           </p>
         </div>
 
+        <div
+          className="rounded-xl p-4 mb-6 text-sm leading-relaxed flex flex-col gap-3"
+          style={{ background: "#fff", border: "1px solid #E5E0D8" }}
+        >
+          <p style={{ color: "#6B6259" }}>
+            💡 Guardá todos tus registros — si más adelante consultás a un profesional, esta información le va a servir muchísimo para entender tu caso.
+          </p>
+          <button
+            onClick={() => setLocation("/")}
+            className="self-start text-sm font-semibold underline"
+            style={{ color: "#3D6B66" }}
+          >
+            ¿Querés ir más a fondo? Conocé el programa completo →
+          </button>
+        </div>
+
         {/* Stats card */}
         {stats && (
           <div
@@ -769,7 +785,9 @@ export default function Diario() {
                       </p>
                     </div>
                     <button
-                      onClick={() => setLocation("/upsell")}
+                      onClick={() => {
+                        window.location.href = "https://pay.hotmart.com/I106724680Y";
+                      }}
                       className="flex-shrink-0 px-4 py-2 rounded-lg text-xs font-semibold transition-all hover:scale-[1.02]"
                       style={{ background: "#9C5D52", color: "#fff" }}
                     >

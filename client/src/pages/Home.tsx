@@ -1,12 +1,27 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { ChevronDown, Heart, Shield, Zap, Users, BookOpen, CheckCircle2 } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocation } from "wouter";
+import { useAuth } from "@/_core/hooks/useAuth";
+import { trpc } from "@/lib/trpc";
 
 export default function Home() {
   const [, setLocation] = useLocation();
   const [expandedFaq, setExpandedFaq] = useState<number | null>(null);
+  const { user } = useAuth();
+  const markUpsellSeen = trpc.auth.markUpsellSeen.useMutation();
+
+  useEffect(() => {
+    if (!user) return;
+    if (user.hasBaseAccess === 1 && user.hasPremium !== 1 && user.hasSeenUpsell !== 1) {
+      const timer = setTimeout(() => {
+        markUpsellSeen.mutate();
+        setLocation("/upsell");
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [user]);
 
   const pains = [
     "La sensación constante de que se va a tener un accidente durante el ejercicio.",
@@ -202,7 +217,9 @@ export default function Home() {
               <Button
                 size="lg"
                 className="btn-primary text-lg"
-                onClick={() => setLocation("/bienvenida")}
+                onClick={() => {
+                  window.location.href = "https://pay.hotmart.com/F106710907A";
+                }}
               >
                 Quiero Empezar Hoy
               </Button>
@@ -216,55 +233,6 @@ export default function Home() {
               </Button>
             </div>
             <p className="text-micro-cta">Porque quiero volver al gimnasio sin miedo a las pérdidas</p>
-          </div>
-        </div>
-      </section>
-
-      {/* Core App Modules — Quick Access */}
-      <section className="py-12 bg-white border-b border-border">
-        <div className="container">
-          <p className="text-center text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-6">
-            Los 3 módulos del método
-          </p>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-3xl mx-auto">
-            {[
-              {
-                emoji: "🧻",
-                title: "Diario miccional",
-                desc: "Registrá cada visita al baño. En una semana verás tus patrones.",
-                path: "/diario",
-                color: "#A9C6B8",
-              },
-              {
-                emoji: "💪",
-                title: "Ejercicios de Piso Pélvico",
-                desc: "Sesiones guiadas con progresión automática semana a semana.",
-                path: "/tools/pelvic-exercises",
-                color: "#C9BEDD",
-              },
-              {
-                emoji: "📚",
-                title: "Lecciones diarias",
-                desc: "2 minutos por día para entender y mejorar. Sin exámenes.",
-                path: "/lecciones",
-                color: "#E8C49A",
-              },
-            ].map((mod) => (
-              <button
-                key={mod.path}
-                onClick={() => setLocation(mod.path)}
-                className="rounded-2xl p-5 text-left transition-all hover:scale-[1.02] active:scale-[0.98]"
-                style={{ background: mod.color + "25", border: `1.5px solid ${mod.color}60` }}
-              >
-                <span className="text-3xl block mb-3">{mod.emoji}</span>
-                <p className="font-semibold text-sm mb-1" style={{ color: "#2B2420" }}>
-                  {mod.title}
-                </p>
-                <p className="text-xs leading-relaxed" style={{ color: "#6B6259" }}>
-                  {mod.desc}
-                </p>
-              </button>
-            ))}
           </div>
         </div>
       </section>
@@ -359,7 +327,11 @@ export default function Home() {
             {tools.map((tool, idx) => (
               <Card
                 key={idx}
-                onClick={() => setLocation(tool.path)}
+                onClick={() => {
+                  window.location.href = tool.isPremium
+                    ? "https://pay.hotmart.com/I106724680Y"
+                    : "https://pay.hotmart.com/F106710907A";
+                }}
                 className={`overflow-hidden cursor-pointer hover:shadow-lg transition-shadow ${tool.isPremium ? "border-2 border-accent bg-accent/5" : "border border-border"}`}
               >
                 {tool.image && (
@@ -458,7 +430,9 @@ export default function Home() {
             <Button
               size="lg"
               className="btn-secondary text-lg mb-4"
-              onClick={() => setLocation("/upsell")}
+              onClick={() => {
+                window.location.href = "https://pay.hotmart.com/F106710907A";
+              }}
             >
               Acceder Ahora
             </Button>
