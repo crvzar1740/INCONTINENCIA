@@ -10,7 +10,7 @@ function getResend(): Resend | null {
 }
 
 const FROM = "Suelo Firme <hola@infosuelofirme.com>";
-const LOGIN_URL = "https://incontinencia-production.up.railway.app/login";
+const LOGIN_URL = "https://infosuelofirme.com/login";
 
 export async function sendCredentialsEmail(email: string, password: string) {
   const resend = getResend();
