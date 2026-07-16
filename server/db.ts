@@ -3,6 +3,30 @@ import { drizzle } from "drizzle-orm/mysql2";
 import { InsertUser, users } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
+/**
+ * Normalizes an email for lookup/storage.
+ *
+ * Gmail (and Google Workspace's "googlemail.com" alias) ignores dots in the
+ * local part of the address — "info.suelofirme@gmail.com" and
+ * "infosuelofirme@gmail.com" land in the same inbox. Without this, a buyer
+ * who types a slightly different variant between their Base and Premium
+ * purchase ends up with two separate accounts instead of one upgraded one.
+ * Other providers (Outlook, Yahoo, custom domains, etc.) DO treat dots as
+ * significant, so this only strips them for gmail.com / googlemail.com.
+ */
+export function normalizeEmail(email: string): string {
+  const trimmed = email.trim().toLowerCase();
+  const [local, domain] = trimmed.split("@");
+  if (!domain) return trimmed;
+  if (domain === "gmail.com" || domain === "googlemail.com") {
+    // Gmail also ignores everything after a "+" (plus-addressing).
+    const withoutPlus = local.split("+")[0];
+    const withoutDots = withoutPlus.replace(/\./g, "");
+    return `${withoutDots}@gmail.com`;
+  }
+  return trimmed;
+}
+
 let _db: ReturnType<typeof drizzle> | null = null;
 
 // Lazily create the drizzle instance so local tooling can run without a DB.
@@ -21,7 +45,7 @@ export async function getDb() {
 export async function getUserByEmail(email: string) {
   const db = await getDb();
   if (!db) return undefined;
-  const normalized = email.trim().toLowerCase();
+  const normalized = normalizeEmail(email);
   const result = await db.select().from(users).where(eq(users.email, normalized)).limit(1);
   return result.length > 0 ? result[0] : undefined;
 }
@@ -42,7 +66,7 @@ export async function createUser(input: {
   const db = await getDb();
   if (!db) throw new Error("Database not available");
 
-  const email = input.email.trim().toLowerCase();
+  const email = normalizeEmail(input.email);
   const role = email === ENV.ownerOpenId ? "admin" : "user";
 
   const [result] = await db.insert(users).values({
@@ -83,7 +107,7 @@ export async function setEntitlement(
     console.warn("[Database] Cannot set entitlement: database not available");
     return;
   }
-  const normalized = email.trim().toLowerCase();
+  const normalized = normalizeEmail(email);
   const updateSet: Record<string, unknown> = {};
   if (entitlement.hasBaseAccess !== undefined) updateSet.hasBaseAccess = entitlement.hasBaseAccess ? 1 : 0;
   if (entitlement.hasPremium !== undefined) updateSet.hasPremium = entitlement.hasPremium ? 1 : 0;
