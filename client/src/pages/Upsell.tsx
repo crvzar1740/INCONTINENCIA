@@ -1,9 +1,18 @@
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Shield } from "lucide-react";
+import { useEffect } from "react";
 import { useLocation } from "wouter";
+import { useAuth } from "@/_core/hooks/useAuth";
 
 export default function Upsell() {
   const [, setLocation] = useLocation();
+  const { user } = useAuth();
+
+  useEffect(() => {
+    if (user?.hasPremium === 1) {
+      setLocation("/dashboard");
+    }
+  }, [user]);
 
   const bullets = [
     {
@@ -37,9 +46,8 @@ export default function Upsell() {
       >
         <div className="container py-4 flex items-center gap-4">
           <button
-            onClick={() => setLocation("/")}
-            className="flex items-center gap-1 font-medium hover:opacity-70 transition-opacity"
-            style={{ color: "#3D6B66" }}
+            onClick={() => setLocation(user ? "/dashboard" : "/")}
+            className="flex items-center gap-2 text-primary hover:text-primary/80 font-semibold"
           >
             <ArrowLeft className="w-5 h-5" />
             Volver
@@ -61,8 +69,8 @@ export default function Upsell() {
             Invierte en volver a sentirte en control de tu cuerpo.
           </h1>
           <p className="text-base leading-relaxed" style={{ color: "#6B6259" }}>
-            Por menos de lo que cuesta un café a la semana, tenés acompañamiento
-            diario, ejercicios guiados y reportes listos para tu médico.
+            Un pago único, acceso de por vida: acompañamiento diario, ejercicios
+            guiados y reportes listos para tu médico.
           </p>
         </div>
 
@@ -93,31 +101,33 @@ export default function Upsell() {
           style={{ background: "#fff", border: "2px solid #3D6B66" }}
         >
           <p className="text-sm font-medium mb-1" style={{ color: "#6B6259" }}>
-            Plan de acompañamiento
+            Pack Premium
           </p>
           <div className="flex items-baseline gap-2 mb-1">
             <span className="text-4xl font-bold" style={{ color: "#2B2420" }}>
-              $9.90
+              $97
             </span>
             <span className="text-sm" style={{ color: "#6B6259" }}>
-              / mes
+              pago único
             </span>
           </div>
           <p className="text-xs mb-6" style={{ color: "#6B6259" }}>
-            7 días gratis para probarlo completo, sin cargo.
+            Acceso de por vida. Sin suscripciones ni cargos recurrentes.
           </p>
 
           <Button
             size="lg"
             className="w-full text-base font-semibold rounded-xl transition-all hover:scale-[1.01] active:scale-[0.99]"
             style={{ background: "#9C5D52", color: "#fff", minHeight: "56px" }}
-            onClick={() => setLocation("/thank-you")}
+            onClick={() => {
+              window.location.href = "https://pay.hotmart.com/I106724680Y";
+            }}
           >
-            Empezar mi plan de acompañamiento
+            Quiero el acompañamiento completo
           </Button>
 
           <p className="text-center text-xs mt-4" style={{ color: "#6B6259" }}>
-            Cancelá cuando quieras. Tus datos siempre son tuyos.
+            Garantía de 7 días. Tus datos siempre son tuyos.
           </p>
         </div>
 
@@ -126,11 +136,11 @@ export default function Upsell() {
           className="rounded-xl p-5 mb-8 text-sm leading-relaxed"
           style={{ background: "#A9C6B820", border: "1px solid #A9C6B850", color: "#2B2420" }}
         >
-          <p className="font-semibold mb-1">¿Dudás en suscribirte?</p>
+          <p className="font-semibold mb-1">¿Dudás en sumarte al Premium?</p>
           <p style={{ color: "#6B6259" }}>
-            Sabemos que suscribirte a algo más no es una decisión pequeña. 7 días
-            para probarlo completo, sin cargo. Si no sentís que te está ayudando a
-            entender tu cuerpo, cancelás en un toque.
+            Sabemos que invertir en algo más no es una decisión pequeña. Tenés 7
+            días para probarlo completo. Si no sentís que te está ayudando a
+            entender tu cuerpo, te devolvemos tu dinero sin preguntas.
           </p>
         </div>
 
@@ -154,14 +164,14 @@ export default function Upsell() {
         {/* Downsell */}
         <div className="text-center">
           <p className="text-sm mb-3" style={{ color: "#6B6259" }}>
-            ¿Preferís acceso completo sin suscripción?
+            ¿Preferís una opción más accesible?
           </p>
           <button
             onClick={() => setLocation("/downsell")}
             className="text-sm font-medium underline transition-opacity hover:opacity-70"
             style={{ color: "#3D6B66" }}
           >
-            Ver oferta única sin recurrencia →
+            Ver oferta con descuento →
           </button>
         </div>
 
@@ -177,7 +187,7 @@ export default function Upsell() {
             </p>
             <p className="text-xs leading-relaxed" style={{ color: "#6B6259" }}>
               Si en los primeros 7 días no sentís que te ayuda a entender tu
-              cuerpo, cancelás sin preguntas.
+              cuerpo, te devolvemos tu dinero sin preguntas.
             </p>
           </div>
         </div>

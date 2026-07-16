@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { AccessGate } from "@/components/AccessGate";
 import { Heart, ArrowLeft, Plus, Trash2, Wind, MessageCircleHeart, Info } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useLocation } from "wouter";
@@ -38,7 +39,7 @@ function genId() {
   return Math.random().toString(36).slice(2, 9);
 }
 
-export default function EmotionalGuide() {
+function EmotionalGuideContent() {
   const [, setLocation] = useLocation();
   const [state, setState] = useState<StoredState>(DEFAULT_STATE);
   const [newActivity, setNewActivity] = useState({ activity: "", difficulty: 3 });
@@ -337,5 +338,13 @@ export default function EmotionalGuide() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function EmotionalGuide() {
+  return (
+    <AccessGate tier="premium">
+      <EmotionalGuideContent />
+    </AccessGate>
   );
 }

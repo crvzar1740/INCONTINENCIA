@@ -4,8 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useLocation } from "wouter";
 import { toast } from "sonner";
 import { generateMedicalReport } from "@/lib/generateMedicalReport";
-
-const PREMIUM_KEY = "suelo-firme-premium";
+import { useAuth } from "@/_core/hooks/useAuth";
 
 const STORAGE_KEY = "suelo-firme-diario";
 const FIRST_ENTRY_KEY = "suelo-firme-diario-first";
@@ -44,7 +43,7 @@ function formatDate(ts: string) {
 const URGENCIA_OPTIONS: { value: Entry["urgencia"]; label: string; emoji: string; color: string }[] = [
   { value: "tranquilo", label: "Tranquilo", emoji: "😌", color: "#A9C6B8" },
   { value: "apurado", label: "Apurado", emoji: "😬", color: "#C9BEDD" },
-  { value: "no-llegue", label: "No llegué a tiempo", emoji: "😓", color: "#E8C49A" },
+  { value: "no-llegue", label: "No llegué a tiempo", emoji: "😔", color: "#E8C49A" },
 ];
 
 const CAUSA_OPTIONS = ["Tos", "Risa", "Ejercicio", "Sin razón clara", "Otro"];
@@ -87,7 +86,7 @@ async function scheduleAlarm(avgMinutes: number, lastEntryTimestamp: string) {
 
   const title = "Momento de practicar";
   const body =
-    "Tu vejiga probablemente quiera ir pronto. Antes de levantarte: 3 contracciones rápidas, respirá lento. La urgencia es una ola — podés atravesarla. 🌊";
+    "Tu vejiga probablemente quiera ir pronto. Antes de levantarte: 3 contracciones rápidas, respirá lento. La urgencia es una ola — podés atravesarla. 💪";
 
   sw.postMessage({ type: "SCHEDULE_NOTIF", payload: { delayMs, title, body } });
   localStorage.setItem(ALARM_KEY, String(fireAt));
@@ -110,14 +109,15 @@ export default function Diario() {
   const [missedYesterday, setMissedYesterday] = useState(false);
   const [notifPermission, setNotifPermission] = useState<NotificationPermission>("default");
   const [alarmScheduledAt, setAlarmScheduledAt] = useState<number | null>(null);
-  const [isPremium, setIsPremium] = useState(false);
+  // Source of truth is the server, set only by a confirmed Hotmart webhook —
+  // never trust a client-side flag for a paid feature.
+  const { user } = useAuth();
+  const isPremium = user?.hasPremium === 1;
   const notifPromptShownRef = useRef(false);
 
   /* ─── Init ─── */
   useEffect(() => {
     registerSW();
-
-    setIsPremium(localStorage.getItem(PREMIUM_KEY) === "true");
 
     if ("Notification" in window) {
       setNotifPermission(Notification.permission);
@@ -191,7 +191,7 @@ export default function Diario() {
     const result = await Notification.requestPermission();
     setNotifPermission(result);
     if (result === "granted") {
-      toast.success("✓ Notificaciones activadas");
+      toast.success("🔔 Notificaciones activadas");
       if (stats && entries.length > 0) {
         const lastEntry = entries[entries.length - 1];
         await scheduleAlarm(stats.avgMin, lastEntry.timestamp);
@@ -324,7 +324,7 @@ export default function Diario() {
       >
         <div className="container py-4 flex items-center gap-4">
           <button
-            onClick={() => setLocation("/")}
+            onClick={() => setLocation(user ? "/dashboard" : "/")}
             className="flex items-center gap-1 font-medium hover:opacity-70 transition-opacity"
             style={{ color: "#3D6B66" }}
           >
@@ -361,6 +361,24 @@ export default function Diario() {
           <p className="text-sm leading-relaxed mt-2" style={{ color: "#6B6259" }}>
             Cuantos más días registres, más clara se vuelve la foto — y esa foto es lo que le da sentido a todo lo demás.
           </p>
+        </div>
+
+        <div
+          className="rounded-xl p-4 mb-6 text-sm leading-relaxed flex flex-col gap-3"
+          style={{ background: "#fff", border: "1px solid #E5E0D8" }}
+        >
+          <p style={{ color: "#6B6259" }}>
+            💡 Guardá todos tus registros — si más adelante consultás a un profesional, esta información le va a servir muchísimo para entender tu caso.
+          </p>
+          {user?.hasPremium !== 1 && (
+            <button
+              onClick={() => setLocation("/")}
+              className="self-start text-sm font-semibold underline"
+              style={{ color: "#3D6B66" }}
+            >
+              ¿Querés ir más a fondo? Conocé el programa completo →
+            </button>
+          )}
         </div>
 
         {/* Stats card */}
@@ -624,7 +642,7 @@ export default function Diario() {
               className="text-sm transition-all"
               style={{ color: "#6B6259" }}
             >
-              Nada / no recuerdo → guardar igual
+              Nada / no recuerdo — guardar igual
             </button>
           </div>
         )}
@@ -675,7 +693,7 @@ export default function Diario() {
                         style={{ background: "#fff", border: "1px solid #E5E0D8" }}
                       >
                         <div className="flex items-center gap-3">
-                          <span className="text-xl">{opt?.emoji ?? "💧"}</span>
+                          <span className="text-xl">{opt?.emoji ?? "🚽"}</span>
                           <div>
                             <p className="text-sm font-medium" style={{ color: "#2B2420" }}>
                               {formatTime(e.timestamp)}
@@ -769,7 +787,9 @@ export default function Diario() {
                       </p>
                     </div>
                     <button
-                      onClick={() => setLocation("/upsell")}
+                      onClick={() => {
+                        window.location.href = "https://pay.hotmart.com/I106724680Y";
+                      }}
                       className="flex-shrink-0 px-4 py-2 rounded-lg text-xs font-semibold transition-all hover:scale-[1.02]"
                       style={{ background: "#9C5D52", color: "#fff" }}
                     >
@@ -787,7 +807,7 @@ export default function Diario() {
             className="rounded-xl p-6 text-center text-sm leading-relaxed"
             style={{ border: "1px dashed #E5E0D8", color: "#6B6259" }}
           >
-            <p className="mb-2 text-2xl">📋</p>
+            <p className="mb-2 text-2xl">📝</p>
             <p>
               Cada vez que vayas al baño, tocá el botón de arriba. La app calcula el tiempo entre visitas por vos.
             </p>

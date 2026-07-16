@@ -15,11 +15,14 @@ function createAuthContext(): { ctx: TrpcContext; clearedCookies: CookieCall[] }
 
   const user: AuthenticatedUser = {
     id: 1,
-    openId: "sample-user",
     email: "sample@example.com",
     name: "Sample User",
-    loginMethod: "manus",
+    passwordHash: "salt:hash",
+    loginMethod: "password",
     role: "user",
+    hasBaseAccess: 0,
+    hasPremium: 0,
+    hotmartTransactionId: null,
     createdAt: new Date(),
     updatedAt: new Date(),
     lastSignedIn: new Date(),

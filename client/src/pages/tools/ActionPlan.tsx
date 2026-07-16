@@ -1,10 +1,12 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
+import { AccessGate } from "@/components/AccessGate";
 import { ArrowLeft, CheckCircle2, Download } from "lucide-react";
 import { useState } from "react";
 import { useLocation } from "wouter";
 import { toast } from "sonner";
+import { useAuth } from "@/_core/hooks/useAuth";
 
 interface ActionPlanData {
   title: string;
@@ -22,8 +24,9 @@ const DEFAULT_PRODUCTS = `Protector diario para uso general.
 Protector específico para ejercicio si volvés a entrenar.
 Compresa nocturna de larga duración si notás pérdidas mientras dormís.`;
 
-export default function ActionPlan() {
+function ActionPlanContent() {
   const [, setLocation] = useLocation();
+  const { user } = useAuth();
   const [planData, setPlanData] = useState<ActionPlanData>({
     title: "",
     duration: "8 semanas",
@@ -94,7 +97,7 @@ Creado: ${new Date().toLocaleDateString('es-ES')}
       <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-sm border-b border-border">
         <div className="container py-4 flex justify-between items-center">
           <button
-            onClick={() => setLocation("/")}
+            onClick={() => setLocation(user ? "/dashboard" : "/")}
             className="flex items-center gap-2 text-primary hover:text-primary/80 font-semibold"
           >
             <ArrowLeft className="w-5 h-5" />
@@ -274,5 +277,13 @@ Creado: ${new Date().toLocaleDateString('es-ES')}
         </div>
       </div>
     </div>
+  );
+}
+
+export default function ActionPlan() {
+  return (
+    <AccessGate tier="base">
+      <ActionPlanContent />
+    </AccessGate>
   );
 }

@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { AccessGate } from "@/components/AccessGate";
 import { Target, ArrowLeft, Plus, Trash2, Info, Wind, Timer, Coffee, Download } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { useLocation } from "wouter";
@@ -41,7 +42,7 @@ function genId() {
   return Math.random().toString(36).slice(2, 9);
 }
 
-export default function PersonalizedActionProtocol() {
+function PersonalizedActionProtocolContent() {
   const [, setLocation] = useLocation();
   const [state, setState] = useState<StoredState>(DEFAULT_STATE);
   const [form, setForm] = useState({ hora: "", volumen: "mediano" as DiaryEntry["volumen"], urgencia: 3, perdida: false, liquido: "" });
@@ -376,5 +377,13 @@ export default function PersonalizedActionProtocol() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function PersonalizedActionProtocol() {
+  return (
+    <AccessGate tier="premium">
+      <PersonalizedActionProtocolContent />
+    </AccessGate>
   );
 }

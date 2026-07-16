@@ -1,4 +1,5 @@
 import { Card } from "@/components/ui/card";
+import { AccessGate } from "@/components/AccessGate";
 import {
   ArrowLeft,
   Users,
@@ -118,7 +119,7 @@ const CATEGORY_ORDER = [
   "Cuándo derivar",
 ];
 
-export default function ExpertSessions() {
+function ExpertSessionsContent() {
   const [, setLocation] = useLocation();
   const [openId, setOpenId] = useState<string | null>(null);
 
@@ -322,5 +323,13 @@ export default function ExpertSessions() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function ExpertSessions() {
+  return (
+    <AccessGate tier="premium">
+      <ExpertSessionsContent />
+    </AccessGate>
   );
 }

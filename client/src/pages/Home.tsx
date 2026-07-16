@@ -3,10 +3,13 @@ import { Card } from "@/components/ui/card";
 import { ChevronDown, Heart, Shield, Zap, Users, BookOpen, CheckCircle2 } from "lucide-react";
 import { useState } from "react";
 import { useLocation } from "wouter";
+import { useAuth } from "@/_core/hooks/useAuth";
+import { tools } from "@/lib/tools";
 
 export default function Home() {
   const [, setLocation] = useLocation();
   const [expandedFaq, setExpandedFaq] = useState<number | null>(null);
+  const { user } = useAuth();
 
   const pains = [
     "La sensación constante de que se va a tener un accidente durante el ejercicio.",
@@ -14,7 +17,7 @@ export default function Home() {
     "La angustia de tener que buscar baños con frecuencia.",
     "La incomodidad y el dolor que se siente al intentar contener la orina.",
     "La preocupación y ansiedad que genera la propensidad a mancharse.",
-    "La presión social y expectativas sobre cómo deben actuar como madres o mujeres fuertes.",
+    "La presión social sobre cómo se supone que hay que 'aguantar' este tipo de cosas en silencio.",
   ];
 
   const failedSolutions = [
@@ -48,89 +51,6 @@ export default function Home() {
     },
   ];
 
- const tools = [
-    {
-      title: "Programa de Ejercicios de Piso Pélvico",
-      format: "App interactiva con timer guiado",
-      description: "Programa de 3 fases (activación, resistencia, integración) con timer guiado y técnica de anticipación para toser, reír o levantar peso sin miedo.",
-      isPremium: false,
-      path: "/tools/pelvic-exercises",
-      image: "/images/base/pelvic-exercises.jpg",
-    },
-    {
-      title: "Checklist de Productos",
-      format: "Checklist interactivo",
-      description: "Criterios reales para elegir protección según tu nivel de actividad y momento del día — no una lista genérica.",
-      isPremium: false,
-      path: "/tools/products-checklist",
-      image: "/images/base/products-checklist.jpg",
-    },
-    {
-      title: "Plan de Acción",
-      format: "Hoja de ruta descargable",
-      description: "Armá tu propio plan de 8 semanas combinando ejercicios y productos según tus objetivos, listo para descargar.",
-      isPremium: false,
-      path: "/tools/action-plan",
-      image: "/images/base/action-plan.jpg",
-    },
-    {
-      title: "Preguntas Frecuentes",
-     format: "Banco de respuestas chequeado",
-      description: "Respuestas claras a las dudas más comunes sobre ejercicios, productos y progreso.",
-      isPremium: false,
-      path: "/tools/qa-session",
-      image: "/images/base/qa-session.jpg",
-    },
-    {
-      title: "Protocolo de Retorno al Impacto",
-      format: "Programa de 8 semanas",
-      description: "El puente entre tu programa base y correr, saltar o volver a entrenar en serio: chequeo de diástasis, respiración con carga y test de disposición basado en criterios clínicos reales.",
-      isPremium: true,
-      path: "/premium/advanced-exercises-workbook",
-      image: "/images/premium/advanced-exercises.jpg",
-    },
-    {
-      title: "Guía de Decisión: Productos y Cuidado de la Piel",
-      format: "Quiz + calculadora",
-      description: "Criterio real para evaluar cualquier producto, rutina de cuidado de la piel y calculadora de costo por uso.",
-      isPremium: true,
-      path: "/premium/smart-shopping-checklist",
-      image: "/images/premium/smart-shopping.jpg",
-    },
-    {
-      title: "Protocolo de Reentrenamiento Vesical",
-      format: "Diario vesical de 3 días",
-      description: "Plan de vaciado programado y técnicas de supresión de urgencia — la herramienta clínica específica para la urgencia y la frecuencia.",
-      isPremium: true,
-      path: "/premium/personalized-action-protocol",
-      image: "/images/premium/action-protocol.jpg",
-    },
-    {
-      title: "Programa de Acompañamiento con Especialista",
-      format: "1 sesión en vivo incluida",
-      description: "Videoconsulta en vivo con una kinesióloga real (matrícula verificable) para ajustar tu progreso. Sesiones adicionales disponibles por separado.",
-      isPremium: true,
-      path: "/premium/expert-sessions",
-      image: "/images/premium/expert-sessions.jpg",
-    },
-    {
-      title: "Guía de Reconstrucción Emocional y Conductual",
-      format: "Terapia cognitivo-conductual",
-      description: "Registro de pensamientos, mapa de actividades evitadas con exposición gradual y respiración para la ansiedad anticipatoria.",
-      isPremium: true,
-      path: "/premium/emotional-guide",
-      image: "/images/premium/emotional-guide.jpg",
-    },
-    {
-      title: "Guía de Comunicación y Red de Apoyo",
-      format: "Espacio privado de reflexión",
-      description: "Cómo hablarlo con tu pareja, tu entorno y tu médico, más un espacio privado guardado solo en tu dispositivo.",
-      isPremium: true,
-      path: "/premium/exclusive-community",
-      image: "/images/premium/community.jpg",
-    },
-  ];
-
   const testimonials = [
     {
       name: "María, 38 años",
@@ -153,7 +73,7 @@ export default function Home() {
   const faqs = [
     {
       question: "¿Cuánto tiempo tardaré en ver resultados?",
-      answer: "Muchas mujeres comienzan a notar cambios en 2-3 semanas con la práctica consistente de los ejercicios. Los resultados más significativos generalmente se ven después de 6-8 semanas.",
+      answer: "Muchas personas comienzan a notar cambios en 2-3 semanas con la práctica consistente de los ejercicios. Los resultados más significativos generalmente se ven después de 6-8 semanas.",
     },
     {
       question: "¿Necesito equipo especial para los ejercicios?",
@@ -165,7 +85,7 @@ export default function Home() {
     },
     {
       question: "¿Qué pasa si tengo una recaída y una pérdida?",
-      answer: "Las recaídas son parte normal del proceso de aprendizaje. No significa que hayas fallado. Simplemente vuelve a los ejercicios y ajusta tu plan. Muchas mujeres experimentan esto y luego progresan aún más.",
+      answer: "Las recaídas son parte normal del proceso de aprendizaje. No significa que hayas fallado. Simplemente vuelve a los ejercicios y ajusta tu plan. A muchas personas les pasa esto y luego progresan aún más.",
     },
     {
       question: "¿Hay garantía si no funciona para mí?",
@@ -191,7 +111,7 @@ export default function Home() {
       <section className="py-16 md:py-24 bg-gradient-to-br from-background via-background to-accent/10">
         <div className="container">
           <div className="max-w-3xl mx-auto text-center">
-            <p className="text-secondary font-semibold mb-4 text-lg">Para mujeres que quieren recuperar el control</p>
+            <p className="text-secondary font-semibold mb-4 text-lg">Para quienes quieren recuperar el control</p>
             <h1 className="text-4xl md:text-6xl font-bold text-foreground mb-6 leading-tight">
               Volvé a correr, saltar y reír con el control que creías perdido
             </h1>
@@ -202,7 +122,13 @@ export default function Home() {
               <Button
                 size="lg"
                 className="btn-primary text-lg"
-                onClick={() => setLocation("/bienvenida")}
+                onClick={() => {
+                  if (user?.hasBaseAccess === 1 || user?.hasPremium === 1) {
+                    setLocation("/tools/pelvic-exercises");
+                  } else {
+                    window.location.href = "https://pay.hotmart.com/F106710907A";
+                  }
+                }}
               >
                 Quiero Empezar Hoy
               </Button>
@@ -359,7 +285,18 @@ export default function Home() {
             {tools.map((tool, idx) => (
               <Card
                 key={idx}
-                onClick={() => setLocation(tool.path)}
+                onClick={() => {
+                  const hasAccess = tool.isPremium
+                    ? user?.hasPremium === 1
+                    : user?.hasBaseAccess === 1 || user?.hasPremium === 1;
+                  if (hasAccess) {
+                    setLocation(tool.path);
+                  } else {
+                    window.location.href = tool.isPremium
+                      ? "https://pay.hotmart.com/I106724680Y"
+                      : "https://pay.hotmart.com/F106710907A";
+                  }
+                }}
                 className={`overflow-hidden cursor-pointer hover:shadow-lg transition-shadow ${tool.isPremium ? "border-2 border-accent bg-accent/5" : "border border-border"}`}
               >
                 {tool.image && (
@@ -384,7 +321,7 @@ export default function Home() {
       {/* Testimonials Section */}
       <section id="testimonios" className="py-16 md:py-24 bg-accent/5">
         <div className="container">
-          <h2 className="section-title text-center mb-12">Lo Que Dicen Nuestras Usuarias</h2>
+          <h2 className="section-title text-center mb-12">Lo Que Dicen Quienes Ya Recuperaron el Control</h2>
           <div className="grid md:grid-cols-2 gap-8">
             {testimonials.map((testimonial, idx) => (
               <Card key={idx} className="p-8 bg-white">
@@ -458,7 +395,13 @@ export default function Home() {
             <Button
               size="lg"
               className="btn-secondary text-lg mb-4"
-              onClick={() => setLocation("/upsell")}
+              onClick={() => {
+                if (user?.hasBaseAccess === 1 || user?.hasPremium === 1) {
+                  setLocation("/tools/pelvic-exercises");
+                } else {
+                  window.location.href = "https://pay.hotmart.com/F106710907A";
+                }
+              }}
             >
               Acceder Ahora
             </Button>

@@ -1,77 +1,15 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { ArrowLeft, Activity, ShoppingBag, Target, Users, Heart, MessageCircle } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import { useLocation } from "wouter";
-
-interface PremiumTool {
-  id: string;
-  icon: React.ReactNode;
-  name: string;
-  description: string;
-  path: string;
-  color: string;
-  borderColor: string;
-}
+import { tools } from "@/lib/tools";
+import { useAuth } from "@/_core/hooks/useAuth";
 
 export default function PackPremium() {
   const [, setLocation] = useLocation();
+  const { user } = useAuth();
 
-  const premiumTools: PremiumTool[] = [
-    {
-      id: "advanced-exercises",
-      icon: <Activity className="w-8 h-8" />,
-      name: "Protocolo de Retorno al Impacto",
-      description: "El puente entre tu programa base y correr, saltar o volver a entrenar en serio: chequeo de diástasis, respiración con carga y un test de disposición basado en criterios clínicos reales.",
-      path: "/premium/advanced-exercises-workbook",
-      color: "from-primary/10 to-primary/5",
-      borderColor: "border-primary/30",
-    },
-    {
-      id: "smart-shopping",
-      icon: <ShoppingBag className="w-8 h-8" />,
-      name: "Guía de Decisión: Productos y Cuidado de la Piel",
-      description: "Criterio real para evaluar cualquier producto (no un catálogo de precios), rutina de cuidado de la piel, calculadora de costo por uso y opciones conservadoras más allá del protector.",
-      path: "/premium/smart-shopping-checklist",
-      color: "from-accent/10 to-accent/5",
-      borderColor: "border-accent/30",
-    },
-    {
-      id: "action-protocol",
-      icon: <Target className="w-8 h-8" />,
-      name: "Protocolo de Reentrenamiento Vesical",
-      description: "Diario vesical de 3 días, plan de vaciado programado y técnicas de supresión de urgencia — la herramienta clínica específica para la urgencia y la frecuencia, distinta al trabajo de fuerza.",
-      path: "/premium/personalized-action-protocol",
-      color: "from-secondary/10 to-secondary/5",
-      borderColor: "border-secondary/30",
-    },
-    {
-      id: "expert-sessions",
-      icon: <Users className="w-8 h-8" />,
-      name: "Programa de Acompañamiento con Especialista",
-      description: "Contenido asincrónico + 1 videoconsulta en vivo incluida con una kinesióloga real (matrícula verificable) para ajustar tu progreso. Sesiones de seguimiento adicionales disponibles por USD 30 c/u.",
-      path: "/premium/expert-sessions",
-      color: "from-primary/10 to-accent/5",
-      borderColor: "border-primary/20",
-    },
-    {
-      id: "emotional-guide",
-      icon: <Heart className="w-8 h-8" />,
-      name: "Guía de Reconstrucción Emocional y Conductual",
-      description: "Mapa de actividades evitadas con exposición gradual, registro de pensamientos y respiración para la ansiedad anticipatoria — basado en terapia cognitivo-conductual, no en mindfulness genérico.",
-      path: "/premium/emotional-guide",
-      color: "from-accent/10 to-secondary/5",
-      borderColor: "border-accent/20",
-    },
-    {
-      id: "community",
-      icon: <MessageCircle className="w-8 h-8" />,
-      name: "Guía de Comunicación y Red de Apoyo",
-      description: "Cómo hablarlo con tu pareja, tu entorno y tu médico, cómo encontrar comunidades reales mientras armamos la nuestra, y un espacio privado de reflexión guardado solo en tu dispositivo.",
-      path: "/premium/exclusive-community",
-      color: "from-secondary/10 to-primary/5",
-      borderColor: "border-secondary/20",
-    },
-  ];
+  const premiumTools = tools.filter((tool) => tool.isPremium);
 
   return (
     <div className="min-h-screen bg-background">
@@ -79,7 +17,7 @@ export default function PackPremium() {
       <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-sm border-b border-border">
         <div className="container py-4 flex justify-between items-center">
           <button
-            onClick={() => setLocation("/")}
+            onClick={() => setLocation(user ? "/dashboard" : "/")}
             className="flex items-center gap-2 text-primary hover:text-primary/80 font-semibold"
           >
             <ArrowLeft className="w-5 h-5" />
@@ -107,26 +45,26 @@ export default function PackPremium() {
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
             {premiumTools.map((tool) => (
               <Card
-                key={tool.id}
-                className={`p-6 bg-gradient-to-br ${tool.color} border-2 ${tool.borderColor} hover:shadow-lg transition-all duration-300 hover:scale-105`}
+                key={tool.path}
+                className="overflow-hidden border-2 border-accent bg-accent/5 hover:shadow-lg transition-all duration-300 hover:scale-105"
               >
-                <div className="flex items-start justify-between mb-4">
-                  <div className="w-12 h-12 rounded-lg bg-white/50 flex items-center justify-center text-primary">
-                    {tool.icon}
+                {tool.image && (
+                  <div className="w-full aspect-square overflow-hidden">
+                    <img src={tool.image} alt={tool.title} loading="lazy" className="w-full h-full object-cover" />
                   </div>
+                )}
+                <div className="p-6">
+                  <h3 className="text-xl font-bold text-foreground mb-2">{tool.title}</h3>
+                  <p className="text-sm text-muted-foreground mb-6 leading-relaxed">
+                    {tool.longDescription ?? tool.description}
+                  </p>
+                  <Button
+                    onClick={() => setLocation(tool.path)}
+                    className="btn-primary w-full"
+                  >
+                    Acceder Ahora
+                  </Button>
                 </div>
-
-                <h3 className="text-xl font-bold text-foreground mb-2">{tool.name}</h3>
-                <p className="text-sm text-muted-foreground mb-6 leading-relaxed">
-                  {tool.description}
-                </p>
-
-                <Button
-                  onClick={() => setLocation(tool.path)}
-                  className="btn-primary w-full"
-                >
-                  Acceder Ahora
-                </Button>
               </Card>
             ))}
           </div>
@@ -205,7 +143,7 @@ export default function PackPremium() {
               Todas las herramientas están disponibles para que explores y comiences ahora mismo.
             </p>
             <Button
-              onClick={() => setLocation("/")}
+              onClick={() => setLocation(user ? "/dashboard" : "/")}
               className="btn-accent"
             >
               Volver a Inicio

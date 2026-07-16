@@ -1,6 +1,7 @@
 import { ArrowLeft, ChevronRight, Lock, CheckCircle2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useLocation } from "wouter";
+import { useAuth } from "@/_core/hooks/useAuth";
 
 const STORAGE_KEY = "suelo-firme-lecciones";
 
@@ -130,7 +131,7 @@ const LESSONS: Lesson[] = [
       },
       {
         title: "MITO: 'La incontinencia solo le pasa a personas mayores'",
-        body: "FALSO. Afecta a mujeres de todas las edades — postparto, perimenopausia, jóvenes atletas. En algunos estudios, más del 30% de mujeres menores de 45 reportan algún grado de pérdida.",
+        body: "FALSO. Afecta a personas de todas las edades y de ambos sexos — mujeres en postparto o perimenopausia, jóvenes atletas, y también hombres, sobre todo después de una cirugía de próstata. En algunos estudios, más del 30% de mujeres menores de 45 reportan algún grado de pérdida.",
       },
       {
         title: "REALIDAD: Se puede mejorar significativamente",
@@ -214,6 +215,41 @@ const LESSONS: Lesson[] = [
       funFact: "Las guías clínicas recomiendan una revisión profesional si no hay respuesta al PFMT supervisado en 3 meses, y antes si hay síntomas de alarma.",
     },
   },
+  {
+    id: 7,
+    title: "Incontinencia en hombres",
+    emoji: "🚹",
+    subtitle: "No es solo cosa de mujeres",
+    cards: [
+      {
+        title: "La causa más común: cirugía de próstata",
+        body: "La próstata rodea la uretra y ayuda a contener la orina. Al extirparla (por cáncer, generalmente), el esfínter queda debilitado. Es la causa principal de incontinencia en varones — y responde bien a la rehabilitación de piso pélvico, empezada antes de la cirugía cuando es posible y continuada después.",
+      },
+      {
+        title: "También existe la hipertonía",
+        body: "Algunos hombres acumulan tensión crónica en el piso pélvico (a veces ligada al estrés). Esto oprime la vejiga y la uretra, y puede causar urgencia, dolor pélvico o chorro débil. Acá el objetivo no es fortalecer con Kegel — es relajar, con terapia manual y biofeedback. Por eso el diagnóstico correcto importa antes de empezar cualquier programa.",
+      },
+      {
+        title: "El obstáculo real: el tabú",
+        body: "Culturalmente el piso pélvico se asocia casi solo al embarazo y al parto. Eso hace que muchos hombres convivan con pérdidas o dolor durante años antes de enterarse de que existe tratamiento específico para ellos.",
+      },
+      {
+        title: "El camino es el mismo: evaluación y constancia",
+        body: "Ya sea debilidad o tensión excesiva, el primer paso es identificar cuál de las dos está pasando — con evaluación profesional si es posible. A partir de ahí, la mejora sigue el mismo patrón que en cualquier otro caso: constancia, no intensidad.",
+      },
+    ],
+    question: {
+      text: "¿Cuál es la causa más común de incontinencia en hombres?",
+      options: [
+        "Beber demasiada agua",
+        "Cirugía de próstata",
+        "Hacer demasiado ejercicio",
+        "No tiene causa identificable",
+      ],
+      correctIndex: 1,
+      funFact: "La incontinencia post-prostatectomía ocurre porque la próstata contribuye a la contención urinaria; al removerla, el esfínter necesita rehabilitación para compensar esa función.",
+    },
+  },
 ];
 
 interface LessonState {
@@ -224,6 +260,7 @@ interface LessonState {
 
 export default function Lecciones() {
   const [, setLocation] = useLocation();
+  const { user } = useAuth();
   const [lessonState, setLessonState] = useState<LessonState>({
     completed: [],
     unlockedUntil: 1,
@@ -407,7 +444,7 @@ export default function Lecciones() {
                   style={{ background: isCorrect ? "#A9C6B830" : "#E8C49A30", border: `1px solid ${isCorrect ? "#A9C6B860" : "#E8C49A60"}` }}
                 >
                   <p className="font-semibold mb-1" style={{ color: "#2B2420" }}>
-                    {isCorrect ? "¡Ya lo sabías! 🌟" : "Dato nuevo para vos 💡"}
+                    {isCorrect ? "¡Ya lo sabías! 🎯" : "Dato nuevo para vos 💡"}
                   </p>
                   <p style={{ color: "#6B6259" }}>{activeLesson.question.funFact}</p>
                 </div>
@@ -439,7 +476,7 @@ export default function Lecciones() {
       >
         <div className="container py-4 flex items-center gap-4">
           <button
-            onClick={() => setLocation("/")}
+            onClick={() => setLocation(user ? "/dashboard" : "/")}
             className="flex items-center gap-1 font-medium hover:opacity-70 transition-opacity"
             style={{ color: "#3D6B66" }}
           >

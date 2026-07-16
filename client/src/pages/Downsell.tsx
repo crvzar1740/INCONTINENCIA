@@ -1,10 +1,19 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { AlertCircle, ArrowLeft, CheckCircle2, Shield, Zap } from "lucide-react";
+import { useEffect } from "react";
 import { useLocation } from "wouter";
+import { useAuth } from "@/_core/hooks/useAuth";
 
 export default function Downsell() {
   const [, setLocation] = useLocation();
+  const { user } = useAuth();
+
+  useEffect(() => {
+    if (user?.hasPremium === 1) {
+      setLocation("/dashboard");
+    }
+  }, [user]);
 
   const resources = [
     "Guía de Ejercicios Avanzados para el Suelo Pélvico",
@@ -28,7 +37,7 @@ export default function Downsell() {
       <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-sm border-b border-border">
         <div className="container py-4 flex justify-between items-center">
           <button
-            onClick={() => setLocation("/")}
+            onClick={() => setLocation(user ? "/dashboard" : "/")}
             className="flex items-center gap-2 text-primary hover:text-primary/80 font-semibold"
           >
             <ArrowLeft className="w-5 h-5" />
@@ -90,10 +99,20 @@ export default function Downsell() {
               <Button
                 size="lg"
                 className="btn-secondary w-full text-lg mb-4"
-                onClick={() => setLocation("/thank-you")}
+                onClick={() => {
+                  window.location.href = "https://pay.hotmart.com/I106724680Y?offDiscount=DOWNSELL50";
+                }}
               >
                 Acceder Ahora a Mitad de Precio
               </Button>
+
+              <button
+                onClick={() => setLocation("/thank-you")}
+                className="block w-full text-center text-sm underline mb-2"
+                style={{ color: "#6B6259" }}
+              >
+                No, gracias — prefiero seguir sin el programa completo
+              </button>
 
               <p className="text-center text-xs text-muted-foreground">
                 Esta oferta solo está disponible en esta página
@@ -191,7 +210,9 @@ export default function Downsell() {
             <Button
               size="lg"
               className="btn-secondary text-lg mb-4"
-              onClick={() => setLocation("/thank-you")}
+              onClick={() => {
+                window.location.href = "https://pay.hotmart.com/I106724680Y?offDiscount=DOWNSELL50";
+              }}
             >
               Acceder Ahora a $48.50
             </Button>

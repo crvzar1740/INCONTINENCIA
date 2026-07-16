@@ -3,11 +3,13 @@ import { Card } from "@/components/ui/card";
 import { CheckCircle2, Mail, AlertCircle, Home } from "lucide-react";
 import { useEffect } from "react";
 import { useLocation } from "wouter";
+import { useAuth } from "@/_core/hooks/useAuth";
 
 const PREMIUM_KEY = "suelo-firme-premium";
 
 export default function ThankYou() {
   const [, setLocation] = useLocation();
+  const { user } = useAuth();
 
   useEffect(() => {
     localStorage.setItem(PREMIUM_KEY, "true");
@@ -40,7 +42,7 @@ export default function ThankYou() {
       <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-sm border-b border-border">
         <div className="container py-4 flex justify-between items-center">
           <button
-            onClick={() => setLocation("/")}
+            onClick={() => setLocation(user ? "/dashboard" : "/")}
             className="flex items-center gap-2 text-primary hover:text-primary/80 font-semibold"
           >
             <Home className="w-5 h-5" />
@@ -177,7 +179,7 @@ export default function ThankYou() {
                   <CheckCircle2 className="w-6 h-6 text-primary flex-shrink-0 mt-0.5" />
                   <div>
                     <p className="font-semibold text-foreground">Comunidad Exclusiva</p>
-                    <p className="text-sm text-muted-foreground">Apoyo de otras mujeres</p>
+                    <p className="text-sm text-muted-foreground">Apoyo de otras personas que están pasando por lo mismo</p>
                   </div>
                 </div>
                 <div className="flex gap-3">

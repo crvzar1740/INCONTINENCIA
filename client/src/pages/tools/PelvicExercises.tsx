@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { AccessGate } from "@/components/AccessGate";
 import {
   ArrowLeft,
   CheckCircle2,
@@ -13,6 +14,7 @@ import {
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useLocation } from "wouter";
 import { toast } from "sonner";
+import { useAuth } from "@/_core/hooks/useAuth";
 
 /* ─── Design tokens ─── */
 const SAGE = "#3D6B66";
@@ -645,9 +647,9 @@ function ProgressTracker({ history }: { history: SessionEntry[] }) {
   );
 }
 
-/* ─── Main page ─── */
-export default function PelvicExercises() {
+function PelvicExercisesContent() {
   const [, setLocation] = useLocation();
+  const { user } = useAuth();
   const [activePhase, setActivePhase] = useState(1);
   const [completedExercises, setCompletedExercises] = useState<
     Record<string, boolean>
@@ -716,9 +718,8 @@ export default function PelvicExercises() {
       >
         <div className="container py-4 flex justify-between items-center">
           <button
-            onClick={() => setLocation("/")}
-            className="flex items-center gap-2 font-semibold hover:opacity-70 transition-opacity"
-            style={{ color: SAGE }}
+            onClick={() => setLocation(user ? "/dashboard" : "/")}
+            className="flex items-center gap-2 text-primary hover:text-primary/80 font-semibold"
           >
             <ArrowLeft className="w-5 h-5" />
             Volver
@@ -927,5 +928,13 @@ export default function PelvicExercises() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function PelvicExercises() {
+  return (
+    <AccessGate tier="base">
+      <PelvicExercisesContent />
+    </AccessGate>
   );
 }

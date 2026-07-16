@@ -1,7 +1,9 @@
 import { Card } from "@/components/ui/card";
+import { AccessGate } from "@/components/AccessGate";
 import { ArrowLeft, ChevronDown, HelpCircle, Mail } from "lucide-react";
 import { useState } from "react";
 import { useLocation } from "wouter";
+import { useAuth } from "@/_core/hooks/useAuth";
 
 interface FAQItem {
   id: string;
@@ -71,8 +73,9 @@ const FAQS: FAQItem[] = [
 
 const CATEGORIES = ["Todas", "Ejercicios", "Productos", "Progreso", "Salud"];
 
-export default function QASession() {
+function QASessionContent() {
   const [, setLocation] = useLocation();
+  const { user } = useAuth();
   const [activeCategory, setActiveCategory] = useState("Todas");
   const [expandedId, setExpandedId] = useState<string | null>(null);
 
@@ -85,7 +88,7 @@ export default function QASession() {
       <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-sm border-b border-border">
         <div className="container py-4 flex justify-between items-center">
           <button
-            onClick={() => setLocation("/")}
+            onClick={() => setLocation(user ? "/dashboard" : "/")}
             className="flex items-center gap-2 text-primary hover:text-primary/80 font-semibold"
           >
             <ArrowLeft className="w-5 h-5" />
@@ -184,5 +187,13 @@ export default function QASession() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function QASession() {
+  return (
+    <AccessGate tier="base">
+      <QASessionContent />
+    </AccessGate>
   );
 }
