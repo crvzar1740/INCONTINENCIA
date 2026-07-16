@@ -146,6 +146,55 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Core App Modules — Quick Access */}
+      <section className="py-12 bg-white border-b border-border">
+        <div className="container">
+          <p className="text-center text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-6">
+            Los 3 módulos del método
+          </p>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-3xl mx-auto">
+            {[
+              {
+                emoji: "💧",
+                title: "Diario miccional",
+                desc: "Registrá cada visita al baño. En una semana verás tus patrones.",
+                path: "/diario",
+                color: "#A9C6B8",
+              },
+              {
+                emoji: "💪",
+                title: "Timer de Kegel",
+                desc: "Sesiones guiadas con progresión automática semana a semana.",
+                path: "/tools/pelvic-exercises",
+                color: "#C9BEDD",
+              },
+              {
+                emoji: "📖",
+                title: "Lecciones diarias",
+                desc: "2 minutos por día para entender y mejorar. Sin exámenes.",
+                path: "/lecciones",
+                color: "#E8C49A",
+              },
+            ].map((mod) => (
+              <button
+                key={mod.path}
+                onClick={() => setLocation(mod.path)}
+                className="rounded-2xl p-5 text-left transition-all hover:scale-[1.02] active:scale-[0.98]"
+                style={{ background: mod.color + "25", border: `1.5px solid ${mod.color}60` }}
+              >
+                <span className="text-3xl block mb-3">{mod.emoji}</span>
+                <p className="font-semibold text-sm mb-1" style={{ color: "#2B2420" }}>
+                  {mod.title}
+                </p>
+                <p className="text-xs leading-relaxed" style={{ color: "#6B6259" }}>
+                  {mod.desc}
+                </p>
+              </button>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* The Problem Section */}
       <section className="py-16 md:py-24 bg-white">
         <div className="container">

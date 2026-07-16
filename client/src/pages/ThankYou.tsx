@@ -1,12 +1,19 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { CheckCircle2, Mail, AlertCircle, Home } from "lucide-react";
+import { useEffect } from "react";
 import { useLocation } from "wouter";
 import { useAuth } from "@/_core/hooks/useAuth";
+
+const PREMIUM_KEY = "suelo-firme-premium";
 
 export default function ThankYou() {
   const [, setLocation] = useLocation();
   const { user } = useAuth();
+
+  useEffect(() => {
+    localStorage.setItem(PREMIUM_KEY, "true");
+  }, []);
 
   const nextSteps = [
     {
