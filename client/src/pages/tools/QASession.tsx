@@ -94,7 +94,7 @@ function QASessionContent() {
             <ArrowLeft className="w-5 h-5" />
             Volver
           </button>
-          <div className="text-2xl font-bold text-primary">Suelo Firme</div>
+          <div className="text-2xl font-bold text-primary">Rhizea</div>
           <div className="w-20" />
         </div>
       </nav>
@@ -175,7 +175,7 @@ function QASessionContent() {
                   escribinos directamente.
                 </p>
                 <a
-                  href="mailto:info@infosuelofirme.com?subject=Pregunta sobre Suelo Firme"
+                  href="mailto:info@infosuelofirme.com?subject=Pregunta sobre Rhizea"
                   className="inline-flex items-center gap-2 text-sm font-semibold text-primary hover:underline"
                 >
                   <Mail className="w-4 h-4" />

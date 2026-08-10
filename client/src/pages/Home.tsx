@@ -102,7 +102,7 @@ export default function Home() {
       {/* Navigation */}
       <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-sm border-b border-border">
         <div className="container py-4 flex justify-between items-center">
-          <div className="text-2xl font-bold text-primary">Suelo Firme</div>
+          <div className="text-2xl font-bold text-primary">Rhizea</div>
           <div className="text-sm text-muted-foreground">Tu piso pélvico, a tu ritmo</div>
         </div>
       </nav>
@@ -415,7 +415,7 @@ export default function Home() {
         <div className="container">
           <div className="grid md:grid-cols-3 gap-8 mb-8">
             <div>
-              <h3 className="font-bold mb-4">Suelo Firme</h3>
+              <h3 className="font-bold mb-4">Rhizea</h3>
               <p className="text-sm opacity-80">Ejercicios reales para tu piso pélvico, sin vergüenza.</p>
             </div>
             <div>
@@ -432,7 +432,7 @@ export default function Home() {
             </div>
           </div>
           <div className="border-t border-background/20 pt-8 text-center text-sm opacity-80">
-            <p>&copy; 2026 Suelo Firme. Todos los derechos reservados.</p>
+            <p>&copy; 2026 Rhizea. Todos los derechos reservados.</p>
           </div>
         </div>
       </footer>

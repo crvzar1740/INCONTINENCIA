@@ -114,7 +114,7 @@ function PersonalizedActionProtocolContent() {
     const lines = state.entries.map(
       (e) => `${e.hora} | Volumen: ${e.volumen} | Urgencia: ${e.urgencia}/5 | Pérdida: ${e.perdida ? "Sí" : "No"} | Líquido: ${e.liquido || "-"}`
     );
-    const content = `DIARIO VESICAL - Suelo Firme\n${new Date().toLocaleDateString("es-ES")}\n\n${lines.join("\n")}\n\nPromedio entre micciones: ${stats?.avgIntervalMin ?? "-"} minutos\nTotal de micciones registradas: ${stats?.totalVoids ?? 0}\nPérdidas registradas: ${stats?.perdidas ?? 0}`;
+    const content = `DIARIO VESICAL - Rhizea\n${new Date().toLocaleDateString("es-ES")}\n\n${lines.join("\n")}\n\nPromedio entre micciones: ${stats?.avgIntervalMin ?? "-"} minutos\nTotal de micciones registradas: ${stats?.totalVoids ?? 0}\nPérdidas registradas: ${stats?.perdidas ?? 0}`;
     const element = document.createElement("a");
     element.setAttribute("href", "data:text/plain;charset=utf-8," + encodeURIComponent(content));
     element.setAttribute("download", "diario-vesical-suelo-firme.txt");
@@ -136,7 +136,7 @@ function PersonalizedActionProtocolContent() {
             <ArrowLeft className="w-5 h-5" />
             Volver
           </button>
-          <div className="text-2xl font-bold text-primary">Suelo Firme</div>
+          <div className="text-2xl font-bold text-primary">Rhizea</div>
           <div className="w-20" />
         </div>
       </nav>

@@ -24,7 +24,7 @@ export default function Welcome() {
       {/* Top bar */}
       <nav className="py-5 px-6">
         <div className="text-xl font-semibold" style={{ color: "#3D6B66" }}>
-          Suelo Firme
+          Rhizea
         </div>
       </nav>
 

@@ -80,7 +80,7 @@ export function generateMedicalReport(entries: Entry[]) {
   doc.setTextColor(255, 255, 255);
   doc.setFont("helvetica", "bold");
   doc.setFontSize(13);
-  doc.text("Suelo Firme — Diario Miccional", margin, 14);
+  doc.text("Rhizea — Diario Miccional", margin, 14);
 
   doc.setFont("helvetica", "normal");
   doc.setFontSize(8.5);
@@ -96,7 +96,7 @@ export function generateMedicalReport(entries: Entry[]) {
   doc.setFont("helvetica", "italic");
   doc.setFontSize(8.5);
   doc.text(
-    "Documento generado por la paciente con la app Suelo Firme para facilitar la consulta clínica.\nNo sustituye la evaluación médica profesional.",
+    "Documento generado por la paciente con la app Rhizea para facilitar la consulta clínica.\nNo sustituye la evaluación médica profesional.",
     margin, y
   );
   y += 11;
@@ -309,7 +309,7 @@ export function generateMedicalReport(entries: Entry[]) {
     doc.setFontSize(7);
     doc.setTextColor(255, 255, 255);
     doc.text(
-      "Suelo Firme — app de acompañamiento para incontinencia urinaria · Basado en guías EAU 2026 · No sustituye la evaluación clínica",
+      "Rhizea — app de acompañamiento para incontinencia urinaria · Basado en guías EAU 2026 · No sustituye la evaluación clínica",
       pw / 2,
       ph - 4.5,
       { align: "center" }

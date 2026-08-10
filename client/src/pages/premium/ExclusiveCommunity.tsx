@@ -89,7 +89,7 @@ function ExclusiveCommunityContent() {
             <ArrowLeft className="w-5 h-5" />
             Volver
           </button>
-          <div className="text-2xl font-bold text-primary">Suelo Firme</div>
+          <div className="text-2xl font-bold text-primary">Rhizea</div>
           <div className="w-20" />
         </div>
       </nav>
@@ -104,7 +104,7 @@ function ExclusiveCommunityContent() {
               </h1>
             </div>
             <p className="text-lg text-muted-foreground leading-relaxed">
-              Todavía estamos armando el foro comunitario de Suelo Firme, así que preferimos no
+              Todavía estamos armando el foro comunitario de Rhizea, así que preferimos no
               simular una comunidad que no existe todavía. Mientras tanto, esto es lo que sí podemos
               darte hoy: por qué el apoyo social importa, cómo hablarlo con las personas de tu
               entorno, dónde encontrar comunidades reales y confiables, y un espacio privado propio
@@ -173,7 +173,7 @@ function ExclusiveCommunityContent() {
               <h2 className="text-xl font-bold text-foreground">Cómo encontrar comunidades reales y confiables</h2>
             </div>
             <p className="text-sm text-muted-foreground leading-relaxed mb-5">
-              Existen espacios genuinos de apoyo mientras el foro de Suelo Firme está en desarrollo.
+              Existen espacios genuinos de apoyo mientras el foro de Rhizea está en desarrollo.
               Para evaluar si un grupo o comunidad online es confiable, fijate en esto:
             </p>
             <div className="space-y-3">
@@ -197,7 +197,7 @@ function ExclusiveCommunityContent() {
             <div className="mt-5 flex gap-3 bg-secondary/5 border border-secondary/20 rounded-lg p-4">
               <MessageCircle className="w-5 h-5 text-secondary flex-shrink-0 mt-0.5" />
               <p className="text-xs text-muted-foreground leading-relaxed">
-                Cuando el foro privado de Suelo Firme esté disponible, vas a recibir un aviso directo
+                Cuando el foro privado de Rhizea esté disponible, vas a recibir un aviso directo
                 por acá — preferimos avisarte cuando exista de verdad antes que simular actividad
                 que todavía no tenemos.
               </p>
