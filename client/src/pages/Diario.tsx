@@ -266,7 +266,7 @@ export default function Diario() {
         `${formatDate(e.timestamp)} ${formatTime(e.timestamp)} | Urgencia: ${e.urgencia} | Escape: ${e.escape ? "sí" : "no"}${e.causaEscape ? ` (${e.causaEscape})` : ""} | Líquido: ${e.liquido || "-"}`
     );
     const content = [
-      "DIARIO MICCIONAL — Suelo Firme",
+      "DIARIO MICCIONAL — Rhizea",
       new Date().toLocaleDateString("es-ES"),
       "",
       ...lines,

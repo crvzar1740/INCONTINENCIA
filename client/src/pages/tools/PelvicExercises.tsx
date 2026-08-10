@@ -725,7 +725,7 @@ function PelvicExercisesContent() {
             Volver
           </button>
           <div className="text-2xl font-bold" style={{ color: SAGE }}>
-            Suelo Firme
+            Rhizea
           </div>
           <div className="w-20" />
         </div>

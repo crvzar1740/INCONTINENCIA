@@ -39,7 +39,7 @@ export function AccessGate({ tier, children }: { tier: Tier; children: ReactNode
             <Lock className="w-7 h-7" style={{ color: "#3D6B66" }} />
           </div>
           <h1 className="text-2xl font-semibold mb-3" style={{ color: "#2B2420" }}>
-            {isPremiumGate ? "Esta herramienta es parte de Suelo Firme™ Premium" : "Esta herramienta es parte de Suelo Firme™"}
+            {isPremiumGate ? "Esta herramienta es parte de Rhizea™ Premium" : "Esta herramienta es parte de Rhizea™"}
           </h1>
           <p className="mb-8 leading-relaxed" style={{ color: "#6B6259" }}>
             {isPremiumGate
@@ -53,7 +53,7 @@ export function AccessGate({ tier, children }: { tier: Tier; children: ReactNode
             className="w-full text-base py-6"
             style={{ background: "#3D6B66", color: "#fff" }}
           >
-            {isPremiumGate ? "Ver Suelo Firme™ Premium" : "Ver Suelo Firme™"}
+            {isPremiumGate ? "Ver Rhizea™ Premium" : "Ver Rhizea™"}
           </Button>
           <button
             onClick={() => setLocation("/")}

@@ -43,18 +43,18 @@
 }
 
 :root {
-  /* Paleta profesional — cálida, sobria, acorde a un producto premium (~$90) */
-  /* Primary: Verde azulado profundo, transmite confianza clínica */
-  --primary: oklch(0.493 0.051 186.8); /* #3D6B66 */
+  /* Paleta Rhizea — malva + dorado, acorde al logo (loto con raíces) */
+  /* Primary: Gris carbón cálido, extraído del texto del logo */
+  --primary: oklch(0.307 0.005 219.6); /* #2D3031 */
   --primary-foreground: oklch(1 0 0);
 
-  /* Secondary: Terracota apagada, cálida sin ser infantil */
-  --secondary: oklch(0.547 0.085 30.7); /* #9C5D52 */
-  --secondary-foreground: oklch(1 0 0);
+  /* Secondary: Dorado, extraído del ícono del loto */
+  --secondary: oklch(0.786 0.049 73.2); /* #CDB597 */
+  --secondary-foreground: oklch(0.267 0.013 51.6);
 
-  /* Accent: Bronce dorado, elegante — no mostaza */
-  --accent: oklch(0.674 0.101 67.5); /* #C08A4E */
-  --accent-foreground: oklch(0.267 0.013 51.6);
+  /* Accent: Malva/taupe, extraído del fondo del logo — uso puntual, no full-bleed */
+  --accent: oklch(0.730 0.022 36.0); /* #B5A39E */
+  --accent-foreground: oklch(1 0 0);
 
   /* Background: Crema cálido suave */
   --background: oklch(0.980 0.005 78.3); /* #FAF8F5 */

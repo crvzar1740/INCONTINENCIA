@@ -53,7 +53,7 @@ export default function Upsell() {
             Volver
           </button>
           <div className="flex-1 text-center font-semibold text-lg" style={{ color: "#2B2420" }}>
-            Suelo Firme Premium
+            Rhizea Premium
           </div>
           <div className="w-16" />
         </div>

@@ -32,7 +32,7 @@ export default function Login() {
     <div className="min-h-screen flex flex-col items-center justify-center px-6" style={{ background: "#FAF7F2" }}>
       <div className="w-full max-w-sm">
         <div className="text-xl font-semibold mb-8 text-center" style={{ color: "#3D6B66" }}>
-          Suelo Firme™
+          Rhizea™
         </div>
 
         <h1 className="text-2xl font-semibold mb-6 text-center" style={{ color: "#2B2420" }}>

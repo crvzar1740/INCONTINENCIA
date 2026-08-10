@@ -9,7 +9,7 @@ function getResend(): Resend | null {
   return _resend;
 }
 
-const FROM = "Suelo Firme <hola@infosuelofirme.com>";
+const FROM = "Rhizea <hola@infosuelofirme.com>";
 const LOGIN_URL = "https://infosuelofirme.com/login";
 
 export async function sendCredentialsEmail(email: string, password: string) {
@@ -23,10 +23,10 @@ export async function sendCredentialsEmail(email: string, password: string) {
     await resend.emails.send({
       from: FROM,
       to: email,
-      subject: "Tu acceso a Suelo Firme™ ya está listo",
+      subject: "Tu acceso a Rhizea™ ya está listo",
       html: `
         <div style="font-family: -apple-system, sans-serif; max-width: 480px; margin: 0 auto; color: #2B2420;">
-          <h1 style="color: #3D6B66; font-size: 22px;">¡Bienvenido/a a Suelo Firme™!</h1>
+          <h1 style="color: #3D6B66; font-size: 22px;">¡Bienvenido/a a Rhizea™!</h1>
           <p style="font-size: 16px; line-height: 1.6;">
             Gracias por tu compra. Ya podés entrar a tu programa con estos datos:
           </p>
@@ -62,7 +62,7 @@ export async function sendPremiumUnlockedEmail(email: string) {
       subject: "Tu Pack Premium ya está desbloqueado 🎉",
       html: `
         <div style="font-family: -apple-system, sans-serif; max-width: 480px; margin: 0 auto; color: #2B2420;">
-          <h1 style="color: #3D6B66; font-size: 22px;">¡Listo! Ya tenés Suelo Firme™ Premium</h1>
+          <h1 style="color: #3D6B66; font-size: 22px;">¡Listo! Ya tenés Rhizea™ Premium</h1>
           <p style="font-size: 16px; line-height: 1.6;">
             Tu compra se confirmó y ya podés entrar con el mismo usuario y contraseña de siempre.
             Vas a ver las 6 herramientas premium desbloqueadas en tu programa.

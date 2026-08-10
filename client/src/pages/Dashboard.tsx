@@ -65,7 +65,7 @@ export default function Dashboard() {
       {/* Header */}
       <header className="bg-white border-b border-border sticky top-0 z-10">
         <div className="container py-4 flex items-center justify-between">
-          <div className="text-2xl font-bold text-primary">Suelo Firme</div>
+          <div className="text-2xl font-bold text-primary">Rhizea</div>
           <div className="flex items-center gap-3">
             <span className="text-muted-foreground text-sm hidden sm:block">{user.email}</span>
             <Button variant="outline" size="sm" onClick={logout} className="gap-1.5">
