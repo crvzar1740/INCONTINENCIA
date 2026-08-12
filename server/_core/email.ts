@@ -9,8 +9,8 @@ function getResend(): Resend | null {
   return _resend;
 }
 
-const FROM = "Rhizea <hola@infosuelofirme.com>";
-const LOGIN_URL = "https://infosuelofirme.com/login";
+const FROM = "Rhizea <no-reply@rhizea.com>";
+const LOGIN_URL = "https://rhizea.com/login";
 
 export async function sendCredentialsEmail(email: string, password: string) {
   const resend = getResend();
@@ -45,6 +45,36 @@ export async function sendCredentialsEmail(email: string, password: string) {
     });
   } catch (error) {
     console.error(`[Email] Failed to send credentials to ${email}:`, error);
+  }
+}
+
+export async function sendBaseUnlockedEmail(email: string) {
+  const resend = getResend();
+  if (!resend) {
+    console.warn(`[Email] RESEND_API_KEY not set — skipped base-unlocked email to ${email}`);
+    return;
+  }
+
+  try {
+    await resend.emails.send({
+      from: FROM,
+      to: email,
+      subject: "Tu Pack Base de Rhizea™ ya está desbloqueado",
+      html: `
+        <div style="font-family: -apple-system, sans-serif; max-width: 480px; margin: 0 auto; color: #2B2420;">
+          <h1 style="color: #3D6B66; font-size: 22px;">¡Listo! Ya tenés Rhizea™ Base</h1>
+          <p style="font-size: 16px; line-height: 1.6;">
+            Tu compra se confirmó y ya podés entrar con el mismo usuario y contraseña de siempre.
+            Vas a ver las 4 herramientas de tu programa desbloqueadas.
+          </p>
+          <a href="${LOGIN_URL}" style="display: inline-block; background: #3D6B66; color: #fff; padding: 14px 28px; border-radius: 10px; text-decoration: none; font-weight: 600; margin-top: 12px;">
+            Entrar a mi programa
+          </a>
+        </div>
+      `,
+    });
+  } catch (error) {
+    console.error(`[Email] Failed to send base-unlocked email to ${email}:`, error);
   }
 }
 
