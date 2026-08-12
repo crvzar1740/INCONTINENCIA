@@ -9,8 +9,8 @@ function getResend(): Resend | null {
   return _resend;
 }
 
-const FROM = "Rhizea <hola@infosuelofirme.com>";
-const LOGIN_URL = "https://infosuelofirme.com/login";
+const FROM = "Rhizea <no-reply@rhizea.com>";
+const LOGIN_URL = "https://rhizea.com/login";
 
 export async function sendCredentialsEmail(email: string, password: string) {
   const resend = getResend();
