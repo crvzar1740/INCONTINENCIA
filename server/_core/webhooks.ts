@@ -2,7 +2,7 @@ import type { Express, Request, Response } from "express";
 import { createUser, getUserByEmail, setEntitlement } from "../db";
 import { ENV } from "./env";
 import { generateTempPassword, hashPassword } from "./auth";
-import { sendCredentialsEmail, sendPremiumUnlockedEmail } from "./email";
+import { sendCredentialsEmail, sendPremiumUnlockedEmail, sendBaseUnlockedEmail } from "./email";
 
 const BASE_PRODUCT_ID = process.env.HOTMART_BASE_PRODUCT_ID ?? "";
 const PREMIUM_PRODUCT_ID = process.env.HOTMART_PREMIUM_PRODUCT_ID ?? "";
@@ -54,6 +54,9 @@ export function registerWebhookRoutes(app: Express) {
           }
         } else {
           await setEntitlement(email, { hasBaseAccess: true, hotmartTransactionId: transaction });
+          if (existing) {
+            await sendBaseUnlockedEmail(email);
+          }
         }
       }
     }
