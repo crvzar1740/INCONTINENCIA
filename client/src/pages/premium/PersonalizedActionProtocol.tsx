@@ -5,6 +5,7 @@ import { Target, ArrowLeft, Plus, Trash2, Info, Wind, Timer, Coffee, Download } 
 import { useEffect, useMemo, useState } from "react";
 import { useLocation } from "wouter";
 import { toast } from "sonner";
+import { Logo } from "@/components/Logo";
 
 const STORAGE_KEY = "suelo-firme-premium-bladder-protocol";
 
@@ -136,7 +137,7 @@ function PersonalizedActionProtocolContent() {
             <ArrowLeft className="w-5 h-5" />
             Volver
           </button>
-          <div className="text-2xl font-bold text-primary">Rhizea</div>
+          <Logo size={28} />
           <div className="w-20" />
         </div>
       </nav>

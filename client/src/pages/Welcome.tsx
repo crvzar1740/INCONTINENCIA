@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { useLocation } from "wouter";
 import { useEffect, useState } from "react";
+import { Logo } from "@/components/Logo";
 
 export default function Welcome() {
   const [, setLocation] = useLocation();
@@ -23,9 +24,7 @@ export default function Welcome() {
     >
       {/* Top bar */}
       <nav className="py-5 px-6">
-        <div className="text-xl font-semibold" style={{ color: "#3D6B66" }}>
-          Rhizea
-        </div>
+                <Logo size={28} />
       </nav>
 
       {/* Main content */}

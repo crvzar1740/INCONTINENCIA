@@ -6,6 +6,7 @@ import { tools, type Tool } from "@/lib/tools";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Lock, LogOut, Sparkles, Star } from "lucide-react";
+import { Logo } from "@/components/Logo";
 
 const BASE_LINK = "https://pay.hotmart.com/F106710907A";
 const PREMIUM_LINK = "https://pay.hotmart.com/I106724680Y";
@@ -65,7 +66,7 @@ export default function Dashboard() {
       {/* Header */}
       <header className="bg-white border-b border-border sticky top-0 z-10">
         <div className="container py-4 flex items-center justify-between">
-          <div className="text-2xl font-bold text-primary">Rhizea</div>
+          <Logo size={28} />
           <div className="flex items-center gap-3">
             <span className="text-muted-foreground text-sm hidden sm:block">{user.email}</span>
             <Button variant="outline" size="sm" onClick={logout} className="gap-1.5">

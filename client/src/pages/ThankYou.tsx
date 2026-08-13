@@ -3,6 +3,7 @@ import { Card } from "@/components/ui/card";
 import { CheckCircle2, Mail, AlertCircle, Home } from "lucide-react";
 import { useLocation } from "wouter";
 import { useAuth } from "@/_core/hooks/useAuth";
+import { Logo } from "@/components/Logo";
 
 export default function ThankYou() {
   const [, setLocation] = useLocation();
@@ -41,7 +42,7 @@ export default function ThankYou() {
             <Home className="w-5 h-5" />
             Volver al Home
           </button>
-          <div className="text-2xl font-bold text-primary">Rhizea</div>
+          <Logo size={28} />
           <div className="w-20" />
         </div>
       </nav>

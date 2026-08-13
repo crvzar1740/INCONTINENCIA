@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useLocation } from "wouter";
 import { useAuth } from "@/_core/hooks/useAuth";
 import { tools } from "@/lib/tools";
+import { Logo } from "@/components/Logo";
 
 export default function Home() {
   const [, setLocation] = useLocation();
@@ -102,7 +103,7 @@ export default function Home() {
       {/* Navigation */}
       <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-sm border-b border-border">
         <div className="container py-4 flex justify-between items-center">
-          <div className="text-2xl font-bold text-primary">Rhizea</div>
+          <Logo size={28} />
           <div className="text-sm text-muted-foreground">Tu piso pélvico, a tu ritmo</div>
         </div>
       </nav>
